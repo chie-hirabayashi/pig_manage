@@ -1,0 +1,29 @@
+DBに接続し、localhostに表示するまでの流れ
+
+プロジェクトディレクトリを作る
+
+プロジェクトディレクトリ内にdocker_fileを複製する
+$cp -r ~/camp/docker_file/. .
+
+プロジェクトディレクトリ内にserverディレクトリ作る
+
+他のディレクトリで動いているdockerをdownする
+$ docker stop $(docker ps -q)
+
+プロジェクトディレクトリ内でDockerを起動する
+$ dc up -d
+
+データベースを作成する(SQLで操作)
+CREATE DATABASE IF NOT EXISTS xxxxxxx;
+CREATE DATABASE IF NOT EXISTS pig_db;
+
+CREATE USER IF NOT EXISTS 【ユーザー名】 IDENTIFIED BY 'xxxxx';
+CREATE USER IF NOT EXISTS pig_admin IDENTIFIED BY '0000';
+
+GRANT ALL ON 【データベース名】.* TO 【ユーザー名】;
+GRANT ALL ON pig_db.* TO pig_admin;
+
+serverディレクトリ内にcommonディレクトリを作る(階層を間違えると接続できない)
+commonディレクトリ内にconfig.php、functions.phpを作る
+DB接続に必要なコードを書く(config.php参照)
+
