@@ -9,6 +9,7 @@ $errors = [];
 $msg = '';
 
 // バリデーション
+// 日付制御つける(未来の日付はだめ)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $indivi_num = filter_input(INPUT_POST, 'indivi_num');
     $add_day = filter_input(INPUT_POST, 'add_day');
@@ -35,7 +36,7 @@ $title = 'pig management system';
     <?php include_once __DIR__ . '/_header.php'; ?>
 
     <section class="insert_content wrapper">
-        <h1 class="signup_title">新規母豚登録</h1>
+        <h1 class="insert_title">新規母豚登録</h1>
 
         <?php if ($errors): ?>
             <ul class="errors">
@@ -54,13 +55,13 @@ $title = 'pig management system';
             <input type="text" name="add_day" id="add_day" placeholder="1999/9/9" >
             <div class="button_area">
                 <input type="submit" value="新規登録" class="insert_button"><br>
-                <a href="login.php" class="login_page_button">登録内容の確認はこちら</a>
+                <a href="view.php" class="view_page_button">登録内容の確認はこちら</a>
             </div>
         </form>
 
         <?php if (empty($errors)): ?>
             <ul class="success">
-                <li><?= $indivi_num . $msg ?></li>
+                <li><?= h($indivi_num) . $msg ?></li>
             </ul>
         <?php endif; ?>
     </section>

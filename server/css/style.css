@@ -5,13 +5,15 @@
     --main-img-color0: #ed8783;
     --main-img-color1: #efc3b7;
     --main-img-color2: #f5dfd9;
+    --main-img-color3: #f7edea;
     --main-icon-color: #c57777;
+    --body-img-color: #4D4D4D;
 }
 
 /*コンテンツ全体に対する指定*/
 body {
     font-family: 'M PLUS 1p', sans-serif;
-    color: #4D4D4D;
+    color: var(--body-img-color);
 }
 .wrapper {
     margin: 0;
@@ -62,6 +64,10 @@ body {
 .footer-text {
     color: #ffffff;
     font-size: 10.5px;
+}
+
+p {
+    font-size: large;
 }
 
 /* upload.php */
@@ -161,7 +167,45 @@ body {
 }
 
 
-/* show.php */
+/* view.php */
+/* ok */
+.view_content {
+    background-color: var(--main-img-color2);
+    border-radius: 10px;
+    width: 1000px;
+    margin: 50px auto;
+    margin-bottom: 120px;
+    padding: 20px 50px;
+    padding-bottom: 60px;
+    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* ok */
+table{
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    /* border-collapse: separate; */
+    /* border-spacing: 5px; */
+    /* width: 200px; */
+    margin: 20px auto;
+    border: 1px solid var(--body-img-color);
+    background-color: var(--main-img-color3);
+}
+
+/* ok */
+table td{
+    padding: 10px 0;
+    text-align: center;
+    border: 1px solid var(--body-img-color);
+}
+
+.emphasize {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+
 .content {
     width: 60%;
     margin: 6vh auto 0;
@@ -231,7 +275,10 @@ body {
     padding: 20px 50px;
     box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
 }
-.signup_title {
+
+/* ok */
+.insert_title,
+.view_title {
     padding-top: 25px;
     text-align: center;
 }
@@ -273,7 +320,8 @@ input[type="password"]::placeholder {
     margin-bottom: 10%;
 }
 /* ok */
-.login_page_button {
+.view_page_button,
+.insert_page_button {
     text-align: center;
     padding: 15px;
     background: var(--main-img-color0);
@@ -283,6 +331,7 @@ input[type="password"]::placeholder {
     /* margin: 10% ; */
 }
 
+/* ok */
 .success{
     margin: 30px auto;
     padding: 10px;
