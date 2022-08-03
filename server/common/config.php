@@ -3,3 +3,15 @@
 define('DSN', 'mysql:host=db;dbname=pig_db;charset=utf8');
 define('USER', 'pig_admin');
 define('PASSWORD', '0000');
+
+// 廃用を1とする
+define('WORKING', 0);
+define('GONE', 1);
+
+// エラーメッセージを定義
+define('MSG_INDIVI_REQUIRED','個体番号を入力して下さい');
+define('MSG_ADD_REQUIRED','導入日を入力して下さい');
+define('MSG_INDIVI_DUPLICATE','同一番号の個体が稼動中です');
+
+// サクセスメッセージを定義
+define('MSG_INSERT_SUCCESS','の登録が完了しました');

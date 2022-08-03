@@ -1,2 +1,6 @@
 mysql-data
 .env
+vendor
+memo*.txt
+*.xlsx
+composer.*
