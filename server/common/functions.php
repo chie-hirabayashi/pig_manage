@@ -25,7 +25,7 @@ function h($str)
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
 
-// insert.php
+// insert.phpのエラーバリデーション
 function insert_validate($indivi_num, $add_day)
 {
     $errors = [];
@@ -45,6 +45,27 @@ function insert_validate($indivi_num, $add_day)
 
     return $errors;
 }
+
+// insert_born_info.phpのエラーバリデーション
+function insert_born_validate($indivi_num, $born_day, $born_num)
+{
+    $errors = [];
+
+    if (empty($indivi_num)) {
+        $errors[] = MSG_INDIVI_REQUIRED;
+    }
+
+    if (empty($born_day)) {
+        $errors[] = MSG_BORN_DAY_REQUIRED;
+    }
+
+    if (empty($born_num)) {
+        $errors[] = MSG_BORN_NUM_REQUIRED;
+    }
+
+    return $errors;
+}
+
 
 // indivi_numの重複確認(gone='WORKING'状態の同一番号はNG)
 function check_duplication($indivi_num)
@@ -67,7 +88,7 @@ function check_duplication($indivi_num)
     $stmt->execute();
 
     $duplication_nums = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // return $duplication_nums;
+    
     // $new_pig_numがemptyじゃなくて、かつ、WORKINGがいる場合error
     if (!empty($duplication_nums)) {
         // 重複番号が稼働中か確認
@@ -86,35 +107,7 @@ function check_duplication($indivi_num)
     }
 }
 
-// 稼働中確認  ここからだ！！これは不要かも
-function check_working($indivi_num)
-{
-    // $err = false;
-
-    $dbh = connect_db();
-
-    $sql = <<<EOM
-    SELECT
-        *
-    FROM
-        individual_info
-    WHERE
-        indivi_num = :indivi_num;
-    EOM;
-
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
-    $stmt->execute();
-
-    $new_pig_num = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!empty($new_pig_num)) {
-        // ここにワンクッション重複番号が稼働中華確認
-        $err = true;
-    }
-    return $err;
-}
-
+// 新規母豚登録
 function insert_pig($indivi_num, $add_day)
 {
     $dbh = connect_db();
@@ -130,6 +123,27 @@ function insert_pig($indivi_num, $add_day)
     $stmt = $dbh->prepare($sql);
     $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
     $stmt->bindValue(':add_day', $add_day, PDO::PARAM_STR);
+
+    $stmt->execute();
+}
+
+// 出産情報登録
+function insert_born_info($pig_id, $born_day, $born_num)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    INSERT INTO
+        born_info
+        (pig_id, born_day, born_num)
+    VALUES
+        (:pig_id, :born_day, :born_num)
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':pig_id', $pig_id, PDO::PARAM_INT);
+    $stmt->bindValue(':born_day', $born_day, PDO::PARAM_STR);
+    $stmt->bindValue(':born_num', $born_num, PDO::PARAM_INT);
 
     $stmt->execute();
 }
@@ -190,7 +204,8 @@ function find_working_pigs($gone)
     return $working_pigs;
 }
 
-// 個体番号から個体情報(pig_id)を取得する
+// 個体番号から個体情報を取得する(ここからpig_idを取得)
+// この関数はNG。稼動中でないものも含まれる
 function find_indivi_info($indivi_num)
 {
     $dbh = Connect_db();

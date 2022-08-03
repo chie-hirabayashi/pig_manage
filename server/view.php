@@ -11,7 +11,7 @@ $working_pigs = [];
 // 稼動中のデータ取得
 $working_pigs = find_working_pigs('WORKING');
 $working_pigs_count = count($working_pigs);
-// var_dump($working_pigs_count);
+// var_dump($working_pigs);
 foreach ($working_pigs as $working_pig) {
     $w_pig_num_l[] = $working_pig['indivi_num'];
     $w_pig_add_l[] = $working_pig['add_day'];
