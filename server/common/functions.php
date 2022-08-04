@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/config.php';
 
-// 接続処理を行う関数
+// ▼接続処理を行う関数
 function connect_db()
 {
     try {
@@ -18,13 +18,14 @@ function connect_db()
     }
 }
 
-// エスケープ処理を行う関数
+// ▼エスケープ処理を行う関数
 function h($str)
 {
     // ENT_QUOTES: シングルクオートとダブルクオートを共に変換する。
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
 
+// ▼バリデーション関数
 // insert.phpのエラーバリデーション
 function insert_validate($indivi_num, $add_day)
 {
@@ -46,6 +47,18 @@ function insert_validate($indivi_num, $add_day)
     return $errors;
 }
 
+// check.phpのエラーバリデーション
+function check_validate($rotate_condition, $born_num_condition, $pre_rptate_condition)
+{
+    $errors = [];
+
+    if (empty($rotate_condition || $born_num_condition || $pre_rptate_condition)) {
+        $errors[] = MSG_CONDITION_REQUIRED;
+    }
+
+    return $errors;
+}
+
 // view_born_info.phpのエラーバリデーション
 function view_validate($indivi_num)
 {
@@ -55,7 +68,6 @@ function view_validate($indivi_num)
         $errors[] = MSG_INDIVI_REQUIRED;
     }
 
-    // これが関数内でうまく動作しない
     if (empty($errors) &&
         check_gone($indivi_num)) {
         $errors[] = MSG_DONT_WORKING;
@@ -64,26 +76,7 @@ function view_validate($indivi_num)
     return $errors;
 }
 
-// これは使わないかも。上手く行かない
-function check_index($indivi_num)
-{
-    $err = false;
-
-    $working_pigs = find_working_pigs('WORKING'); //稼動中のデータ取得
-    $indivi_num_array = array_column($working_pigs,'indivi_num'); // indivi_numを配列化して、インデックスを取り出す
-    $index = array_search($indivi_num,$indivi_num_array);
-    // var_dump($index);
-    // var_dump($indivi_num);
-    // var_dump($indivi_num_array);
-    if ($index === false) {
-        $err = true;
-    } else {
-        $err =false;
-    }
-    return $err;
-}
-
-// こっちは？
+// 廃用済みの個体番号でエラー
 function check_gone($indivi_num)
 {
     $err = false;
@@ -183,6 +176,7 @@ function check_duplication($indivi_num)
     }
 }
 
+// ▼インサート関数
 // 新規母豚登録
 function insert_pig($indivi_num, $add_day)
 {
@@ -224,6 +218,186 @@ function insert_born_info($pig_id, $born_day, $born_num)
     $stmt->execute();
 }
 
+// ▼取得関数
+// 稼動中のすべての個体データを取得する
+function find_working_pigs($gone)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        individual_info
+    WHERE 
+        gone = :gone;
+    EOM;
+    
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':gone', $gone, PDO::PARAM_STR);
+    $stmt->execute();
+
+    // return $stmt->fetch(PDO::FETCH_ASSOC);
+    $working_pigs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $working_pigs;
+}
+
+// 出産情報を取得
+function find_born_info($pig_id)
+{
+    $dbh = Connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        born_info
+    WHERE 
+        pig_id = :pig_id
+    ORDER BY
+        born_day DESC;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':pig_id', $pig_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $the_born_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $the_born_info;
+}
+
+// ▼抽出に必要な関数
+// indivi_numから年齢を取得する関数
+function get_age($indivi_num)
+{
+    $dbh = Connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        individual_info
+    WHERE 
+        indivi_num = :indivi_num;
+    EOM;
+    
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $indivi_info = $stmt->fetch(PDO::FETCH_ASSOC);
+    $add_day = $indivi_info['add_day'];
+
+    $d_pig_add = new DATETIME($add_day);
+    $considered_time = new DATETIME('+6 month');
+    $pig_age = $considered_time->diff($d_pig_add);
+    return $pig_age->y;
+}
+
+// indivi_numからpig_idを取得する関数
+function get_pig_id($indivi_num)
+{
+    $dbh = Connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        individual_info
+    WHERE 
+        indivi_num = :indivi_num;
+    EOM;
+    
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $indivi_info = $stmt->fetch(PDO::FETCH_ASSOC);
+    $pig_id = $indivi_info['id'];
+    return $pig_id;
+}
+
+// 実績回転数を算出する関数
+function get_rotate($pig_id)
+{
+    $born_info = find_born_info($pig_id);
+    // 回転数算出(直近の回転数を算出)
+    $count_info_num = count($born_info);
+    if ($count_info_num == 0) {
+        $rotate = '(-)';
+    } elseif ($count_info_num == 1) {
+        $rotate = 1.0;
+    } else {
+        $born_day1 = new DateTime($born_info[0]['born_day']);
+        $born_day2 = new DateTime($born_info[1]['born_day']);
+        $span = $born_day1->diff($born_day2);
+        $rotate = round(365 / $span->days, 2);
+    }
+    return $rotate;
+}
+
+// 過去2回の産子数を算出する関数
+function get_born_num($pig_id)
+{
+    $born_info = find_born_info($pig_id);
+    // 産子数算出
+    $count_info_num = count($born_info);
+    if ($count_info_num == 0) {
+        $born_num1 = '(-)';
+        $born_num2 = '(-)';
+    } elseif ($count_info_num == 1) {
+        $born_num1 = $born_info[0]['born_num'];
+        $born_num2 = '(-)';
+    } else {
+        $born_num1 = $born_info[0]['born_num'];
+        $born_num2 = $born_info[1]['born_num'];
+    }
+    $born_num_l[] = $born_num1;
+    $born_num_l[] = $born_num2;
+
+    return $born_num_l;
+}
+
+// 予測回転数を算出する関数
+function get_predict_rotate($pig_id)
+{
+    $born_info = find_born_info($pig_id);
+    // 回転数算出(直近の回転数を算出)
+    $count_info_num = count($born_info);
+    if ($count_info_num == 0) {
+        $predict_rotate = '(-)'; //add_dayを起点にして算出するか？
+    } else {
+        $born_day0 = new DateTime();
+        $born_day1 = new DateTime($born_info[0]['born_day']);
+        $span = $born_day0->diff($born_day1);
+        $predict_rotate = round(365 / $span->days, 2);
+    }
+    return $predict_rotate;
+}
+
+
+// ▼未使用の関数
+// 個体番号から個体情報を取得する(これはNG関数:個体番号に重複があるため目的物を正確に取得できない)
+function find_indivi_info($indivi_num)
+{
+    $dbh = Connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        individual_info
+    WHERE 
+        indivi_num = :indivi_num;
+    EOM;
+    
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $indivi_info = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $indivi_info;
+}
 
 // すべての個体データを取得する
 function find_all_indivi_infos()
@@ -257,72 +431,11 @@ function find_all_born_infos()
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// 稼動中のすべての個体データを取得する
-function find_working_pigs($gone)
+// 年齢取得
+function age($add_day)
 {
-    $dbh = connect_db();
-
-    $sql = <<<EOM
-    SELECT 
-        * 
-    FROM 
-        individual_info
-    WHERE 
-        gone = :gone;
-    EOM;
-    
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':gone', $gone, PDO::PARAM_STR);
-    $stmt->execute();
-
-    // return $stmt->fetch(PDO::FETCH_ASSOC);
-    $working_pigs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $working_pigs;
+    $d_pig_add = new DATETIME($add_day);
+    $considered_time = new DATETIME('+6 month');
+    $pig_age = $considered_time->diff($d_pig_add);
+    return $pig_age->y;
 }
-
-// 個体番号から個体情報を取得する(これはNG関数:個体番号に重複があるため目的物を正確に取得できない)
-function find_indivi_info($indivi_num)
-{
-    $dbh = Connect_db();
-
-    $sql = <<<EOM
-    SELECT 
-        * 
-    FROM 
-        individual_info
-    WHERE 
-        indivi_num = :indivi_num;
-    EOM;
-    
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
-    $stmt->execute();
-
-    $indivi_info = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $indivi_info;
-}
-
-// 出産情報を取得
-function find_born_info($pig_id)
-{
-    $dbh = Connect_db();
-
-    $sql = <<<EOM
-    SELECT 
-        * 
-    FROM 
-        born_info
-    WHERE 
-        pig_id = :pig_id
-    ORDER BY
-        born_day DESC;
-    EOM;
-
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':pig_id', $pig_id, PDO::PARAM_INT);
-    $stmt->execute();
-
-    $the_born_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $the_born_info;
-}
-

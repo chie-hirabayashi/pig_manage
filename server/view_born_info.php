@@ -12,6 +12,8 @@ $rotate = 0;
 $msg = '';
 $errors = [];
 
+// check.phpで使用の関数を使って書き直し！！！
+
 // $indivi_num = '4-28';
 // $indivi_num = '41-32';
 // $indivi_num = '61-6';
@@ -101,7 +103,7 @@ $title = 'pig management system';
         
         <form class="insert_form" action="" method="post">
             <label class="indivi_label" for="indeivi_num">個体番号</label>
-            <input type="text" name="indivi_num" id="indivi_num" placeholder="99-99">
+            <input class="normal_input" type="text" name="indivi_num" id="indivi_num" placeholder="99-99">
             <div class="button_area">
                 <input type="submit" value="確認" class="insert_button"><br>
                 <!-- <a href="view.php" class="view_page_button">登録内容の確認はこちら</a> -->

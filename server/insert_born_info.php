@@ -64,11 +64,11 @@ $title = 'pig management system';
         
         <form class="insert_form" action="" method="post">
             <label class="indivi_label" for="indeivi_num">個体番号</label>
-            <input type="text" name="indivi_num" id="indivi_num" placeholder="99-99">
+            <input class="normal_input" type="text" name="indivi_num" id="indivi_num" placeholder="99-99">
             <label class="born_day_label" for="born_day">出産日</label>
-            <input type="text" name="born_day" id="born_day" placeholder="1999/9/9" >
+            <input class="normal_input" type="text" name="born_day" id="born_day" placeholder="1999/9/9" >
             <label class="born_num_label" for="born_num">出産頭数</label>
-            <input type="text" name="born_num" id="born_num" placeholder="9" >
+            <input class="normal_input" type="text" name="born_num" id="born_num" placeholder="9" >
             <div class="button_area">
                 <input type="submit" value="出産情報登録" class="insert_button"><br>
                 <!-- <a href="" class="view_page_button">登&emsp;録</a> -->

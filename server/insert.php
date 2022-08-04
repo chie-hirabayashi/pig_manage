@@ -50,9 +50,9 @@ $title = 'pig management system';
         
         <form class="insert_form" action="" method="post">
             <label class="indivi_label" for="indeivi_num">個体番号</label>
-            <input type="text" name="indivi_num" id="indivi_num" placeholder="99-99">
+            <input class="normal_input" type="text" name="indivi_num" id="indivi_num" placeholder="99-99">
             <label class="add_label" for="add_day">導入日</label>
-            <input type="text" name="add_day" id="add_day" placeholder="1999/9/9" >
+            <input class="normal_input" type="text" name="add_day" id="add_day" placeholder="1999/9/9" >
             <div class="button_area">
                 <input type="submit" value="新規登録" class="insert_button"><br>
                 <a href="view.php" class="view_page_button">登録内容の確認はこちら</a>

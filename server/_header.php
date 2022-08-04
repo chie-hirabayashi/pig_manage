@@ -3,7 +3,8 @@
     <h1>
         <a class="hippo_icon" href=""><i class="fa-solid fa-hippo"></i></a>
         <a class="logo" href="index.php">
-            <?=$title?>
+            <!-- $title?> -->
+            母豚管理システム
         </a>
         <a class="hippo_icon" href=""><i class="fa-solid fa-hippo"></i></a>
         <a class="hippo_icon" href=""><i class="fa-solid fa-hippo"></i></a>

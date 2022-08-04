@@ -195,7 +195,8 @@ table{
 }
 
 /* ok未使用 */
-table td{
+th,
+td{
     padding: 10px 0;
     text-align: center;
     border: 1px solid var(--body-img-color);
@@ -291,7 +292,7 @@ table td{
 }
 
 /* ok */
-input {
+.normal_input {
     display: block;
     width: 100%;
     background-color: var(--input-color);
@@ -378,6 +379,50 @@ input::placeholder {
     padding: 10px;
 }
 
+/* check.php */
+/* ok */
+.condition{
+    font-size: larger;
+    margin: 10px;
+}
+/* ok */
+.check_button {
+    background: var(--main-img-color0);
+    padding: 13px 0;
+    width: 15%;
+    color: #FFFFFF;
+    letter-spacing: 0.5rem;
+    text-indent: 0.5rem;
+    border-radius: 30px;
+    margin-bottom: 10%;
+}
+/* ok */
+.one_condition {
+    display: flex;
+}
+/* ok */
+.condition_label {
+    display: block;
+    width: 15%;
+    padding: 10px;
+    font-size: large;
+}
+/* ok */
+.condition_text {
+    display: block;
+    width: 30%;
+    padding: 10px;
+    font-size: large;
+}
+/* あとで設定 */
+.condition_input {
+    display: block;
+    width: 20%;
+    background-color: var(--input-color);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
 
  /* レスポンシブ */
 /* 画面サイズが900pxまでの設定 */
