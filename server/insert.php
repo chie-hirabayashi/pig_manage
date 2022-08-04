@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // $s = check_duplication($indivi_num);
 // var_dump($s);
 
-// $add_day = '2022-2-2';
+$menu_title = MSG_INSERT_MENU;
 $title = 'pig management system';
 ?>
 
@@ -36,7 +36,7 @@ $title = 'pig management system';
     <?php include_once __DIR__ . '/_header.php'; ?>
 
     <section class="insert_content wrapper">
-        <h1 class="insert_title">新規母豚登録</h1>
+        <h1 class="insert_title"><?= $menu_title ?></h1>
 
         <?php if ($errors): ?>
             <ul class="errors">

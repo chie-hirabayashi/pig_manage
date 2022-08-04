@@ -259,6 +259,24 @@ td{
     color: #FFFFFF;
 }
 
+/* menu */
+/* ok */
+.menu_page_button {
+    text-align: center;
+    padding: 15px 100px;
+    background: var(--main-img-color0);
+    color: #FFFFFF;
+    border-radius: 30px;
+    text-decoration: none;
+    margin-bottom: 2%;
+}
+/* ok */
+.menu_button_area {
+    margin-top: 30px;
+    display: grid;
+    justify-content: space-between;
+}
+
 /* insert.php */
 /* ok */
 .errors{
@@ -347,6 +365,7 @@ input::placeholder {
     /* padding-top: 25px; */
     text-align: center;
 }
+.productivity_content,
 .insert_content {
     background-color: var(--main-img-color2);
     border-radius: 10px;
@@ -401,6 +420,7 @@ input::placeholder {
     display: flex;
 }
 /* ok */
+.span_label,
 .condition_label {
     display: block;
     width: 15%;
@@ -418,6 +438,15 @@ input::placeholder {
 .condition_input {
     display: block;
     width: 20%;
+    background-color: var(--input-color);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+/* ok */
+.span_input {
+    display: block;
+    width: 30%;
     background-color: var(--input-color);
     border-radius: 6px;
     margin-bottom: 10px;

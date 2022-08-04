@@ -59,6 +59,38 @@ function check_validate($rotate_condition, $born_num_condition, $pre_rptate_cond
     return $errors;
 }
 
+// productivity.phpのエラーバリデーション
+function period_validate($bp, $ep)
+{
+    $errors = [];
+
+    if (empty($bp || $ep)) {
+        $errors[] = MSG_BPEP_REQUIRED;
+    }
+
+    if (empty($errors &&
+        check_period($bp,$ep))) {
+        $errors[] = MSG_PERIOD_REQUIRED;
+    }
+
+    return $errors;
+}
+
+function check_period($bp,$ep)
+{
+    $err = false;
+    
+    $bp_ep = strtotime($ep) - strtotime($bp);
+    $time = strtotime('now') - strtotime($bp);
+
+    if ($bp_ep/86400 <= 0 || $time < 0) {
+        $err = true;
+    } else {
+        $err = false;
+    }
+    return $err;
+}
+
 // view_born_info.phpのエラーバリデーション
 function view_validate($indivi_num)
 {
