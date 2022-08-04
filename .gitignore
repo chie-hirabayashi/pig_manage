@@ -4,3 +4,4 @@ vendor
 memo*.txt
 *.xlsx
 composer.*
+test*.php

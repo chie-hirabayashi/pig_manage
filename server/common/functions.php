@@ -46,6 +46,82 @@ function insert_validate($indivi_num, $add_day)
     return $errors;
 }
 
+// view_born_info.phpのエラーバリデーション
+function view_validate($indivi_num)
+{
+    $errors = [];
+
+    if (empty($indivi_num)) {
+        $errors[] = MSG_INDIVI_REQUIRED;
+    }
+
+    // これが関数内でうまく動作しない
+    if (empty($errors) &&
+        check_gone($indivi_num)) {
+        $errors[] = MSG_DONT_WORKING;
+    }
+
+    return $errors;
+}
+
+// これは使わないかも。上手く行かない
+function check_index($indivi_num)
+{
+    $err = false;
+
+    $working_pigs = find_working_pigs('WORKING'); //稼動中のデータ取得
+    $indivi_num_array = array_column($working_pigs,'indivi_num'); // indivi_numを配列化して、インデックスを取り出す
+    $index = array_search($indivi_num,$indivi_num_array);
+    // var_dump($index);
+    // var_dump($indivi_num);
+    // var_dump($indivi_num_array);
+    if ($index === false) {
+        $err = true;
+    } else {
+        $err =false;
+    }
+    return $err;
+}
+
+// こっちは？
+function check_gone($indivi_num)
+{
+    $err = false;
+
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    SELECT
+        *
+    FROM
+        individual_info
+    WHERE
+        indivi_num = :indivi_num;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $duplication_nums = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // $numsがemptyまたはWORKINGがいない場合error
+    if (!empty($duplication_nums)) {
+        $duplication_list = [];
+        foreach ($duplication_nums as $duplication_num) {
+            if ($duplication_num['gone'] === 0){
+                $duplication_list[] = 1;
+            }
+        }
+        if (in_array(1,$duplication_list)) {
+            $err = false;
+        }else {
+            $err = true;
+        }
+    }
+    return $err;
+}
+
 // insert_born_info.phpのエラーバリデーション
 function insert_born_validate($indivi_num, $born_day, $born_num)
 {
@@ -89,7 +165,7 @@ function check_duplication($indivi_num)
 
     $duplication_nums = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // $new_pig_numがemptyじゃなくて、かつ、WORKINGがいる場合error
+    // $duplication_numがemptyじゃなくて、かつ、WORKINGがいる場合error
     if (!empty($duplication_nums)) {
         // 重複番号が稼働中か確認
         $duplication_list = [];
@@ -204,8 +280,7 @@ function find_working_pigs($gone)
     return $working_pigs;
 }
 
-// 個体番号から個体情報を取得する(ここからpig_idを取得)
-// この関数はNG。稼動中でないものも含まれる
+// 個体番号から個体情報を取得する(これはNG関数:個体番号に重複があるため目的物を正確に取得できない)
 function find_indivi_info($indivi_num)
 {
     $dbh = Connect_db();

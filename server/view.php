@@ -41,7 +41,7 @@ $title = 'pig management system';
     <?php include_once __DIR__ . '/_header.php'; ?>
 
     <section class="view_content wrapper">
-        <h1 class="view_title">稼動中の母豚確認</h1>
+        <h1 class="view_title">稼動中の個体番号</h1>
 
         <?php if ($errors): ?>
             <ul class="errors">
