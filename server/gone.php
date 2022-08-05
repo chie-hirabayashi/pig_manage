@@ -4,7 +4,8 @@ require_once __DIR__ . '/common/functions.php';
 
 // 初期化
 $indivi_num = '';
-$add_day = '';
+$left_day = '';
+$id = '';
 $errors = [];
 $msg = '';
 
@@ -12,18 +13,19 @@ $msg = '';
 // 日付制御つける(未来の日付はだめ)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $indivi_num = filter_input(INPUT_POST, 'indivi_num');
-    $add_day = filter_input(INPUT_POST, 'add_day');
-    $errors = insert_validate($indivi_num, $add_day);
+    $left_day = filter_input(INPUT_POST, 'left_day');
+    $errors = gone_validate($indivi_num, $left_day);
 
     if (empty($errors)) {
-        insert_pig($indivi_num, $add_day);
+        $status = GONE;
+        $id = get_pig_id($indivi_num);
+        update_gone($id, $status);
+        update_left_day($indivi_num, $left_day);
     }
     $msg = MSG_INSERT_SUCCESS;
 }
 
-// $indivi_num = '99-99';
-// $s = check_duplication($indivi_num);
-// var_dump($s);
+
 
 $title = 'pig management system';
 ?>
@@ -35,7 +37,7 @@ $title = 'pig management system';
     <?php include_once __DIR__ . '/_header.php'; ?>
 
     <section class="insert_content wrapper">
-        <h1 class="insert_title"><?= MSG_INSERT_MENU ?></h1>
+        <h1 class="insert_title"><?= MSG_GONE_MENU ?></h1>
 
         <?php if ($errors): ?>
             <ul class="errors">
@@ -50,10 +52,10 @@ $title = 'pig management system';
         <form class="insert_form" action="" method="post">
             <label class="indivi_label" for="indeivi_num">個体番号</label>
             <input class="normal_input" type="text" name="indivi_num" id="indivi_num" placeholder="99-99">
-            <label class="add_label" for="add_day">導入日</label>
-            <input class="normal_input" type="text" name="add_day" id="add_day" placeholder="1999/9/9" >
+            <label class="add_label" for="left_day">廃用日</label>
+            <input class="normal_input" type="text" name="left_day" id="left_day" placeholder="1999/9/9" >
             <div class="button_area">
-                <input type="submit" value="新規登録" class="insert_button"><br>
+                <input type="submit" value="廃用登録" class="insert_button"><br>
                 <a href="view.php" class="view_page_button"><?= MSG_VIEW_MENU ?>はこちら</a>
             </div>
         </form>
@@ -68,3 +70,4 @@ $title = 'pig management system';
     <?php include_once __DIR__ . '/_footer.php'; ?>
 </body>
 </html>
+

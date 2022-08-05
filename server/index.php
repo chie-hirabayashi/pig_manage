@@ -19,7 +19,8 @@ $title = 'pig management system';
             <div class="menu_button_area">
                 <a href="insert.php" class="menu_page_button"><?= MSG_INSERT_MENU ?></a>
                 <a href="insert_born_info.php" class="menu_page_button"><?= MSG_INSERT_BORN_MENU ?></a>
-                <a href="view.php" class="menu_page_button">見る</a>
+                <a href="gone.php" class="menu_page_button"><?= MSG_GONE_MENU ?></a>
+                <a href="view.php" class="menu_page_button"><?= MSG_VIEW_MENU ?></a>
             </div>
         </form>
 

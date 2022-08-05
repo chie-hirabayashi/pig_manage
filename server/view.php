@@ -41,7 +41,7 @@ $title = 'pig management system';
     <?php include_once __DIR__ . '/_header.php'; ?>
 
     <section class="view_content wrapper">
-        <h1 class="view_title">稼動中の個体番号</h1>
+        <h1 class="view_title"><?= MSG_VIEW_MENU ?></h1>
 
         <?php if ($errors): ?>
             <ul class="errors">
@@ -67,7 +67,8 @@ $title = 'pig management system';
         </div>
         <form>
             <div class="button_area">
-                <a href="insert.php" class="insert_page_button">戻&emsp;る</a>
+                <a href="insert.php" class="view_page_button"><?= MSG_INSERT_MENU ?>へ戻る</a>
+                <a href="gone.php" class="view_page_button"><?= MSG_GONE_MENU ?>へ戻る</a>
             </div>
         </form>
 

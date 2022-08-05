@@ -46,6 +46,63 @@ function insert_validate($indivi_num, $add_day)
 
     return $errors;
 }
+// gone.phpのエラーバリデーション
+function gone_validate($indivi_num, $left_day)
+{
+    $errors = [];
+
+    if (empty($indivi_num)) {
+        $errors[] = MSG_INDIVI_REQUIRED;
+    }
+
+    if (empty($left_day)) {
+        $errors[] = MSG_GONE_REQUIRED;
+    }
+
+    if (empty($errors) &&
+        check_left_day($left_day)) {
+        $errors[] = MSG_LEFT_REQUIRED;
+    }
+
+    if (empty($errors) &&
+        check_pig_id($indivi_num)) {
+        $errors[] = MSG_ID_JUDGEMENT;
+    }
+
+    return $errors;
+}
+
+// これがwarningにならないようにバリデーション
+// get_pig_id($indivi_num);
+
+function check_pig_id($indivi_num)
+{
+    $err = false;
+    
+    $dbh = Connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        individual_info
+    WHERE 
+        indivi_num = :indivi_num
+    EOM;
+    
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $indivi_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $judge = in_array(0,array_column($indivi_info,"gone"));
+    if ($judge == false) {
+        $err = true;
+    }
+
+    return $err;
+}
 
 // check.phpのエラーバリデーション
 function check_validate($rotate_condition, $born_num_condition, $pre_rptate_condition)
@@ -76,6 +133,7 @@ function period_validate($bp, $ep)
     return $errors;
 }
 
+// 日付制限
 function check_period($bp,$ep)
 {
     $err = false;
@@ -84,6 +142,20 @@ function check_period($bp,$ep)
     $time = strtotime('now') - strtotime($bp);
 
     if ($bp_ep/86400 <= 0 || $time < 0) {
+        $err = true;
+    } else {
+        $err = false;
+    }
+    return $err;
+}
+
+function check_left_day($left_day)
+{
+    $err = false;
+    
+    $time = strtotime('now') - strtotime($left_day);
+
+    if ($time < 0) {
         $err = true;
     } else {
         $err = false;
@@ -250,6 +322,51 @@ function insert_born_info($pig_id, $born_day, $born_num)
     $stmt->execute();
 }
 
+// ▼更新関数
+// 廃用フラグ(gone==1にする関数)
+function update_gone($id, $status)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    UPDATE
+        individual_info
+    SET
+        gone = :status
+    WHERE
+        id = :id
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->bindValue(':status', $status, PDO::PARAM_INT);
+
+    $stmt->execute();
+}
+// 廃用日の登録
+function update_left_day($indivi_num, $left_day)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    UPDATE
+        individual_info
+    SET
+        left_day = :left_day
+    WHERE
+        indivi_num = :indivi_num
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+
+    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
+    $stmt->bindValue(':left_day', $left_day, PDO::PARAM_STR);
+
+    $stmt->execute();
+}
+
+
 // ▼取得関数
 // 稼動中のすべての個体データを取得する
 function find_working_pigs($gone)
@@ -327,6 +444,30 @@ function get_age($indivi_num)
 }
 
 // indivi_numからpig_idを取得する関数
+// 注意:$indivi_numに重複がない状態でないとNG
+// feachallで吐き出して、goneが0のidを引き出す？
+// function get_pig_id($indivi_num)
+// {
+//     $dbh = Connect_db();
+
+//     $sql = <<<EOM
+//     SELECT 
+//         * 
+//     FROM 
+//         individual_info
+//     WHERE 
+//         indivi_num = :indivi_num;
+//     EOM;
+    
+//     $stmt = $dbh->prepare($sql);
+//     $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
+//     $stmt->execute();
+
+//     $indivi_info = $stmt->fetch(PDO::FETCH_ASSOC);
+//     $pig_id = $indivi_info['id'];
+//     return $pig_id;
+// }
+
 function get_pig_id($indivi_num)
 {
     $dbh = Connect_db();
@@ -337,7 +478,9 @@ function get_pig_id($indivi_num)
     FROM 
         individual_info
     WHERE 
-        indivi_num = :indivi_num;
+        indivi_num = :indivi_num
+    AND
+        gone = 0;
     EOM;
     
     $stmt = $dbh->prepare($sql);
