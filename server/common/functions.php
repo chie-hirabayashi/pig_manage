@@ -72,9 +72,7 @@ function gone_validate($indivi_num, $left_day)
     return $errors;
 }
 
-// これがwarningにならないようにバリデーション
-// get_pig_id($indivi_num);
-
+// get_pig_id関数とセットで使う(get_pig_idのエラー回避)
 function check_pig_id($indivi_num)
 {
     $err = false;
@@ -113,6 +111,14 @@ function check_validate($rotate_condition, $born_num_condition, $pre_rptate_cond
         $errors[] = MSG_CONDITION_REQUIRED;
     }
 
+    // if (empty($born_num_condition)) {
+    //     $errors[] = MSG_CONDITION_REQUIRED;
+    // }
+
+    // if (empty($pre_rptate_condition)) {
+    //     $errors[] = MSG_CONDITION_REQUIRED;
+    // }
+
     return $errors;
 }
 
@@ -125,9 +131,10 @@ function period_validate($bp, $ep)
         $errors[] = MSG_BPEP_REQUIRED;
     }
 
-    if (empty($errors &&
-        check_period($bp,$ep))) {
-        $errors[] = MSG_PERIOD_REQUIRED;
+    if (empty($errors)) {
+        if (check_period($bp,$ep)) {
+            $errors[] = MSG_PERIOD_REQUIRED;
+        }
     }
 
     return $errors;
@@ -141,11 +148,10 @@ function check_period($bp,$ep)
     $bp_ep = strtotime($ep) - strtotime($bp);
     $time = strtotime('now') - strtotime($bp);
 
-    if ($bp_ep/86400 <= 0 || $time < 0) {
+    if ($bp_ep <= 0 || $time < 0) {
         $err = true;
-    } else {
-        $err = false;
     }
+
     return $err;
 }
 
@@ -173,51 +179,13 @@ function view_validate($indivi_num)
     }
 
     if (empty($errors) &&
-        check_gone($indivi_num)) {
+        check_pig_id($indivi_num)) {
         $errors[] = MSG_DONT_WORKING;
     }
 
     return $errors;
 }
 
-// 廃用済みの個体番号でエラー
-function check_gone($indivi_num)
-{
-    $err = false;
-
-    $dbh = connect_db();
-
-    $sql = <<<EOM
-    SELECT
-        *
-    FROM
-        individual_info
-    WHERE
-        indivi_num = :indivi_num;
-    EOM;
-
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
-    $stmt->execute();
-
-    $duplication_nums = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    // $numsがemptyまたはWORKINGがいない場合error
-    if (!empty($duplication_nums)) {
-        $duplication_list = [];
-        foreach ($duplication_nums as $duplication_num) {
-            if ($duplication_num['gone'] === 0){
-                $duplication_list[] = 1;
-            }
-        }
-        if (in_array(1,$duplication_list)) {
-            $err = false;
-        }else {
-            $err = true;
-        }
-    }
-    return $err;
-}
 
 // insert_born_info.phpのエラーバリデーション
 function insert_born_validate($indivi_num, $born_day, $born_num)
@@ -443,31 +411,8 @@ function get_age($indivi_num)
     return $pig_age->y;
 }
 
-// indivi_numからpig_idを取得する関数
-// 注意:$indivi_numに重複がない状態でないとNG
-// feachallで吐き出して、goneが0のidを引き出す？
-// function get_pig_id($indivi_num)
-// {
-//     $dbh = Connect_db();
-
-//     $sql = <<<EOM
-//     SELECT 
-//         * 
-//     FROM 
-//         individual_info
-//     WHERE 
-//         indivi_num = :indivi_num;
-//     EOM;
-    
-//     $stmt = $dbh->prepare($sql);
-//     $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
-//     $stmt->execute();
-
-//     $indivi_info = $stmt->fetch(PDO::FETCH_ASSOC);
-//     $pig_id = $indivi_info['id'];
-//     return $pig_id;
-// }
-
+// indivi_numからidを取得する関数
+// check_pig_idとセットで使う
 function get_pig_id($indivi_num)
 {
     $dbh = Connect_db();
@@ -550,10 +495,8 @@ function get_predict_rotate($pig_id)
     return $predict_rotate;
 }
 
-
-// ▼未使用の関数
-// 個体番号から個体情報を取得する(これはNG関数:個体番号に重複があるため目的物を正確に取得できない)
-function find_indivi_info($indivi_num)
+// idから個体情報を取得する
+function find_indivi_info($id)
 {
     $dbh = Connect_db();
 
@@ -563,17 +506,20 @@ function find_indivi_info($indivi_num)
     FROM 
         individual_info
     WHERE 
-        indivi_num = :indivi_num;
+        id = :id;
     EOM;
     
     $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
+
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
 
     $indivi_info = $stmt->fetch(PDO::FETCH_ASSOC);
+
     return $indivi_info;
 }
 
+// ▼未使用の関数
 // すべての個体データを取得する
 function find_all_indivi_infos()
 {
@@ -613,4 +559,43 @@ function age($add_day)
     $considered_time = new DATETIME('+6 month');
     $pig_age = $considered_time->diff($d_pig_add);
     return $pig_age->y;
+}
+
+// 廃用済みの個体番号でエラー
+function check_gone($indivi_num)
+{
+    $err = false;
+
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    SELECT
+        *
+    FROM
+        individual_info
+    WHERE
+        indivi_num = :indivi_num;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $duplication_nums = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // $numsがemptyまたはWORKINGがいない場合error
+    if (!empty($duplication_nums)) {
+        $duplication_list = [];
+        foreach ($duplication_nums as $duplication_num) {
+            if ($duplication_num['gone'] === 0){
+                $duplication_list[] = 1;
+            }
+        }
+        if (in_array(1,$duplication_list)) {
+            $err = false;
+        }else {
+            $err = true;
+        }
+    }
+    return $err;
 }

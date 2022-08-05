@@ -2,11 +2,13 @@
 // 関数読み込み
 require_once __DIR__ . '/common/functions.php';
 
+// 検索機能をつける(調べたい個体が稼働中か確認するため)
+// 検索番号:99-99
+// 結果:99-99は稼動中です、廃用済みです、登録されていません
+
 // 初期化
 $errors = [];
 $working_pigs = [];
-// バリデーション
-
 
 // 稼動中のデータ取得
 $working_pigs = find_working_pigs('WORKING');
@@ -67,8 +69,8 @@ $title = 'pig management system';
         </div>
         <form>
             <div class="button_area">
-                <a href="insert.php" class="view_page_button"><?= MSG_INSERT_MENU ?>へ戻る</a>
-                <a href="gone.php" class="view_page_button"><?= MSG_GONE_MENU ?>へ戻る</a>
+                <a href="insert.php" class="view_page_button"><?= MSG_INSERT_MENU ?>はこちら</a>
+                <a href="gone.php" class="view_page_button"><?= MSG_GONE_MENU ?>はこちら</a>
             </div>
         </form>
 

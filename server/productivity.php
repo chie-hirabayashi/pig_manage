@@ -2,7 +2,6 @@
 // 関数読み込み
 require_once __DIR__ . '/common/functions.php';
 
-// 期間設定して実績回転数算出
 // 初期化
 $bp = '';
 $ep = '';
@@ -15,7 +14,6 @@ $rotate = 0;
 $errors = [];
 
 // バリデーション
-// 日付制御つける(未来の日付はだめ)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $bp = filter_input(INPUT_POST, 'bp');
     $ep = filter_input(INPUT_POST, 'ep');
@@ -26,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// 算出期間
+// 算出期間の日数
 $bp_ep = strtotime($ep) - strtotime($bp);
 // var_dump($bp_ep/86400);
 
@@ -50,9 +48,7 @@ $pig_nums = count(array_unique($pig_id_list)); //合計個体数
 
 if ($count != 0 || $pig_nums != 0) {
     $rotate = round(intval($count) / intval($pig_nums),2); //回転数
-} else {
-    $errors[] = '';
-}
+} 
 
 $title = 'pig management system';
 ?>
@@ -64,7 +60,7 @@ $title = 'pig management system';
     <?php include_once __DIR__ . '/_header.php'; ?>
 
     <section class="productivity_content wrapper">
-        <h1 class="view_title">全体の生産性の確認</h1>
+        <h1 class="view_title"><?= MSG_PRODUCTIVITY_MENU ?></h1>
 
         <?php if ($errors): ?>
             <ul class="errors">
@@ -77,7 +73,7 @@ $title = 'pig management system';
         <?php endif; ?>
 
         <form class="check_form" action="" method="post">
-            <h2 class="span">▼ 確認する期間</h2>
+            <h2 class="condition">▼ 確認する期間</h2>
             <div class="one_condition">
                 <label class="span_label" for="bp">始期 :</label>
                 <input class="span_input" type="text" name="bp" id="bp" placeholder="2020/4/1">
@@ -91,7 +87,7 @@ $title = 'pig management system';
             </div>
         </form>
 
-        <!--  if (empty($errors) && $_SERVER['REQUEST_METHOD'] === 'POST'): ?> -->
+        <?php if (empty($errors) && $_SERVER['REQUEST_METHOD'] === 'POST'): ?>
         <div>
             <h2 class="condition">▼ <?=$bp?> ~ <?=$ep?>の生産性</h2>
             <table class="worikin_pig">
@@ -109,7 +105,7 @@ $title = 'pig management system';
                 </tr>
             </table>
         </div>
-        <!--  endif; ?> -->
+        <?php endif; ?>
     </section>
 
     <?php include_once __DIR__ . '/_footer.php'; ?>

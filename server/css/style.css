@@ -9,6 +9,9 @@
     --main-icon-color: #c57777;
     --body-img-color: #4D4D4D;
     --input-color: #FFFFFF;
+    --menu-color1: #ed8783;
+    --menu-color2: #93b354;
+    --menu-color3: #81c6d2;
 }
 
 /*コンテンツ全体に対する指定*/
@@ -170,6 +173,7 @@ p {
 
 /* view.php */
 /* ok */
+.manual_content,
 .view_content {
     background-color: var(--main-img-color2);
     border-radius: 10px;
@@ -261,10 +265,28 @@ td{
 
 /* menu */
 /* ok */
-.menu_page_button {
+.menu_page_button1 {
     text-align: center;
     padding: 15px 100px;
-    background: var(--main-img-color0);
+    background: var(--menu-color1);
+    color: #FFFFFF;
+    border-radius: 30px;
+    text-decoration: none;
+    margin-bottom: 2%;
+}
+.menu_page_button2 {
+    text-align: center;
+    padding: 15px 100px;
+    background: var(--menu-color2);
+    color: #FFFFFF;
+    border-radius: 30px;
+    text-decoration: none;
+    margin-bottom: 2%;
+}
+.menu_page_button3 {
+    text-align: center;
+    padding: 15px 100px;
+    background: var(--menu-color3);
     color: #FFFFFF;
     border-radius: 30px;
     text-decoration: none;
@@ -274,7 +296,7 @@ td{
 .menu_button_area {
     margin-top: 30px;
     display: grid;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 /* insert.php */
@@ -294,6 +316,18 @@ td{
     margin-bottom: 120px;
     padding: 20px 50px;
     box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* ok */
+.menu_content {
+    background-color: var(--main-img-color2);
+    border-radius: 10px;
+    width: 500px;
+    margin: 50px auto;
+    margin-bottom: 120px;
+    padding: 20px 50px;
+    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
+    text-align: center;
 }
 
 /* ok */

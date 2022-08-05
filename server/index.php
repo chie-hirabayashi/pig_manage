@@ -12,15 +12,20 @@ $title = 'pig management system';
 <body>
     <?php include_once __DIR__ . '/_header.php'; ?>
 
-    <section class="insert_content wrapper">
+    <section class="menu_content wrapper">
         <h1 class="insert_title">メニュー</h1>
         
         <form class="insert_form" action="" method="post">
             <div class="menu_button_area">
-                <a href="insert.php" class="menu_page_button"><?= MSG_INSERT_MENU ?></a>
-                <a href="insert_born_info.php" class="menu_page_button"><?= MSG_INSERT_BORN_MENU ?></a>
-                <a href="gone.php" class="menu_page_button"><?= MSG_GONE_MENU ?></a>
-                <a href="view.php" class="menu_page_button"><?= MSG_VIEW_MENU ?></a>
+                <a href="insert.php" class="menu_page_button1"><?= MSG_INSERT_MENU ?></a>
+                <a href="insert_born_info.php" class="menu_page_button1"><?= MSG_INSERT_BORN_MENU ?></a>
+                <a href="gone.php" class="menu_page_button1"><?= MSG_GONE_MENU ?></a>
+                <a href="view.php" class="menu_page_button2"><?= MSG_VIEW_MENU ?></a>
+                <a href="view_born_info.php" class="menu_page_button2"><?= MSG_VIEW_BORN_MENU ?></a>
+                <a href="check.php" class="menu_page_button2"><?= MSG_CHECK_MENU ?></a>
+                <a href="productivity.php" class="menu_page_button2"><?= MSG_PRODUCTIVITY_MENU ?></a>
+                <a href="manual.php" class="menu_page_button3"><?= MSG_MANUAL_MENU ?></a>
+                <a href=".php" class="menu_page_button3"><?= MSG_INPORT_MENU ?></a>
             </div>
         </form>
 

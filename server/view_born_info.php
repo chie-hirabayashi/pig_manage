@@ -5,6 +5,8 @@ require_once __DIR__ . '/common/functions.php';
 // 初期化
 $indivi_num = '';
 $working_pigs = '';
+$pig_age = '';
+$born_info = [];
 $indivi_num_array = [];
 $index = '';
 $the_indivi_info = [];
@@ -12,53 +14,31 @@ $rotate = 0;
 $msg = '';
 $errors = [];
 
-// check.phpで使用の関数を使って書き直し！！！
-
-// $indivi_num = '4-28';
-// $indivi_num = '41-32';
-// $indivi_num = '61-6';
-// $indivi_num = '99-99';
-// $indivi_num = '88-00';
-
-//バリデーション正常(POSTしていない状態で)
-// $c = check_gone($indivi_num);
-// var_dump($c);
-// $errors = view_validate($indivi_num);
-// var_dump($errors);
-
 // バリデーション
+// 存在しない番号を受け取ったときのエラー設定
+// view.phpで使用しているかも
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $indivi_num = filter_input(INPUT_POST, 'indivi_num');
     $errors = view_validate($indivi_num);
 
     if (empty($errors)) {
 
-        $working_pigs = find_working_pigs('WORKING'); //稼動中のデータ取得
-        // indivi_numを配列化して、インデックスを取り出す
-        $indivi_num_array = array_column($working_pigs, 'indivi_num');
-        $index = array_search($indivi_num, $indivi_num_array);
-        // var_dump($index);
-        // var_dump($indivi_num);
-        // var_dump($indivi_num_array);
-
-        // 稼動中のデータからview対象の配列を取り出す
-        $the_indivi_info = $working_pigs[$index];
-
-        // pig_id取得
-        $pig_id = $the_indivi_info['id'];
+        $pig_id = get_pig_id($indivi_num);
+        
         $born_info = find_born_info($pig_id);
         // echo '<pre>';
         // print_r($born_info);
         // echo '</pre>';
 
         // 年齢取得
+        $the_indivi_info = find_indivi_info($pig_id);
         $pig_add_day = $the_indivi_info['add_day'];
 
         $d_pig_add = new DATETIME($pig_add_day);
         $considered_time = new DATETIME('+6 month');
 
         $pig_age = $considered_time->diff($d_pig_add);
-        // var_dump($pig_age->y);
+        $pig_age = $pig_age->y;
 
         // 回転数算出(直近の回転数を算出)
         $count_info_num = count($born_info);
@@ -74,11 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-// var_dump($indivi_num_array);
-// var_dump($indivi_num);
-// var_dump($errors);
 
-// }
 $title = 'pig management system';
 ?>
 
@@ -110,11 +86,12 @@ $title = 'pig management system';
             </div>
         </form>
 
-        <?php if (empty($errors)): ?>
+        <?php if (empty($errors) && $_SERVER['REQUEST_METHOD'] === 'POST'): ?>
         <div class="in_content">
-            <h2 class="in_title"><?= h($indivi_num) ?>の状態</h2>
+            <h2 class="in_title"><?= h($indivi_num) ?>の出産情報</h2>
+
             <ul class="indivi_info">
-                <li>年齢 : <?= h($pig_age->y) ?> 歳</li>
+                <li>年齢 : <?= h($pig_age) ?> 歳</li>
                 <li>直近の回転数 : <?= h($rotate) ?> 回</li>
                 <li>出産状況 ▼</li>
             </ul>

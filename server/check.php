@@ -10,56 +10,92 @@ $pre_rptate_condition = '';
 $errors = [];
 
 // バリデーション
+// 数字で無いものを受け取ったときのエラーをつける
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rotate_condition = filter_input(INPUT_POST, 'rotate_condition');
     $born_num_condition = filter_input(INPUT_POST, 'born_num_condition');
-    $pre_rptate_condition = filter_input(INPUT_POST, '$pre_rptate_condition');
+    $pre_rptate_condition = filter_input(INPUT_POST, 'pre_rptate_condition');
     $errors = check_validate($rotate_condition, $born_num_condition, $pre_rptate_condition);
 
+    if (empty($errors)) {
+        // 稼動中の個体番号を取得
+        $gone = 'WORKING';
+        $working_pigs = find_working_pigs($gone);
+        $indivi_nums = array_column($working_pigs,'indivi_num');
+
+        // $回転数を抽出
+        $extract_pigs = [];
+        foreach ($indivi_nums as $indivi_num) {
+            $pig_id = get_pig_id($indivi_num);
+            $rotate = get_rotate($pig_id);
+            if ($rotate < $rotate_condition) {
+                $extract_pigs[] = $indivi_num;
+            }
+        }
+        // 過去２回の産子数を抽出
+        foreach ($indivi_nums as $indivi_num) {
+            $pig_id = get_pig_id($indivi_num);
+            $born_num_l = get_born_num($pig_id);
+            if ($born_num_l[0] < $born_num_condition && $born_num_l[1] < $born_num_condition) {
+                $extract_pigs[] = $indivi_num;
+            }
+        }
+        // 予測回転数を抽出
+        foreach ($indivi_nums as $indivi_num) {
+            $pig_id = get_pig_id($indivi_num);
+            $predict_rotate = get_predict_rotate($pig_id);
+            if ($predict_rotate < $pre_rptate_condition) {
+                $extract_pigs[] = $indivi_num;
+            }
+        }
+        // 配列内の重複削除
+        $extract_pigs = array_unique($extract_pigs);
+
+    }
 }
 
-// 稼動中の個体番号を取得
-$gone = 'WORKING';
-$working_pigs = find_working_pigs($gone);
-// var_dump($working_pigs);
-$indivi_nums = array_column($working_pigs,'indivi_num');
-// var_dump($indivi_nums);
+// // 稼動中の個体番号を取得
+// $gone = 'WORKING';
+// $working_pigs = find_working_pigs($gone);
+// // var_dump($working_pigs);
+// $indivi_nums = array_column($working_pigs,'indivi_num');
+// // var_dump($indivi_nums);
 
-// $回転数を抽出
-$extract_pigs = [];
-foreach ($indivi_nums as $indivi_num) {
-    $pig_id = get_pig_id($indivi_num);
-    $rotate = get_rotate($pig_id);
-    if ($rotate < $rotate_condition) {
-        $extract_pigs[] = $indivi_num;
-    }
-}
-// 過去２回の産子数を抽出
-foreach ($indivi_nums as $indivi_num) {
-    $pig_id = get_pig_id($indivi_num);
-    $born_num_l = get_born_num($pig_id);
-    if ($born_num_l[0] < $born_num_condition && $born_num_l[1] < $born_num_condition) {
-        $extract_pigs[] = $indivi_num;
-    }
-}
-// 予測回転数を抽出
-foreach ($indivi_nums as $indivi_num) {
-    $pig_id = get_pig_id($indivi_num);
-    $predict_rotate = get_predict_rotate($pig_id);
-    if ($predict_rotate < $pre_rptate_condition) {
-        $extract_pigs[] = $indivi_num;
-    }
-}
-// 配列内の重複削除
-$extract_pigs = array_unique($extract_pigs);
+// // $回転数を抽出
+// $extract_pigs = [];
+// foreach ($indivi_nums as $indivi_num) {
+//     $pig_id = get_pig_id($indivi_num);
+//     $rotate = get_rotate($pig_id);
+//     if ($rotate < $rotate_condition) {
+//         $extract_pigs[] = $indivi_num;
+//     }
+// }
+// // 過去２回の産子数を抽出
+// foreach ($indivi_nums as $indivi_num) {
+//     $pig_id = get_pig_id($indivi_num);
+//     $born_num_l = get_born_num($pig_id);
+//     if ($born_num_l[0] < $born_num_condition && $born_num_l[1] < $born_num_condition) {
+//         $extract_pigs[] = $indivi_num;
+//     }
+// }
+// // 予測回転数を抽出
+// foreach ($indivi_nums as $indivi_num) {
+//     $pig_id = get_pig_id($indivi_num);
+//     $predict_rotate = get_predict_rotate($pig_id);
+//     if ($predict_rotate < $pre_rptate_condition) {
+//         $extract_pigs[] = $indivi_num;
+//     }
+// }
+// // 配列内の重複削除
+// $extract_pigs = array_unique($extract_pigs);
 // var_dump($extract_pigs);
-foreach ($extract_pigs as $extract_pig) {
-    $age = get_age($extract_pig);
-    $pig_id = get_pig_id($extract_pig);
-    $rotate = get_rotate($pig_id);
-    $born_num_l = get_born_num($pig_id);
-    $predict_rotate = get_predict_rotate($pig_id);
-}
+// foreach ($extract_pigs as $extract_pig) {
+//     $age = get_age($extract_pig);
+//     $pig_id = get_pig_id($extract_pig);
+//     $rotate = get_rotate($pig_id);
+//     $born_num_l = get_born_num($pig_id);
+//     $predict_rotate = get_predict_rotate($pig_id);
+// }
 
 $title = 'pig management system';
 ?>

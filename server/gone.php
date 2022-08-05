@@ -11,6 +11,8 @@ $msg = '';
 
 // バリデーション
 // 日付制御つける(未来の日付はだめ)
+// 存在しない番号にエラー
+// view.phpで使用しているかも
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $indivi_num = filter_input(INPUT_POST, 'indivi_num');
     $left_day = filter_input(INPUT_POST, 'left_day');
