@@ -185,6 +185,49 @@ p {
     box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
 }
 
+/* ok */
+.manual_list1{
+    font-size: larger;
+    margin: 1%;
+    /* margin-top: 5%; */
+}
+/* ok */
+.manual_list2{
+    /* font-size: medium; */
+    margin-top: 3%;
+}
+/* ok */
+.manual_list3{
+    font-size: medium;
+    margin: 1% 4%;
+}
+/* ok */
+.manual_text{
+    font-size: medium;
+    margin-top: 1%;
+    color: #ba4141;
+}
+
+/* ok */
+.normal_input {
+    display: block;
+    width: 100%;
+    background-color: var(--input-color);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+/* ok */
+.manual_button1 {
+    text-align: center;
+    padding: 8px 25px;
+    background: var(--main-img-color0);
+    color: #FFFFFF;
+    border-radius: 30px;
+    text-decoration: none;
+}
+
 /* ok未使用 */
 table{
     width: 100%;
@@ -342,22 +385,17 @@ td{
     display: block;
     margin: 10px 0px;
 }
-
-/* ok */
-.normal_input {
-    display: block;
-    width: 100%;
-    background-color: var(--input-color);
-    border-radius: 6px;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
 /* ok */
 input::placeholder {
     color: #999999;
 }
 
+/* ok */
+.manual_button_area {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    justify-content: space-between;
+}
 /* ok */
 .button_area {
     margin-top: 30px;
@@ -437,6 +475,10 @@ input::placeholder {
 .condition{
     font-size: larger;
     margin: 10px;
+}
+/* ok */
+.condition_list{
+    padding: 10px 30px;
 }
 /* ok */
 .check_button {

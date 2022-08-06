@@ -9,7 +9,6 @@ $errors = [];
 $msg = '';
 
 // バリデーション
-// 日付制御つける(未来の日付はだめ)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $indivi_num = filter_input(INPUT_POST, 'indivi_num');
     $add_day = filter_input(INPUT_POST, 'add_day');

@@ -20,7 +20,9 @@ define('MSG_INFO','個体番号を確認して正しい番号を入力するか�
 define('MSG_CONDITION_REQUIRED','すべての抽出条件を入力して下さい');
 define('MSG_BPEP_REQUIRED','始期と終期の両方を入力して下さい');
 define('MSG_PERIOD_REQUIRED','日付を正しく入力して下さい(始期<終期、始期<現在)');
-define('MSG_LEFT_REQUIRED','日付を正しく入力して下さい(廃用日<現在)');
+define('MSG_LEFT_REQUIRED','廃用日を正しく入力して下さい(出産日<廃用日<=現在)');
+define('MSG_ADD_DAY_REQUIRED','導入日を正しく入力して下さい(導入日<=現在)');
+define('MSG_BORN_D_REQUIRED','出産日を正しく入力して下さい(導入日<出産日<=現在)');
 define('MSG_ID_JUDGEMENT','稼動中の個体番号を入力して下さい');
 
 // サクセスメッセージを定義

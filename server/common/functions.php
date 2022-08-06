@@ -44,6 +44,11 @@ function insert_validate($indivi_num, $add_day)
         $errors[] = MSG_INDIVI_DUPLICATE;
     }
 
+    if (empty($errors) &&
+        check_day($add_day)) {
+        $errors[] = MSG_ADD_DAY_REQUIRED;
+    }
+
     return $errors;
 }
 // gone.phpのエラーバリデーション
@@ -60,13 +65,18 @@ function gone_validate($indivi_num, $left_day)
     }
 
     if (empty($errors) &&
-        check_left_day($left_day)) {
+        check_day($left_day)) {
         $errors[] = MSG_LEFT_REQUIRED;
     }
 
     if (empty($errors) &&
         check_pig_id($indivi_num)) {
         $errors[] = MSG_ID_JUDGEMENT;
+    }
+
+    if (empty($errors) &&
+        check_add_day($indivi_num,$left_day)) {
+        $errors[] = MSG_LEFT_REQUIRED;
     }
 
     return $errors;
@@ -107,9 +117,17 @@ function check_validate($rotate_condition, $born_num_condition, $pre_rptate_cond
 {
     $errors = [];
 
-    if (empty($rotate_condition || $born_num_condition || $pre_rptate_condition)) {
+    if (empty($rotate_condition)) {
+        $errors[] = MSG_CONDITION_REQUIRED;
+    } elseif (empty($born_num_condition)) {
+        $errors[] = MSG_CONDITION_REQUIRED;
+    } elseif (empty($pre_rptate_condition)) {
         $errors[] = MSG_CONDITION_REQUIRED;
     }
+
+    // if (empty($rotate_condition || $born_num_condition || $pre_rptate_condition)) {
+    //     $errors[] = MSG_CONDITION_REQUIRED;
+    // }
 
     // if (empty($born_num_condition)) {
     //     $errors[] = MSG_CONDITION_REQUIRED;
@@ -127,7 +145,9 @@ function period_validate($bp, $ep)
 {
     $errors = [];
 
-    if (empty($bp || $ep)) {
+    if (empty($bp)) {
+        $errors[] = MSG_BPEP_REQUIRED;
+    } elseif (empty($ep)) {
         $errors[] = MSG_BPEP_REQUIRED;
     }
 
@@ -155,6 +175,60 @@ function check_period($bp,$ep)
     return $err;
 }
 
+// 入力日が過去の日付か確認する関数
+function check_day($day)
+{
+    $err = false;
+    
+    $time = strtotime('now') - strtotime($day);
+
+    if ($time < 0) {
+        $err = true;
+    } else {
+        $err = false;
+    }
+    return $err;
+}
+
+// 出産日がadd_dayの後の日付か確認する関数
+function check_add_day($indivi_num,$born_day)
+{
+    $err = false;
+
+    $dbh = Connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        individual_info
+    WHERE 
+        indivi_num = :indivi_num;
+    EOM;
+    
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $indivi_info = $stmt->fetch(PDO::FETCH_ASSOC);
+    $add_day = $indivi_info['add_day'];
+
+    // $d_pig_add = new DATETIME($add_day);
+    // $considered_time = new DATETIME('+6 month');
+    // $pig_age = $considered_time->diff($d_pig_add);
+    // return $pig_age->y;
+
+    $time = strtotime($born_day) - strtotime($add_day);
+
+    if ($time < 0) {
+        $err = true;
+    }
+
+    return $err;
+}
+
+// この関数を使い回す
+// 入力日が過去の日付か確認する関数
 function check_left_day($left_day)
 {
     $err = false;
@@ -202,6 +276,16 @@ function insert_born_validate($indivi_num, $born_day, $born_num)
 
     if (empty($born_num)) {
         $errors[] = MSG_BORN_NUM_REQUIRED;
+    }
+
+        if (empty($errors) &&
+        check_day($born_day)) {
+        $errors[] = MSG_BORN_D_REQUIRED;
+    }
+
+    if (empty($errors) &&
+        check_add_day($indivi_num,$born_day)) {
+        $errors[] = MSG_BORN_D_REQUIRED;
     }
 
     return $errors;
@@ -410,6 +494,7 @@ function get_age($indivi_num)
     $pig_age = $considered_time->diff($d_pig_add);
     return $pig_age->y;
 }
+
 
 // indivi_numからidを取得する関数
 // check_pig_idとセットで使う

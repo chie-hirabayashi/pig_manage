@@ -11,6 +11,7 @@ $errors = [];
 
 // バリデーション
 // 数字で無いものを受け取ったときのエラーをつける
+// 最新の状態にしてから動作確認
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rotate_condition = filter_input(INPUT_POST, 'rotate_condition');
     $born_num_condition = filter_input(INPUT_POST, 'born_num_condition');
@@ -53,49 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     }
 }
-
-// // 稼動中の個体番号を取得
-// $gone = 'WORKING';
-// $working_pigs = find_working_pigs($gone);
-// // var_dump($working_pigs);
-// $indivi_nums = array_column($working_pigs,'indivi_num');
-// // var_dump($indivi_nums);
-
-// // $回転数を抽出
-// $extract_pigs = [];
-// foreach ($indivi_nums as $indivi_num) {
-//     $pig_id = get_pig_id($indivi_num);
-//     $rotate = get_rotate($pig_id);
-//     if ($rotate < $rotate_condition) {
-//         $extract_pigs[] = $indivi_num;
-//     }
-// }
-// // 過去２回の産子数を抽出
-// foreach ($indivi_nums as $indivi_num) {
-//     $pig_id = get_pig_id($indivi_num);
-//     $born_num_l = get_born_num($pig_id);
-//     if ($born_num_l[0] < $born_num_condition && $born_num_l[1] < $born_num_condition) {
-//         $extract_pigs[] = $indivi_num;
-//     }
-// }
-// // 予測回転数を抽出
-// foreach ($indivi_nums as $indivi_num) {
-//     $pig_id = get_pig_id($indivi_num);
-//     $predict_rotate = get_predict_rotate($pig_id);
-//     if ($predict_rotate < $pre_rptate_condition) {
-//         $extract_pigs[] = $indivi_num;
-//     }
-// }
-// // 配列内の重複削除
-// $extract_pigs = array_unique($extract_pigs);
-// var_dump($extract_pigs);
-// foreach ($extract_pigs as $extract_pig) {
-//     $age = get_age($extract_pig);
-//     $pig_id = get_pig_id($extract_pig);
-//     $rotate = get_rotate($pig_id);
-//     $born_num_l = get_born_num($pig_id);
-//     $predict_rotate = get_predict_rotate($pig_id);
-// }
 
 $title = 'pig management system';
 ?>
@@ -143,6 +101,13 @@ $title = 'pig management system';
 
         <?php if (empty($errors) && $_SERVER['REQUEST_METHOD'] === 'POST'): ?>
         <div>
+        <h2 class="condition">▼抽出結果</h2>
+        <p>以下の条件で抽出しました</p>
+        <ul class="condition_list">
+            <li>実績回転数 : <?= $rotate_condition ?> 回以下</li>
+            <li>直近2回の産子数 : <?= $born_num_condition ?> 頭以下</li>
+            <li>予測回転数 : <?= $pre_rptate_condition ?> 回以下</li>
+        </ul>
             <table class="worikin_pig">
                 <tr>
                     <th>個体番号</th>
