@@ -119,6 +119,7 @@ $title = 'pig management system';
                     <th>産子数1</th>
                     <th>産子数2</th>
                     <th>予測回転数</th>
+                    <th>詳細確認</th>
                 </tr>
             <?php foreach ($extract_pigs as $extract_pig): ?>
                 <?php $age = get_age($extract_pig) ?>
@@ -152,6 +153,8 @@ $title = 'pig management system';
                     <td style="color: <?php echo $color2; ?>"><?= $born_num_l[0]?>頭</td>
                     <td style="color: <?php echo $color2; ?>"><?= $born_num_l[1]?>頭</td>
                     <td style="color: <?php echo $color3; ?>"><?= $predict_rotate?>回</td>
+                    <td><a href="check_indivi_info.php?indivi_num=<?= h($extract_pig) ?>" class="btn check-btn done-btn">
+                        <i class="fa-solid fa-check"></i></a></td>
                 </tr>
             <?php endforeach; ?>
             </table>

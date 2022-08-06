@@ -17,8 +17,8 @@ $errors = [];
 // バリデーション
 // 存在しない番号を受け取ったときのエラー設定
 // view.phpで使用しているかも
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $indivi_num = filter_input(INPUT_POST, 'indivi_num');
+$indivi_num = filter_input(INPUT_GET, 'indivi_num');
+
     $errors = view_validate($indivi_num);
 
     if (empty($errors)) {
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
     }
-}
+
 
 $title = 'pig management system';
 ?>
@@ -82,7 +82,7 @@ $title = 'pig management system';
     <?php include_once __DIR__ . '/_header.php'; ?>
 
     <section class="insert_content wrapper">
-        <h1 class="insert_title"><?= MSG_VIEW_BORN_MENU ?></h1>
+        <h1 class="insert_title">母豚の詳細情報</h1>
 
         <?php if ($errors): ?>
             <ul class="errors">
@@ -94,18 +94,9 @@ $title = 'pig management system';
             </ul>
         <?php endif; ?>
         
-        <form class="insert_form" action="" method="post">
-            <label class="indivi_label" for="indeivi_num">個体番号</label>
-            <input class="normal_input" type="text" name="indivi_num" id="indivi_num" placeholder="99-99">
-            <div class="button_area">
-                <input type="submit" value="確認" class="insert_button"><br>
-                <!-- <a href="view.php" class="view_page_button">登録内容の確認はこちら</a> -->
-            </div>
-        </form>
-
-        <?php if (empty($errors) && $_SERVER['REQUEST_METHOD'] === 'POST'): ?>
+        <?php if (empty($errors)): ?>
         <div class="in_content">
-            <h2 class="in_title"><?= h($indivi_num) ?>の出産情報</h2>
+            <h2 class="in_title">個体番号 : <?= h($indivi_num) ?></h2>
 
             <ul class="indivi_info">
                 <li>年齢 : <?= h($pig_age) ?> 歳</li>
@@ -113,19 +104,20 @@ $title = 'pig management system';
                 <li>出産状況 ▼</li>
             </ul>
 
-            <div class="">
-                <ol class="born_info">
+            <div class="born_infos">
+                <ol class="born_info1">
                 <?php foreach ($born_info as $one_info): ?>
                     <li>&ensp;<?= h($one_info['born_day']) ?> : <?= h($one_info['born_num']) ?>頭</li>
                 <?php endforeach; ?>
                 </ol>
 
-                <ul>
+                <ul class="born_info2">
                 <?php foreach ($rotate_list as $one_rotate): ?>
-                    <li>&ensp;<?= h($one_rotate) ?> 回</li>
+                    <li>(<?= h($one_rotate) ?> 回)</li>
                 <?php endforeach; ?>
                 </ul>
             </div>
+            <a href="#" onclick="history.back(-1);return false;">戻る</a>
         </div>
         <?php endif; ?>
     </section>

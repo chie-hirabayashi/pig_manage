@@ -65,7 +65,7 @@ $title = 'pig management system';
                     </ul>
                     <form class="insert_form" action="" method="post">
                         <div class="manual_button_area">
-                            <a href="view.php" class="manual_button1"><?= MSG_VIEW_MENU ?></a>
+                            <a href="view.php" class="manual_button2"><?= MSG_VIEW_MENU ?></a>
                         </div>
                     </form>
                 <li class="manual_list2"><?= MSG_VIEW_BORN_MENU ?></li>
@@ -75,7 +75,7 @@ $title = 'pig management system';
                     </ul>
                     <form class="insert_form" action="" method="post">
                         <div class="manual_button_area">
-                            <a href="view_born_info.php" class="manual_button1"><?= MSG_VIEW_BORN_MENU ?></a>
+                            <a href="view_born_info.php" class="manual_button2"><?= MSG_VIEW_BORN_MENU ?></a>
                         </div>
                     </form>
                 <li class="manual_list2"><?= MSG_CHECK_MENU ?></li>
@@ -88,7 +88,7 @@ $title = 'pig management system';
                     </ul>
                     <form class="insert_form" action="" method="post">
                         <div class="manual_button_area">
-                            <a href="check.php" class="manual_button1"><?= MSG_CHECK_MENU ?></a>
+                            <a href="check.php" class="manual_button2"><?= MSG_CHECK_MENU ?></a>
                         </div>
                     </form>
                 <li class="manual_list2"><?= MSG_PRODUCTIVITY_MENU ?></li>
@@ -105,7 +105,7 @@ $title = 'pig management system';
                     </ul>
                     <form class="insert_form" action="" method="post">
                         <div class="manual_button_area">
-                            <a href="productivity.php" class="manual_button1"><?= MSG_PRODUCTIVITY_MENU ?></a>
+                            <a href="productivity.php" class="manual_button2"><?= MSG_PRODUCTIVITY_MENU ?></a>
                         </div>
                     </form>
             </ul>
