@@ -70,6 +70,7 @@ $title = 'pig management system';
             <input class="normal_input" type="text" name="born_num" id="born_num" placeholder="9" >
             <div class="button_area">
                 <input type="submit" value="出産情報登録" class="insert_button"><br>
+                <a href="view.php" class="view_page_button"><?= MSG_VIEW_MENU ?>はこちら</a>
                 <!-- <a href="" class="view_page_button">登&emsp;録</a> -->
             </div>
         </form>

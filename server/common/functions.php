@@ -529,9 +529,9 @@ function get_rotate($pig_id)
     // 回転数算出(直近の回転数を算出)
     $count_info_num = count($born_info);
     if ($count_info_num == 0) {
-        $rotate = '(-)';
+        $rotate = 99.9;
     } elseif ($count_info_num == 1) {
-        $rotate = 1.0;
+        $rotate = 99.9;
     } else {
         $born_day1 = new DateTime($born_info[0]['born_day']);
         $born_day2 = new DateTime($born_info[1]['born_day']);
@@ -548,8 +548,8 @@ function get_born_num($pig_id)
     // 産子数算出
     $count_info_num = count($born_info);
     if ($count_info_num == 0) {
-        $born_num1 = '(-)';
-        $born_num2 = '(-)';
+        $born_num1 = 99;
+        $born_num2 = 99;
     } elseif ($count_info_num == 1) {
         $born_num1 = $born_info[0]['born_num'];
         $born_num2 = '(-)';
@@ -570,7 +570,7 @@ function get_predict_rotate($pig_id)
     // 回転数算出(直近の回転数を算出)
     $count_info_num = count($born_info);
     if ($count_info_num == 0) {
-        $predict_rotate = '(-)'; //add_dayを起点にして算出するか？
+        $predict_rotate = 99.9; //add_dayを起点にして算出するか？
     } else {
         $born_day0 = new DateTime();
         $born_day1 = new DateTime($born_info[0]['born_day']);

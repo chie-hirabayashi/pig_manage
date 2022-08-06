@@ -69,8 +69,8 @@ $title = 'pig management system';
         </div>
         <form>
             <div class="button_area">
-                <a href="insert.php" class="view_page_button"><?= MSG_INSERT_MENU ?>はこちら</a>
-                <a href="gone.php" class="view_page_button"><?= MSG_GONE_MENU ?>はこちら</a>
+                <a href="insert.php" class="insert_page_button"><?= MSG_INSERT_MENU ?>はこちら</a>
+                <a href="gone.php" class="insert_page_button"><?= MSG_GONE_MENU ?>はこちら</a>
             </div>
         </form>
 

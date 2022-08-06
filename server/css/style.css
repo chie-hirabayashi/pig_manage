@@ -414,11 +414,20 @@ input::placeholder {
     margin-bottom: 10%;
 }
 /* ok */
-.view_page_button,
 .insert_page_button {
     text-align: center;
     padding: 15px;
-    background: var(--main-img-color0);
+    background: var(--menu-color1);
+    color: #FFFFFF;
+    border-radius: 30px;
+    text-decoration: none;
+    /* margin: 10% ; */
+}
+/* ok */
+.view_page_button {
+    text-align: center;
+    padding: 15px;
+    background: var(--menu-color2);
     color: #FFFFFF;
     border-radius: 30px;
     text-decoration: none;
