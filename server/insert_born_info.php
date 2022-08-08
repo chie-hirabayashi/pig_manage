@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // var_dump($working_pigs);
 // var_dump($pig_id);
 
-$title = 'pig management system';
+$title = '登録menu';
 ?>
 
 <!DOCTYPE html>

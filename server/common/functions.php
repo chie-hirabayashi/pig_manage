@@ -1,6 +1,12 @@
 <?php
 require_once __DIR__ . '/config.php';
 
+// ライブラリ読込(エクセルデータのインポートで使用)
+require './vendor/autoload.php';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Worksheet;
+
 // ▼接続処理を行う関数
 function connect_db()
 {
@@ -191,6 +197,7 @@ function check_day($day)
 }
 
 // 出産日がadd_dayの後の日付か確認する関数
+// 登録されていない個体番号が入ってくるとエラー:解消
 function check_add_day($indivi_num,$born_day)
 {
     $err = false;
@@ -211,17 +218,14 @@ function check_add_day($indivi_num,$born_day)
     $stmt->execute();
 
     $indivi_info = $stmt->fetch(PDO::FETCH_ASSOC);
-    $add_day = $indivi_info['add_day'];
+    if (!empty($indivi_info)) {
+        $add_day = $indivi_info['add_day'];
 
-    // $d_pig_add = new DATETIME($add_day);
-    // $considered_time = new DATETIME('+6 month');
-    // $pig_age = $considered_time->diff($d_pig_add);
-    // return $pig_age->y;
+        $time = strtotime($born_day) - strtotime($add_day);
 
-    $time = strtotime($born_day) - strtotime($add_day);
-
-    if ($time < 0) {
-        $err = true;
+        if ($time < 0) {
+            $err = true;
+        }
     }
 
     return $err;
@@ -603,6 +607,132 @@ function find_indivi_info($id)
 
     return $indivi_info;
 }
+
+// ▼エクセルデータのインポート
+function import_db_individual_info($import_file)
+{
+    // [****.xlsx] ファイルをロードしSpreadsheetオブジェクト作成
+    $objSpreadsheet = IOFactory::load('./import/' . $import_file);
+
+    $objSheet = $objSpreadsheet->getSheet(0); // 読み込むシートを指定
+
+    // ワークシート内の最大領域座標（"A1:XXXnnn" XXX:最大カラム文字列, nnn:最大行）
+    $strRange = $objSheet->calculateWorksheetDimension();
+
+    // ワークシートの全てのデータ取得（配列データとして）
+    $arrData = $objSheet->rangeToArray($strRange);
+
+    // 取得確認
+    // var_dump($arrData);
+    // echo '<pre>';
+    // print_r($arrData);
+    // echo '</pre>';
+
+    $dbh = connect_db();
+
+    foreach ($arrData as $data){
+        $id = $data[0];
+        $indivi_num = $data[1];
+        $add_day = $data[2];
+        $left_day = $data[3];
+        $gone = $data[4];
+
+        $d_add = new DateTime($add_day);
+
+        $sql = <<<EOM
+        INSERT INTO
+            individual_info
+            (id, indivi_num, add_day, left_day, gone)
+        VALUES
+            (:id, :indivi_num, :add_day, :left_day, :gone)
+        EOM;
+
+        $stmt = $dbh->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
+        $stmt->bindValue(':add_day', $d_add->format('Y-m-d'), PDO::PARAM_STR);
+        if(!empty($left_day)){
+            $d_left = new DateTime($left_day);
+            $stmt->bindValue(':left_day', $d_left->format('Y-m-d'), PDO::PARAM_STR);
+        }else{
+            $stmt->bindValue(':left_day', null, PDO::PARAM_STR);
+        }
+        $stmt->bindValue(':gone', $gone, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
+}
+
+function import_db_born_info($import_file)
+{
+    // [****.xlsx] ファイルをロードしSpreadsheetオブジェクト作成
+    $objSpreadsheet = IOFactory::load('./import/' . $import_file);
+
+    $objSheet = $objSpreadsheet->getSheet(1); // 読み込むシートを指定
+
+    // ワークシート内の最大領域座標（"A1:XXXnnn" XXX:最大カラム文字列, nnn:最大行）
+    $strRange = $objSheet->calculateWorksheetDimension();
+
+    // ワークシートの全てのデータ取得（配列データとして）
+    $arrData = $objSheet->rangeToArray($strRange);
+
+    $dbh = connect_db();
+
+    foreach ($arrData as $data){
+        $id = $data[0];
+        $pig_id = $data[1];
+        $born_day = $data[2];
+        $born_num = $data[3];
+
+        $d_born = new DateTime($born_day);
+
+        $sql = <<<EOM
+        INSERT INTO
+            born_info
+            (id, pig_id, born_day, born_num)
+        VALUES
+            (:id, :pig_id, :born_day, :born_num)
+        EOM;
+
+        $stmt = $dbh->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':pig_id', $pig_id, PDO::PARAM_STR);
+        $stmt->bindValue(':born_day', $d_born->format('Y-m-d'), PDO::PARAM_STR);
+        $stmt->bindValue(':born_num', $born_num, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
+}
+
+function import_validate($import_file)
+{
+    $errors = [];
+
+    if (empty($import_file)) {
+        $errors[] = MSG_NO_FILE;
+    } else {
+        if (check_file_ext($import_file)) {
+            $errors[] = MSG_NOT_ABLE_EXT;
+        }
+    }
+
+    return $errors;
+}
+
+function check_file_ext($import_file)
+{
+    $err = false;
+
+    $file_ext = pathinfo($import_file, PATHINFO_EXTENSION); //拡張子がとれる
+    if ($file_ext != 'xlsx') {
+        $err = true;
+    }
+
+    return $err;
+}
+
 
 // ▼未使用の関数
 // すべての個体データを取得する

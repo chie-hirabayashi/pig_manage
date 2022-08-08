@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // $s = check_duplication($indivi_num);
 // var_dump($s);
 
-$title = 'pig management system';
+$title = '登録menu';
 ?>
 
 <!DOCTYPE html>

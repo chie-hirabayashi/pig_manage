@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$title = 'pig management system';
+$title = '確認menu';
 ?>
 
 <!DOCTYPE html>

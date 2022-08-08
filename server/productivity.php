@@ -50,7 +50,7 @@ if ($count != 0 || $pig_nums != 0) {
     $rotate = round(intval($count) / intval($pig_nums),2); //回転数
 } 
 
-$title = 'pig management system';
+$title = '確認menu';
 ?>
 
 <!DOCTYPE html>

@@ -25,8 +25,6 @@ body {
 }
 
 .page_header {
-    /* 背景黒 */
-    /* background-color: #000000; */
     background-color: var(--main-img-color1);
     /* 横並び(floatでもいいけど、floatだと解除が必要) */
     display: flex;
@@ -47,7 +45,7 @@ body {
     color: var(--main-icon-color);
     font-size: 30px;
 }
-.tractor_icon {
+.fa-bars_icon {
     color: var(--main-icon-color);
     font-size: 30px;
 }
@@ -390,6 +388,12 @@ td{
     padding-top: 25px;
     text-align: center;
 }
+/* ok */
+.manual_title {
+    padding-top: 25px;
+    padding-bottom: 20px;
+    text-align: center;
+}
 .email_label,
 .name_label,
 .password_label {
@@ -503,6 +507,11 @@ input::placeholder {
     list-style-type: none;
 }
 
+/* ok */
+.use{
+    font-size: x-large;
+    margin: 20px 0;
+}
 
 /* check.php */
 /* ok */

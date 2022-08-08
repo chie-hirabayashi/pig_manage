@@ -72,7 +72,7 @@ $indivi_num = filter_input(INPUT_GET, 'indivi_num');
     }
 
 
-$title = 'pig management system';
+$title = '確認nemu';
 ?>
 
 <!DOCTYPE html>

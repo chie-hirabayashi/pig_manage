@@ -8,6 +8,9 @@ define('PASSWORD', '0000');
 define('WORKING', 0);
 define('GONE', 1);
 
+// アップロードできる拡張子を設定
+define('EXTENTION', ['jpg', 'jpeg', 'png', 'gif', 'webp']);
+
 // エラーメッセージを定義
 define('MSG_INDIVI_REQUIRED','個体番号を入力して下さい');
 define('MSG_ADD_REQUIRED','導入日を入力して下さい');
@@ -24,6 +27,8 @@ define('MSG_LEFT_REQUIRED','廃用日を正しく入力して下さい(出産日
 define('MSG_ADD_DAY_REQUIRED','導入日を正しく入力して下さい(導入日<=現在)');
 define('MSG_BORN_D_REQUIRED','出産日を正しく入力して下さい(導入日<出産日<=現在)');
 define('MSG_ID_JUDGEMENT','稼動中の個体番号を入力して下さい');
+define('MSG_NO_FILE','エクセルデータを選択して下さい');
+define('MSG_NOT_ABLE_EXT', '選択したファイルの拡張子が有効ではありません');
 
 // サクセスメッセージを定義
 define('MSG_INSERT_SUCCESS','の登録が完了しました');

@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-$title = 'pig management system';
+$title = '登録menu';
 ?>
 
 <!DOCTYPE html>

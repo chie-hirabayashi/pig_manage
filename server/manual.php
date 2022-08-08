@@ -2,7 +2,7 @@
 // 関数読み込み
 require_once __DIR__ . '/common/functions.php';
 
-$title = 'pig management system';
+$title = '';
 ?>
 
 <!DOCTYPE html>
@@ -12,13 +12,13 @@ $title = 'pig management system';
     <?php include_once __DIR__ . '/_header.php'; ?>
 
     <section class="manual_content wrapper">
-        <h1 class="insert_title"><?= MSG_MANUAL_MENU ?></h1>
+        <h1 class="manual_title"><?= MSG_MANUAL_MENU ?></h1>
         <div>
-            <pre>このシステムは、出産情報を登録することで調子の悪い母豚を見つけ出すお手伝いをしてくれます。</pre>
+            <p>このシステムは、出産情報を登録することで調子の悪い母豚を見つけ出すお手伝いをしてくれます。</p>
         </div>
 
         <div>
-        <h2>▼使い方</h2>
+        <h2 class="use">▼使い方</h2>
         </div>
 
         <div>

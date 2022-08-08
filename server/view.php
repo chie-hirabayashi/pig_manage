@@ -33,7 +33,7 @@ $considered_time = new DATETIME('+6 month');
 $pig_age = $considered_time->diff($d_pig_add);
 // var_dump($pig_age->y);
 
-$title = 'pig management system';
+$title = '確認menu';
 ?>
 
 <!DOCTYPE html>
@@ -70,6 +70,7 @@ $title = 'pig management system';
         <form>
             <div class="button_area">
                 <a href="insert.php" class="insert_page_button"><?= MSG_INSERT_MENU ?>はこちら</a>
+                <a href="insert_born_info.php" class="insert_page_button"><?= MSG_INSERT_BORN_MENU ?>はこちら</a>
                 <a href="gone.php" class="insert_page_button"><?= MSG_GONE_MENU ?>はこちら</a>
             </div>
         </form>

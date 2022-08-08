@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$title = 'pig management system';
+$title = '確認menu';
 ?>
 
 <!DOCTYPE html>
@@ -113,16 +113,16 @@ $title = 'pig management system';
                 <li>出産状況 ▼</li>
             </ul>
 
-            <div class="">
-                <ol class="born_info">
+            <div class="born_infos">
+                <ol class="born_info1">
                 <?php foreach ($born_info as $one_info): ?>
                     <li>&ensp;<?= h($one_info['born_day']) ?> : <?= h($one_info['born_num']) ?>頭</li>
                 <?php endforeach; ?>
                 </ol>
 
-                <ul>
+                <ul class="born_info2">
                 <?php foreach ($rotate_list as $one_rotate): ?>
-                    <li>&ensp;<?= h($one_rotate) ?> 回</li>
+                    <li>(<?= h($one_rotate) ?> 回)</li>
                 <?php endforeach; ?>
                 </ul>
             </div>
