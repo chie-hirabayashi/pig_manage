@@ -733,6 +733,35 @@ function check_file_ext($import_file)
     return $err;
 }
 
+// born_info全データ削除
+function delete_all_born_info()
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    DELETE 
+        FROM 
+    born_info
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+}
+
+// individual_info全データ削除
+function delete_all_individual_info()
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    DELETE 
+        FROM 
+    individual_info
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+}
 
 // ▼未使用の関数
 // すべての個体データを取得する

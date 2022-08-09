@@ -28,10 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = import_validate($import_file);
 
     if (empty($errors)) {
-        $import_file = date("Ymd") . "_" . $import_file;
+        $import_file = date("Ymd-His") . "_" . $import_file;
         $path = 'import/' . $import_file;
 
         if (move_uploaded_file($import_tmp_file, $path)) {
+            delete_all_born_info(); //born_info全レコード削除
+            delete_all_individual_info(); //individual_info全レコード削除
             import_db_individual_info($import_file);
             import_db_born_info($import_file);
             $import_msg = 'データを取込みました';
@@ -66,6 +68,11 @@ $title = '確認menu';
             </div>
         </form>
 
+        <?php if (empty($errors)): ?>
+            <ul class="success">
+                <li><?= h($import_msg)?></li>
+            </ul>
+        <?php endif; ?>
     </section>
 
     <?php include_once __DIR__ . '/_footer.php'; ?>
