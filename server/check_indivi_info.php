@@ -3,19 +3,19 @@
 require_once __DIR__ . '/common/functions.php';
 
 // 初期化
-$indivi_num = '';
-$working_pigs = '';
-$pig_age = '';
 $born_info = [];
+$errors = [];
+$indivi_num = '';
 $indivi_num_array = [];
 $index = '';
-$the_indivi_info = [];
-$rotate = 0;
 $msg = '';
-$errors = [];
+$pig_age = '';
+$rotate = 0;
+$the_indivi_info = [];
+$working_pigs = '';
 
 // バリデーション
-// 存在しない番号を受け取ったときのエラー設定
+// 存在しない番号を受け取ったときのエラー設定まだ？
 // view.phpで使用しているかも
 $indivi_num = filter_input(INPUT_GET, 'indivi_num');
 
@@ -24,11 +24,7 @@ $indivi_num = filter_input(INPUT_GET, 'indivi_num');
     if (empty($errors)) {
 
         $pig_id = get_pig_id($indivi_num);
-        
         $born_info = find_born_info($pig_id);
-        // echo '<pre>';
-        // print_r($born_info);
-        // echo '</pre>';
 
         // 年齢取得
         $the_indivi_info = find_indivi_info($pig_id);
@@ -68,9 +64,7 @@ $indivi_num = filter_input(INPUT_GET, 'indivi_num');
 
         $rotate_list[] = $one_rotate;
         }
-
     }
-
 
 $title = '確認nemu';
 ?>
@@ -81,7 +75,7 @@ $title = '確認nemu';
 <body>
     <?php include_once __DIR__ . '/_header.php'; ?>
 
-    <section class="insert_content wrapper">
+    <section class="born_info_content wrapper">
         <h1 class="insert_title">母豚の詳細情報</h1>
 
         <?php if ($errors): ?>
@@ -117,8 +111,8 @@ $title = '確認nemu';
                 <?php endforeach; ?>
                 </ul>
             </div>
-            <a href="#" onclick="history.back(-1);return false;">戻る</a>
         </div>
+            <a href="#" onclick="history.back(-1);return false;" class="manual_button2">戻&emsp;る</a>
         <?php endif; ?>
     </section>
 

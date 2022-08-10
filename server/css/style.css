@@ -8,10 +8,10 @@
     --main-img-color3: #f7edea;
     --main-icon-color: #c57777;
     --body-img-color: #4D4D4D;
-    --input-color: #FFFFFF;
     --menu-color1: #ed8783;
     --menu-color2: #93b354;
     --menu-color3: #81c6d2;
+    --back-color: #FFFFFF;
 }
 
 /*コンテンツ全体に対する指定*/
@@ -23,24 +23,18 @@ body {
     margin: 0;
     padding: 0 4%;
 }
-
 .page_header {
     background-color: var(--main-img-color1);
-    /* 横並び(floatでもいいけど、floatだと解除が必要) */
-    display: flex;
+    display: flex; /* 横並び(floatでもいいけど、floatだと解除が必要) */
     height: 80px;
     align-items: center;
-    /* 端っこによる */
-    justify-content: space-between;
+    justify-content: space-between; /* 端っこによる */
     margin-top: auto;
 }
 .logo {
-    /* アンダーバー取る */
-    text-decoration: none;
-    /* 背景白 */
-    color: #ffffff;
+    text-decoration: none; /* アンダーバー取る */
+    color: var(--back-color)
 }
-
 .hippo_icon {
     color: var(--main-icon-color);
     font-size: 30px;
@@ -49,128 +43,34 @@ body {
     color: var(--main-icon-color);
     font-size: 30px;
 }
-
 .page_footer {
     height: 70px;
     background-color: var(--main-img-color1);
     position: fixed;
-    /* フッターは一番下なのでbottom:0 */
-    bottom: 0;
+    bottom: 0; /* フッターは一番下なのでbottom:0 */
     width: 100%;
     display: flex;
-    /* 左右真ん中 */
-    justify-content: center;
-    /* 上下真ん中 */
-    align-items: center;
+    justify-content: center; /* 左右真ん中 */
+    align-items: center; /* 上下真ん中 */
 }
 .footer-text {
-    color: #ffffff;
+    color: var(--back-color);
     font-size: 10.5px;
 }
 
+/* ok */
+.errors{
+    margin: 15px;
+    padding: 10px;
+    color: #ba4141;
+}
+
+/* これは必要か？？
 p {
     font-size: large;
-}
+} */
 
-/* upload.php */
-.upload_content_form {
-    width: 60%;
-    /* vh画面サイズに合わせてマージンする設定 */
-    /* スマホにも対応できる */
-    margin: 6vh auto 0;
-    padding-bottom: 10%;
-}
-.upload_content_label {
-    display: flex;
-    /* フレックスボックスの縦並び */
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    height: 415px;
-    background-color: #CCCCCC;
-    border-radius: 40px;
-    color: #ffffff;
-}
-.plus_icon {
-    /* インライン要素に対応できるディスプレイ */
-    display: inline-block;
-    font-size: 50px;
-}
-.upload_text {
-    font-size: 30px;
-    font-weight: bold;
-}
-.input_file {
-    display: none;
-}
-.input_text {
-    margin-top: 10px;
-    width: 100%;
-    border: 1px solid #E6E6E6;
-    padding: 10px;
-    height: 73px;
-}
-.upload_content_label img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-}
-.input_text::placeholder {
-    color: #E6E6E6;
-}
-.upload_submit {
-    display: block;
-    margin-top: 10px;
-    border-radius: 18px;
-    font-size: 18px;
-    padding: 2px 30px;
-    background: #F15A24;
-    color: #ffffff;
-    /* 右寄せ */
-    margin-left: auto;
-}
-
-/*ここから */
-/* index.php */
-.article {
-    margin: 6vh 0 10% 0;
-}
-.grid {
-    margin: 0 auto;
-}
-/* これを入れるときれいに並ぶ */
-/* 幅を入れないとマソンリーが作動しない */
-.grid_item {
-    width: 250px;
-}
-.grid_item img {
-    margin-bottom: 10px;
-    width: 100%;
-    border-radius: 40px;
-    /* 画像を並べるcover */
-    object-fit: cover;
-}
-.add_button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 35px;
-    color: #4D4D4D;
-    border: 1px solid #eae7e7;
-    border-radius: 50%;
-    box-shadow: 1px 1px #00000080;
-    text-decoration: none;
-    position: fixed;
-    bottom: 100px;
-    right: 100px;
-    background: #FFFFFF;
-    width: 60px;
-    height: 60px;
-}
-
-
-/* view.php */
-/* ok */
+/* sectionタグclass */
 .manual_content,
 .view_content {
     background-color: var(--main-img-color2);
@@ -182,61 +82,166 @@ p {
     padding-bottom: 60px;
     box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
 }
+.insert_content {
+    background-color: var(--main-img-color2);
+    border-radius: 10px;
+    width: 500px;
+    margin: 50px auto;
+    margin-bottom: 120px;
+    padding: 20px 50px;
+    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
+}
+.menu_content {
+    background-color: var(--main-img-color2);
+    border-radius: 10px;
+    width: 500px;
+    margin: 50px auto;
+    margin-bottom: 120px;
+    padding: 20px 50px;
+    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+.productivity_content,
+.born_info_content{
+    background-color: var(--main-img-color2);
+    border-radius: 10px;
+    width: 600px;
+    margin: 50px auto;
+    margin-bottom: 120px;
+    padding: 20px 50px;
+    padding-bottom: 30px;
+    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
+}
 
-/* ok */
+/* listタグclass*/
 .manual_list1{
     font-size: larger;
     margin: 1%;
     /* margin-top: 5%; */
 }
-/* ok */
 .manual_list2{
     /* font-size: medium; */
     margin-top: 3%;
 }
-/* ok */
 .manual_list3{
     font-size: medium;
     margin: 1% 4%;
 }
-/* ok */
-.manual_text{
-    font-size: medium;
-    margin-top: 1%;
-    color: #ba4141;
-}
+
 
 /* ok */
 .normal_input {
     display: block;
     width: 100%;
-    background-color: var(--input-color);
+    background-color: var(--back-color);
     border-radius: 6px;
     margin-bottom: 10px;
     padding: 10px;
 }
 
-/* ok */
+/* buttonタグclass */
 .manual_button1 {
     text-align: center;
     padding: 8px 25px;
     background: var(--menu-color1);
-    color: #FFFFFF;
+    color: var(--back-color);
     border-radius: 30px;
     text-decoration: none;
 }
-
-/* ok */
 .manual_button2 {
     text-align: center;
     padding: 8px 25px;
     background: var(--menu-color2);
-    color: #FFFFFF;
+    color: var(--back-color);
     border-radius: 30px;
     text-decoration: none;
 }
+.menu_page_button1 {
+    text-align: center;
+    padding: 15px 100px;
+    background: var(--menu-color1);
+    color: var(--back-color);
+    border-radius: 30px;
+    text-decoration: none;
+    margin-bottom: 2%;
+}
+.menu_page_button2 {
+    text-align: center;
+    padding: 15px 100px;
+    background: var(--menu-color2);
+    color: var(--back-color);
+    border-radius: 30px;
+    text-decoration: none;
+    margin-bottom: 2%;
+}
+.menu_page_button3 {
+    text-align: center;
+    padding: 15px 100px;
+    background: var(--menu-color3);
+    color: var(--back-color);
+    border-radius: 30px;
+    text-decoration: none;
+    margin-bottom: 2%;
+}
+.menu_button_area {
+    margin-top: 30px;
+    display: grid;
+    /* justify-content: space-between; */
+}
+.manual_button_area {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    justify-content: space-between;
+}
+.button_area {
+    margin-top: 30px;
+    /* display: flex; */
+    justify-content: space-between;
+}
+.insert_button {
+    background: var(--main-img-color0);
+    padding: 13px 0;
+    width: 52%;
+    color: var(--back-color);
+    letter-spacing: 0.5rem;
+    text-indent: 0.5rem;
+    border-radius: 30px;
+    margin-bottom: 10%;
+}
+.insert_page_button {
+    text-align: center;
+    padding: 15px;
+    background: var(--menu-color1);
+    color: var(--back-color);
+    border-radius: 30px;
+    text-decoration: none;
+}
+.view_page_button {
+    text-align: center;
+    padding: 15px;
+    background: var(--menu-color2);
+    color: var(--back-color);
+    border-radius: 30px;
+    text-decoration: none;
+}
+.check_button {
+    background: var(--main-img-color0);
+    padding: 13px 0;
+    width: 15%;
+    color: var(--back-color);
+    letter-spacing: 0.5rem;
+    text-indent: 0.5rem;
+    border-radius: 30px;
+    margin-bottom: 10%;
+}
+
+/* ok */
+input::placeholder {
+    color: #999999;
+}
 
 
+/* tableタグclass */
 /* ok未使用 */
 table{
     width: 100%;
@@ -258,130 +263,15 @@ td{
     border: 1px solid var(--body-img-color);
 }
 
-.emphasize {
-    font-weight: bold;
-    text-decoration: underline;
-}
 
 
-.content {
-    width: 60%;
-    margin: 6vh auto 0;
-}
-.main_content img {
-    width: 100%;
-    /* 大きすぎるとフッターが隠れる */
-    height: 350px;
-    border-radius: 40px;
-    object-fit: cover;
-}
-.main_content p {
-    margin-top: 10px;
-    width: 100%;
-    color: #4D4D4D;
-}
-.button {
-    margin-top: 10px;
-    /* 横並び */
-    display: flex;
-    /* 端っこに寄せる */
-    justify-content: flex-end;
-}
-.edit_button {
-    font-size: 18px;
-    /* 角丸 */
-    border-radius: 18px;
-    padding: 5px 30px;
-    background: #39B54A;
-    /* アンダーラインなし */
-    text-decoration: none;
-    color: #FFFFFF;
-}
-.delete_button {
-    font-size: 18px;
-    border-radius: 18px;
-    padding: 5px 30px;
-    background: #CCCCCC;
-    margin-left: 10px;
-    color: #FFFFFF;
-}
-
-/* edit.php */
-.update_button {
-    font-size: 18px;
-    border-radius: 18px;
-    padding: 5px 30px;
-    background: #F15A24;
-    color: #FFFFFF;
-}
-
-/* menu */
+/* hタグclass */
 /* ok */
-.menu_page_button1 {
-    text-align: center;
-    padding: 15px 100px;
-    background: var(--menu-color1);
-    color: #FFFFFF;
-    border-radius: 30px;
-    text-decoration: none;
-    margin-bottom: 2%;
-}
-.menu_page_button2 {
-    text-align: center;
-    padding: 15px 100px;
-    background: var(--menu-color2);
-    color: #FFFFFF;
-    border-radius: 30px;
-    text-decoration: none;
-    margin-bottom: 2%;
-}
-.menu_page_button3 {
-    text-align: center;
-    padding: 15px 100px;
-    background: var(--menu-color3);
-    color: #FFFFFF;
-    border-radius: 30px;
-    text-decoration: none;
-    margin-bottom: 2%;
-}
-/* ok */
-.menu_button_area {
-    margin-top: 30px;
-    display: grid;
-    /* justify-content: space-between; */
-}
-
-/* insert.php */
-/* ok */
-.errors{
-    margin: 15px;
-    padding: 10px;
+.manual_text{
+    font-size: medium;
+    margin-top: 1%;
     color: #ba4141;
 }
-
-/* ok */
-.insert_content {
-    background-color: var(--main-img-color2);
-    border-radius: 10px;
-    width: 500px;
-    margin: 50px auto;
-    margin-bottom: 120px;
-    padding: 20px 50px;
-    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
-}
-
-/* ok */
-.menu_content {
-    background-color: var(--main-img-color2);
-    border-radius: 10px;
-    width: 500px;
-    margin: 50px auto;
-    margin-bottom: 120px;
-    padding: 20px 50px;
-    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
-    text-align: center;
-}
-
 /* ok */
 .insert_title,
 .view_title {
@@ -393,60 +283,6 @@ td{
     padding-top: 25px;
     padding-bottom: 20px;
     text-align: center;
-}
-.email_label,
-.name_label,
-.password_label {
-    display: block;
-    margin: 10px 0px;
-}
-/* ok */
-input::placeholder {
-    color: #999999;
-}
-
-/* ok */
-.manual_button_area {
-    margin-top: 20px;
-    margin-bottom: 40px;
-    justify-content: space-between;
-}
-/* ok */
-.button_area {
-    margin-top: 30px;
-    /* display: flex; */
-    justify-content: space-between;
-}
-/* ok */
-.insert_button {
-    background: var(--main-img-color0);
-    padding: 13px 0;
-    width: 52%;
-    color: #FFFFFF;
-    letter-spacing: 0.5rem;
-    text-indent: 0.5rem;
-    border-radius: 30px;
-    margin-bottom: 10%;
-}
-/* ok */
-.insert_page_button {
-    text-align: center;
-    padding: 15px;
-    background: var(--menu-color1);
-    color: #FFFFFF;
-    border-radius: 30px;
-    text-decoration: none;
-    /* margin: 10% ; */
-}
-/* ok */
-.view_page_button {
-    text-align: center;
-    padding: 15px;
-    background: var(--menu-color2);
-    color: #FFFFFF;
-    border-radius: 30px;
-    text-decoration: none;
-    /* margin: 10% ; */
 }
 
 /* ok */
@@ -462,23 +298,14 @@ input::placeholder {
     text-align: center;
     font-size: larger;
 }
-.productivity_content,
-.insert_content {
-    background-color: var(--main-img-color2);
-    border-radius: 10px;
-    width: 600px;
-    margin: 50px auto;
-    margin-bottom: 120px;
-    padding: 20px 50px;
-    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
-}
+
 /* ok */
 .in_content {
     background-color: var(--main-img-color3);
     border-radius: 10px;
     width: 500px;
     margin: 50px auto;
-    margin-bottom: 120px;
+    /* margin-bottom: 120px; */
     padding: 20px 50px;
     font-size: large;
 }
@@ -523,17 +350,7 @@ input::placeholder {
 .condition_list{
     padding: 10px 30px;
 }
-/* ok */
-.check_button {
-    background: var(--main-img-color0);
-    padding: 13px 0;
-    width: 15%;
-    color: #FFFFFF;
-    letter-spacing: 0.5rem;
-    text-indent: 0.5rem;
-    border-radius: 30px;
-    margin-bottom: 10%;
-}
+
 /* ok */
 .one_condition {
     display: flex;
@@ -557,7 +374,7 @@ input::placeholder {
 .condition_input {
     display: block;
     width: 20%;
-    background-color: var(--input-color);
+    background-color: var(--back-color);
     border-radius: 6px;
     margin-bottom: 10px;
     padding: 10px;
@@ -566,7 +383,7 @@ input::placeholder {
 .span_input {
     display: block;
     width: 30%;
-    background-color: var(--input-color);
+    background-color: var(--back-color);
     border-radius: 6px;
     margin-bottom: 10px;
     padding: 10px;
@@ -623,5 +440,3 @@ input::placeholder {
         padding: 10px;
     }
 }
-
-

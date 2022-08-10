@@ -5,3 +5,6 @@ memo*.txt
 *.xlsx
 composer.*
 test*.php
+test.css
+test.html
+sample.php

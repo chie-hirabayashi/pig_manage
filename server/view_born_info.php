@@ -81,7 +81,7 @@ $title = '確認menu';
 <body>
     <?php include_once __DIR__ . '/_header.php'; ?>
 
-    <section class="insert_content wrapper">
+    <section class="born_info_content wrapper">
         <h1 class="insert_title"><?= MSG_VIEW_BORN_MENU ?></h1>
 
         <?php if ($errors): ?>

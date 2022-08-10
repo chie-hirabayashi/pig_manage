@@ -68,7 +68,7 @@ $title = '確認menu';
             </div>
         </form>
 
-        <?php if (empty($errors)): ?>
+        <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($errors)): ?>
             <ul class="success">
                 <li><?= h($import_msg)?></li>
             </ul>

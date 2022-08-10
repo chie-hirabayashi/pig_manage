@@ -108,7 +108,7 @@ $title = '確認menu';
         <p>以下の条件で抽出しました</p>
         <ul class="condition_list">
             <li>実績回転数 : <?= $rotate_condition ?> 回以下</li>
-            <li>直近2回の産子数 : <?= $born_num_condition ?> 頭以下</li>
+            <li>直近2回の産子数 : 連続で<?= $born_num_condition ?> 頭以下</li>
             <li>予測回転数 : <?= $pre_rptate_condition ?> 回以下</li>
         </ul>
             <table class="worikin_pig">
@@ -128,19 +128,19 @@ $title = '確認menu';
                 <?php $born_num_l = get_born_num($pig_id) ?>
                 <?php $predict_rotate = get_predict_rotate($pig_id) ?>
 
-                <?php if (in_array($extract_pig,$change1)): ?>
+                <?php if (!empty($change1) && in_array($extract_pig,$change1)): ?>
                 <?php $color1 = 'red' ?>
                 <?php else: ?>
                 <?php $color1 = '#4D4D4D' ?>
                 <?php endif; ?>
 
-                <?php if (in_array($extract_pig,$change2)): ?>
+                <?php if (!empty($change2) && in_array($extract_pig,$change2)): ?>
                 <?php $color2 = 'red' ?>
                 <?php else: ?>
                 <?php $color2 = '#4D4D4D' ?>
                 <?php endif; ?>
 
-                <?php if (in_array($extract_pig,$change3)): ?>
+                <?php if (!empty($change3) && in_array($extract_pig,$change3)): ?>
                 <?php $color3 = 'red' ?>
                 <?php else: ?>
                 <?php $color3 = '#4D4D4D' ?>
