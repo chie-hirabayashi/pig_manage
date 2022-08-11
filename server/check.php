@@ -153,7 +153,7 @@ $title = '確認menu';
                     <td style="color: <?php echo $color2; ?>"><?= $born_num_l[0]?>頭</td>
                     <td style="color: <?php echo $color2; ?>"><?= $born_num_l[1]?>頭</td>
                     <td style="color: <?php echo $color3; ?>"><?= $predict_rotate?>回</td>
-                    <td><a href="check_indivi_info.php?indivi_num=<?= h($extract_pig) ?>" class="btn check-btn done-btn">
+                    <td><a href="check_indivi_info.php?indivi_num=<?= h($extract_pig) ?>" class="check-btn">
                         <i class="fa-solid fa-check"></i></a></td>
                 </tr>
             <?php endforeach; ?>
@@ -162,7 +162,7 @@ $title = '確認menu';
         <?php endif; ?>
         <form>
             <div class="button_area">
-                <a href="view_born_info.php" class="insert_page_button"><?= MSG_VIEW_BORN_MENU ?>はこちら</a>
+                <a href="view_born_info.php" class="view_page_button"><?= MSG_VIEW_BORN_MENU ?>はこちら</a>
             </div>
         </form>
 

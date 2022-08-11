@@ -12,6 +12,8 @@
     --menu-color2: #93b354;
     --menu-color3: #81c6d2;
     --back-color: #FFFFFF;
+    --warning-color: #ba4141;
+    --success-color: #4fa218;
 }
 
 /*コンテンツ全体に対する指定*/
@@ -58,11 +60,23 @@ body {
     font-size: 10.5px;
 }
 
-/* ok */
+/* 結果 */
 .errors{
     margin: 15px;
     padding: 10px;
     color: #ba4141;
+}
+.warning{
+    margin-left: 20px;
+    color: #ba4141;
+}
+.success{
+    margin: 30px auto;
+    padding: 10px;
+    list-style-type: none;
+    font-size: larger;
+    color: var(--success-color);
+    text-align: center;
 }
 
 /* これは必要か？？
@@ -135,7 +149,7 @@ p {
     width: 100%;
     background-color: var(--back-color);
     border-radius: 6px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     padding: 10px;
 }
 
@@ -234,6 +248,15 @@ p {
     border-radius: 30px;
     margin-bottom: 10%;
 }
+.check-btn {
+    color: var(--back-color);
+    border-radius: 5px;
+    font-size: 1.2rem;
+    padding: 0 4%;
+    background-color: var(--menu-color2);
+    /* border-radius: 5px; */
+    /* margin-right: 2%; */
+}
 
 /* ok */
 input::placeholder {
@@ -259,6 +282,7 @@ table{
 th,
 td{
     padding: 10px 0;
+    width: 5px;
     text-align: center;
     border: 1px solid var(--body-img-color);
 }
@@ -283,13 +307,6 @@ td{
     padding-top: 25px;
     padding-bottom: 20px;
     text-align: center;
-}
-
-/* ok */
-.success{
-    margin: 30px auto;
-    padding: 10px;
-    list-style-type: none;
 }
 
 /* view_born_info.php */

@@ -10,8 +10,9 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Worksheet;
 
 // 初期化
+$errors = [];
 
-$import_dir = './import';
+// $import_dir = './import';
 // バリデーション
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -36,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             delete_all_individual_info(); //individual_info全レコード削除
             import_db_individual_info($import_file);
             import_db_born_info($import_file);
-            $import_msg = 'データを取込みました';
+            $import_msg = 'データの取込みに成功しました';
         } else {
             $import_msg = 'データの取込みができませんでした';
         }
@@ -55,13 +56,24 @@ $title = '確認menu';
     <section class="insert_content wrapper">
         <h1 class="insert_title">インポート</h1>
 
-            <!-- <input class="input_file" type="file" id="file_upload" name="image" onchange="imgPreView(event)">
-            <textarea class="input_text" name="description" rows="5" placeholder="画像の詳細を入力してください"><?= h($description) ?></textarea>
-            <input class="upload_submit" type="submit" value="追加"> -->
+        <?php if ($errors): ?>
+            <ul class="errors">
+                <?php foreach ($errors as $error): ?>
+                    <li>
+                        <?= h($error) ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
         
+
         <form action="" method="post" class="insert_form" enctype="multipart/form-data">
             <label class="indivi_label" for="indeivi_num">取り込むデータ</label>
             <input class="normal_input" type="file" name="import_file" id="import_file" placeholder="pig_db.xlsx">
+            <ul>
+                <li class="warning">データを取り込むと現在のデータが上書きされます</li>
+                <li class="warning">上書きされたデータを元に戻すことはできません</li>
+            </ul>
             <div class="button_area">
                 <input type="submit" value="読み込み" class="insert_button"><br>
                 <!-- <a href="view.php" class="view_page_button">登録内容の確認はこちら</a> -->

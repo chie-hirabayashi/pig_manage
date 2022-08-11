@@ -17,10 +17,17 @@ $working_pigs_count = count($working_pigs);
 foreach ($working_pigs as $working_pig) {
     $w_pig_num_l[] = $working_pig['indivi_num'];
     $w_pig_add_l[] = $working_pig['add_day'];
+    $w_pig_l[] = array('indivi_num'=>$working_pig['indivi_num'],'add_day'=>$working_pig['add_day']);
 }
+// $w_pig_l = [];
+// array_push($w_pig_l,$w_pig_num_l);
+// array_push($w_pig_l,$w_pig_add_l);
+// var_dump($w_pig_l);
 // var_dump($working_pig_list);
 $w_pig_num_l_chunk = array_chunk($w_pig_num_l,10);
 $w_pig_add_l_chunk = array_chunk($w_pig_add_l,10);
+$w_pig_l_chunk = array_chunk($w_pig_l,5);
+// var_dump($w_pig_l_chunk);
 
 
 // var_dump($working_pigs[0]['add_day']);
@@ -56,11 +63,21 @@ $title = '確認menu';
         <?php endif; ?>
         
         <div>
-            <table class="worikin_pig">
-            <?php foreach ($w_pig_num_l_chunk as $w_pig_num): ?>
+            <table>
+            <!-- <php foreach ($w_pig_num_l_chunk as $w_pig_num): ?> -->
                 <tr>
-                <?php foreach($w_pig_num as $w_indivi_num): ?>
-                    <td><?= $w_indivi_num?></td>
+                    <th>個体番号<br>(導入日)</th>
+                    <th>個体番号<br>(導入日)</th>
+                    <th>個体番号<br>(導入日)</th>
+                    <th>個体番号<br>(導入日)</th>
+                    <th>個体番号<br>(導入日)</th>
+                </tr>
+            <?php foreach ($w_pig_l_chunk as $w_pig_l): ?>
+                <tr>
+                <!-- <php foreach($w_pig_num as $w_indivi_num): ?> -->
+                <?php foreach($w_pig_l as $one_w_pig_l): ?>
+                    <!-- <td><= $w_indivi_num?><br>あ</td> -->
+                    <td><?= $one_w_pig_l['indivi_num'] ?><br>(<?= $one_w_pig_l['add_day'] ?>)</td>
                 <?php endforeach; ?>
                 </tr>
             <?php endforeach; ?>
