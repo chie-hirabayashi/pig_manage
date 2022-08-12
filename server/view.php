@@ -76,7 +76,7 @@ $title = '確認menu';
                 <tr>
                 <!-- <php foreach($w_pig_num as $w_indivi_num): ?> -->
                 <?php foreach($w_pig_l as $one_w_pig_l): ?>
-                    <!-- <td><= $w_indivi_num?><br>あ</td> -->
+                    <!-- <td><= $w_indivi_num?></td> -->
                     <td><?= $one_w_pig_l['indivi_num'] ?><br>(<?= $one_w_pig_l['add_day'] ?>)</td>
                 <?php endforeach; ?>
                 </tr>

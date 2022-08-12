@@ -64,11 +64,11 @@ body {
 .errors{
     margin: 15px;
     padding: 10px;
-    color: #ba4141;
+    color: var(--warning-color);
 }
 .warning{
     margin-left: 20px;
-    color: #ba4141;
+    color: var(--warning-color);
 }
 .success{
     margin: 30px auto;

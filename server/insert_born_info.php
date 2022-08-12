@@ -65,7 +65,7 @@ $title = '登録menu';
             <label class="indivi_label" for="indeivi_num">個体番号</label>
             <input class="normal_input" type="text" name="indivi_num" id="indivi_num" placeholder="99-99">
             <label class="born_day_label" for="born_day">出産日</label>
-            <input class="normal_input" type="text" name="born_day" id="born_day" placeholder="1999/9/9" >
+            <input class="normal_input" type="date" name="born_day" id="born_day" placeholder="1999/9/9" >
             <label class="born_num_label" for="born_num">出産頭数</label>
             <input class="normal_input" type="text" name="born_num" id="born_num" placeholder="9" >
             <div class="button_area">

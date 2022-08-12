@@ -52,7 +52,7 @@ $title = '登録menu';
             <label class="indivi_label" for="indeivi_num">個体番号</label>
             <input class="normal_input" type="text" name="indivi_num" id="indivi_num" placeholder="99-99">
             <label class="add_label" for="left_day">廃用日</label>
-            <input class="normal_input" type="text" name="left_day" id="left_day" placeholder="1999/9/9" >
+            <input class="normal_input" type="date" name="left_day" id="left_day" placeholder="1999/9/9" >
             <div class="button_area">
                 <input type="submit" value="廃用登録" class="insert_button"><br>
                 <a href="view.php" class="view_page_button"><?= MSG_VIEW_MENU ?>はこちら</a>
