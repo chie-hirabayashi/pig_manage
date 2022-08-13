@@ -36,8 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $msg = MSG_INSERT_SUCCESS;
 }
-// var_dump($working_pigs);
-// var_dump($pig_id);
 
 $title = '登録menu';
 ?>
@@ -71,7 +69,6 @@ $title = '登録menu';
             <div class="button_area">
                 <input type="submit" value="出産情報登録" class="insert_button"><br>
                 <a href="view.php" class="view_page_button"><?= MSG_VIEW_MENU ?>はこちら</a>
-                <!-- <a href="" class="view_page_button">登&emsp;録</a> -->
             </div>
         </form>
 

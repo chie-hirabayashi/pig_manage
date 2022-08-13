@@ -15,8 +15,6 @@ $the_indivi_info = [];
 $working_pigs = '';
 
 // バリデーション
-// 存在しない番号を受け取ったときのエラー設定まだ？
-// view.phpで使用しているかも
 $indivi_num = filter_input(INPUT_GET, 'indivi_num');
 
     $errors = view_validate($indivi_num);

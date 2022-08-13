@@ -20,10 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $msg = MSG_INSERT_SUCCESS;
 }
 
-// $indivi_num = '99-99';
-// $s = check_duplication($indivi_num);
-// var_dump($s);
-
 $title = '登録menu';
 ?>
 

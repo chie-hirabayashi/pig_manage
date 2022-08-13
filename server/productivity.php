@@ -89,7 +89,7 @@ $title = '確認menu';
 
         <?php if (empty($errors) && $_SERVER['REQUEST_METHOD'] === 'POST'): ?>
         <div>
-            <h2 class="condition">▼ <?=$bp?> ~ <?=$ep?>の生産性</h2>
+            <h2 class="condition">▼ <?= h($bp) ?> ~ <?= h($ep) ?>の生産性</h2>
             <table class="worikin_pig">
                 <tr>
                     <th>合計産子数</th>
@@ -98,10 +98,10 @@ $title = '確認menu';
                     <th>全体の実績回転数</th>
                 </tr>
                 <tr>
-                    <td><?= $sum ?>頭</td>
-                    <td><?= $count ?>回</td>
-                    <td><?= $pig_nums ?>頭</td>
-                    <td><?= $rotate ?>回</td>
+                    <td><?= h($sum) ?>頭</td>
+                    <td><?= h($count) ?>回</td>
+                    <td><?= h($pig_nums) ?>頭</td>
+                    <td><?= h($rotate) ?>回</td>
                 </tr>
             </table>
         </div>

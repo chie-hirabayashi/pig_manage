@@ -12,20 +12,15 @@ use PhpOffice\PhpSpreadsheet\Worksheet;
 // 初期化
 $errors = [];
 
-// $import_dir = './import';
 // バリデーション
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $import_file = filter_input(INPUT_POST, 'import_file');
-    // $errors = view_validate($indivi_num);
 
-    // $description = filter_input(INPUT_POST, 'description');
     // サーバー上で一時的に保存されるテンポラリファイル名
     $import_file = $_FILES['import_file']['name'];
-
     $import_tmp_file = $_FILES['import_file']['tmp_name'];
 
-    // バリデーション(存在チェックと拡張子チェック)
+    // 存在チェックと拡張子チェック
     $errors = import_validate($import_file);
 
     if (empty($errors)) {

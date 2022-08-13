@@ -10,8 +10,6 @@ $pre_rptate_condition = '';
 $errors = [];
 
 // バリデーション
-// 数字で無いものを受け取ったときのエラーをつける
-// 色分けのエラー解消できていない
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rotate_condition = filter_input(INPUT_POST, 'rotate_condition');
     $born_num_condition = filter_input(INPUT_POST, 'born_num_condition');
@@ -107,9 +105,9 @@ $title = '確認menu';
         <h2 class="condition">▼抽出結果</h2>
         <p>以下の条件で抽出しました</p>
         <ul class="condition_list">
-            <li>実績回転数 : <?= $rotate_condition ?> 回以下</li>
-            <li>直近2回の産子数 : 連続で<?= $born_num_condition ?> 頭以下</li>
-            <li>予測回転数 : <?= $pre_rptate_condition ?> 回以下</li>
+            <li>実績回転数 : <?= h($rotate_condition) ?> 回以下</li>
+            <li>直近2回の産子数 : 連続で<?= h($born_num_condition) ?> 頭以下</li>
+            <li>予測回転数 : <?= h($pre_rptate_condition) ?> 回以下</li>
         </ul>
             <table class="worikin_pig">
                 <tr>
@@ -147,12 +145,12 @@ $title = '確認menu';
                 <?php endif; ?>
 
                 <tr>
-                    <td><?= $extract_pig?></td>
-                    <td><?= $age?>歳</td>
-                    <td style="color: <?php echo $color1; ?>"><?= $rotate?>回</td>
-                    <td style="color: <?php echo $color2; ?>"><?= $born_num_l[0]?>頭</td>
-                    <td style="color: <?php echo $color2; ?>"><?= $born_num_l[1]?>頭</td>
-                    <td style="color: <?php echo $color3; ?>"><?= $predict_rotate?>回</td>
+                    <td><?= h($extract_pig) ?></td>
+                    <td><?= h($age) ?>歳</td>
+                    <td style="color: <?php echo $color1; ?>"><?= h($rotate) ?>回</td>
+                    <td style="color: <?php echo $color2; ?>"><?= h($born_num_l[0]) ?>頭</td>
+                    <td style="color: <?php echo $color2; ?>"><?= h($born_num_l[1]) ?>頭</td>
+                    <td style="color: <?php echo $color3; ?>"><?= h($predict_rotate) ?>回</td>
                     <td><a href="check_indivi_info.php?indivi_num=<?= h($extract_pig) ?>" class="check-btn">
                         <i class="fa-solid fa-check"></i></a></td>
                 </tr>

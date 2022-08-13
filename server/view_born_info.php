@@ -15,8 +15,6 @@ $msg = '';
 $errors = [];
 
 // バリデーション
-// 存在しない番号を受け取ったときのエラー設定
-// view.phpで使用しているかも
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $indivi_num = filter_input(INPUT_POST, 'indivi_num');
     $errors = view_validate($indivi_num);
@@ -26,9 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pig_id = get_pig_id($indivi_num);
         
         $born_info = find_born_info($pig_id);
-        // echo '<pre>';
-        // print_r($born_info);
-        // echo '</pre>';
 
         // 年齢取得
         $the_indivi_info = find_indivi_info($pig_id);
