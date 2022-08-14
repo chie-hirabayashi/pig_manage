@@ -20,3 +20,7 @@ CREATE TABLE IF NOT EXISTS born_info (
         REFERENCES individual_info(id)
         ON DELETE RESTRICT ON UPDATE RESTRICT
 );
+
+-- カラムの追加
+ALTER TABLE individual_info
+ADD flag BOOLEAN NOT NULL DEFAULT 0;
