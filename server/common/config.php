@@ -8,6 +8,10 @@ define('PASSWORD', '0000');
 define('WORKING', 0);
 define('GONE', 1);
 
+// 要観察を1とする
+define('NOT_WATCH', 0);
+define('WATCH', 1);
+
 // アップロードできる拡張子を設定
 define('EXTENTION', ['jpg', 'jpeg', 'png', 'gif', 'webp']);
 

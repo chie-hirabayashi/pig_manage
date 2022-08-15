@@ -421,6 +421,27 @@ function update_left_day($indivi_num, $left_day)
 
     $stmt->execute();
 }
+// 要観察フラグ
+function flag($id, $status)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    UPDATE
+        individual_info
+    SET
+        flag = :status
+    WHERE
+        id = :id
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->bindValue(':status', $status, PDO::PARAM_INT);
+
+    $stmt->execute();
+}
 
 
 // ▼取得関数
@@ -445,6 +466,27 @@ function find_working_pigs($gone)
     // return $stmt->fetch(PDO::FETCH_ASSOC);
     $working_pigs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $working_pigs;
+}
+// フラグの立った個体データを取得する
+function find_flag_pigs($status)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        individual_info
+    WHERE 
+        flag = :status;
+    EOM;
+    
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':status', $status, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $flag_pigs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $flag_pigs;
 }
 
 // 出産情報を取得

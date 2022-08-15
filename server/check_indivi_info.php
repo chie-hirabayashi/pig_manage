@@ -13,6 +13,7 @@ $pig_age = '';
 $rotate = 0;
 $the_indivi_info = [];
 $working_pigs = '';
+$status = 0;
 
 // バリデーション
 $indivi_num = filter_input(INPUT_GET, 'indivi_num');
@@ -62,7 +63,26 @@ $indivi_num = filter_input(INPUT_GET, 'indivi_num');
 
         $rotate_list[] = $one_rotate;
         }
+
     }
+
+// フラグ識別
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $status = filter_input(INPUT_POST, 'watch');
+    flag($pig_id, $status);
+}
+
+// ボタン回数カウント
+$count = 1;
+
+if(isset($_POST['count'])){
+    $count = $_POST['count'];
+}
+if(isset($_POST['plus'])){
+    $count++;
+}
+
+var_dump($count);
 
 $title = '確認nemu';
 ?>
@@ -88,7 +108,19 @@ $title = '確認nemu';
         
         <?php if (empty($errors)): ?>
         <div class="in_content">
-            <h2 class="in_title">個体番号 : <?= h($indivi_num) ?></h2>
+            <div class="flag">
+
+                <?php if ($status == 1): ?>
+                <?php $flag =  'flag_on' ?>
+                <?php else: ?>
+                <?php $flag = 'flag_off' ?>
+                <?php endif; ?>
+                
+                <h2 class="in_title">個体番号 : <?= h($indivi_num) ?></h2>
+                <div class="<?= $flag ?>">
+                    <i class="fa-solid fa-flag"></i>
+                </div>
+            </div>
 
             <ul class="indivi_info">
                 <li>年齢 : <?= h($pig_age) ?> 歳</li>
@@ -109,8 +141,20 @@ $title = '確認nemu';
                 <?php endforeach; ?>
                 </ul>
             </div>
+            <div>
+                <form action="" method="POST">
+                    <label for="">フラグ切替 : </label>
+                    <input type="hidden" name="watch" value=<?= NOT_WATCH ?> />
+                    <input type="checkbox" name="watch" value=<?= WATCH ?> />
+                    <input type="hidden" name="count" value=<?= $count ?> />
+                    <input type="submit" name="puls" value='切替' class="flag-btn" />
+                </form>
+            </div>
         </div>
-            <a href="#" onclick="history.back(-1);return false;" class="manual_button2">戻&emsp;る</a>
+            <!-- <a href="#" onclick="history.back(-1);return false;" class="manual_button2">戻&emsp;る</a> -->
+            <!-- <a href="javascript:history.back()" class="manual_button2">戻&emsp;る</a> -->
+            <!-- <a href="check.php" class="manual_button2">戻&emsp;る</a> -->
+            <form action="" method=""></form>
         <?php endif; ?>
     </section>
 
