@@ -15,74 +15,58 @@ $the_indivi_info = [];
 $working_pigs = '';
 $status = 0;
 
+
 // バリデーション
 $indivi_num = filter_input(INPUT_GET, 'indivi_num');
 
-    $errors = view_validate($indivi_num);
+$pig_id = get_pig_id($indivi_num);
+$born_info = find_born_info($pig_id);
+$status = find_flag_info($pig_id);
 
-    if (empty($errors)) {
+// 年齢取得
+$the_indivi_info = find_indivi_info($pig_id);
+$pig_add_day = $the_indivi_info['add_day'];
 
-        $pig_id = get_pig_id($indivi_num);
-        $born_info = find_born_info($pig_id);
+$d_pig_add = new DATETIME($pig_add_day);
+$considered_time = new DATETIME('+6 month');
 
-        // 年齢取得
-        $the_indivi_info = find_indivi_info($pig_id);
-        $pig_add_day = $the_indivi_info['add_day'];
+$pig_age = $considered_time->diff($d_pig_add);
+$pig_age = $pig_age->y;
 
-        $d_pig_add = new DATETIME($pig_add_day);
-        $considered_time = new DATETIME('+6 month');
+// 回転数算出(直近の回転数を算出)
+$count_info_num = count($born_info);
+if ($count_info_num == 0) {
+    $rotate = 0;
+} elseif ($count_info_num == 1) {
+    $rotate = 1;
+} else {
+    $born_day1 = new DateTime($born_info[0]['born_day']);
+    $born_day2 = new DateTime($born_info[1]['born_day']);
+    $span = $born_day1->diff($born_day2);
+    $rotate = round(365 / $span->days, 2);
+}
 
-        $pig_age = $considered_time->diff($d_pig_add);
-        $pig_age = $pig_age->y;
+// すべての回転数算出
+$born_days = [];
+foreach ($born_info as $one_info) {
+    $born_days[] = $one_info['born_day'];
+}
 
-        // 回転数算出(直近の回転数を算出)
-        $count_info_num = count($born_info);
-        if ($count_info_num == 0) {
-            $rotate = 0;
-        } elseif ($count_info_num == 1) {
-            $rotate = 1;
-        } else {
-            $born_day1 = new DateTime($born_info[0]['born_day']);
-            $born_day2 = new DateTime($born_info[1]['born_day']);
-            $span = $born_day1->diff($born_day2);
-            $rotate = round(365 / $span->days, 2);
-        }
+$rotate_list = [];
+for ($i=0; $i < $count_info_num-1 ; $i++) { 
+$born_day1 = new DateTime($born_info[$i]['born_day']);
+$born_day2 = new DateTime($born_info[$i+1]['born_day']);
+$span = $born_day1->diff($born_day2);
+$one_rotate = round(365 / $span->days, 2);
 
-        // すべての回転数算出
-        $born_days = [];
-        foreach ($born_info as $one_info) {
-            $born_days[] = $one_info['born_day'];
-        }
-
-        $rotate_list = [];
-        for ($i=0; $i < $count_info_num-1 ; $i++) { 
-        $born_day1 = new DateTime($born_info[$i]['born_day']);
-        $born_day2 = new DateTime($born_info[$i+1]['born_day']);
-        $span = $born_day1->diff($born_day2);
-        $one_rotate = round(365 / $span->days, 2);
-
-        $rotate_list[] = $one_rotate;
-        }
-
-    }
+$rotate_list[] = $one_rotate;
+}
 
 // フラグ識別
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = filter_input(INPUT_POST, 'watch');
     flag($pig_id, $status);
 }
-
-// ボタン回数カウント
-$count = 1;
-
-if(isset($_POST['count'])){
-    $count = $_POST['count'];
-}
-if(isset($_POST['plus'])){
-    $count++;
-}
-
-var_dump($count);
 
 $title = '確認nemu';
 ?>
@@ -96,24 +80,12 @@ $title = '確認nemu';
     <section class="born_info_content wrapper">
         <h1 class="insert_title">母豚の詳細情報</h1>
 
-        <?php if ($errors): ?>
-            <ul class="errors">
-                <?php foreach ($errors as $error): ?>
-                    <li>
-                        <?= h($error) ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
-        
-        <?php if (empty($errors)): ?>
         <div class="in_content">
             <div class="flag">
-
                 <?php if ($status == 1): ?>
-                <?php $flag =  'flag_on' ?>
+                    <?php $flag = 'flag_on' ?>
                 <?php else: ?>
-                <?php $flag = 'flag_off' ?>
+                    <?php $flag = 'flag_off' ?>
                 <?php endif; ?>
                 
                 <h2 class="in_title">個体番号 : <?= h($indivi_num) ?></h2>
@@ -146,16 +118,13 @@ $title = '確認nemu';
                     <label for="">フラグ切替 : </label>
                     <input type="hidden" name="watch" value=<?= NOT_WATCH ?> />
                     <input type="checkbox" name="watch" value=<?= WATCH ?> />
-                    <input type="hidden" name="count" value=<?= $count ?> />
-                    <input type="submit" name="puls" value='切替' class="flag-btn" />
+                    <input type="submit" name="" value='切替' class="flag-btn" />
                 </form>
             </div>
         </div>
             <!-- <a href="#" onclick="history.back(-1);return false;" class="manual_button2">戻&emsp;る</a> -->
             <!-- <a href="javascript:history.back()" class="manual_button2">戻&emsp;る</a> -->
-            <!-- <a href="check.php" class="manual_button2">戻&emsp;る</a> -->
-            <form action="" method=""></form>
-        <?php endif; ?>
+            <a href="check_result.php" class="manual_button2">戻&emsp;る</a>
     </section>
 
     <?php include_once __DIR__ . '/_footer.php'; ?>

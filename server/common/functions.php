@@ -512,6 +512,27 @@ function find_born_info($pig_id)
     $the_born_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $the_born_info;
 }
+// flagを取得
+function find_flag_info($id)
+{
+    $dbh = Connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        flag 
+    FROM 
+        individual_info
+    WHERE 
+        id = :id
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $flag_info = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $flag_info['flag'];
+}
 
 // ▼抽出に必要な関数
 // indivi_numから年齢を取得する関数

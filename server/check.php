@@ -9,6 +9,9 @@ $born_num_condition = '';
 $pre_rptate_condition = '';
 $errors = [];
 
+// セッション設定
+session_start();
+
 // バリデーション
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rotate_condition = filter_input(INPUT_POST, 'rotate_condition');
@@ -16,44 +19,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pre_rptate_condition = filter_input(INPUT_POST, 'pre_rptate_condition');
     $errors = check_validate($rotate_condition, $born_num_condition, $pre_rptate_condition);
 
-    if (empty($errors)) {
-        // 稼動中の個体番号を取得
-        $gone = 'WORKING';
-        $working_pigs = find_working_pigs($gone);
-        $indivi_nums = array_column($working_pigs,'indivi_num');
 
-        // $回転数を抽出
-        $extract_pigs = [];
-        foreach ($indivi_nums as $indivi_num) {
-            $pig_id = get_pig_id($indivi_num);
-            $rotate = get_rotate($pig_id);
-            if ($rotate <= $rotate_condition) {
-                $extract_pigs[] = $indivi_num;
-                $change1[] = $indivi_num;
-            }
-        }
-        // 過去２回の産子数を抽出
-        foreach ($indivi_nums as $indivi_num) {
-            $pig_id = get_pig_id($indivi_num);
-            $born_num_l = get_born_num($pig_id);
-            if ($born_num_l[0] <= $born_num_condition && $born_num_l[1] < $born_num_condition) {
-                $extract_pigs[] = $indivi_num;
-                $change2[] = $indivi_num;
-            }
-        }
-        // 予測回転数を抽出
-        foreach ($indivi_nums as $indivi_num) {
-            $pig_id = get_pig_id($indivi_num);
-            $predict_rotate = get_predict_rotate($pig_id);
-            if ($predict_rotate <= $pre_rptate_condition) {
-                $extract_pigs[] = $indivi_num;
-                $change3[] = $indivi_num;
-            }
-        }
-        // 配列内の重複削除
-        $extract_pigs = array_unique($extract_pigs);
+    $_SESSION['rotate_condition'] = $rotate_condition;
+    $_SESSION['born_num_condition'] = $born_num_condition;
+    $_SESSION['pre_rptate_condition'] = $pre_rptate_condition;
 
-    }
+    header('Location: check_result.php');
+
+    // if (empty($errors)) {
+    //     // 稼動中の個体番号を取得
+    //     $gone = 'WORKING';
+    //     $working_pigs = find_working_pigs($gone);
+    //     $indivi_nums = array_column($working_pigs,'indivi_num');
+
+    //     // $回転数を抽出
+    //     $extract_pigs = [];
+    //     foreach ($indivi_nums as $indivi_num) {
+    //         $pig_id = get_pig_id($indivi_num);
+    //         $rotate = get_rotate($pig_id);
+    //         if ($rotate <= $rotate_condition) {
+    //             $extract_pigs[] = $indivi_num;
+    //             $change1[] = $indivi_num;
+    //         }
+    //     }
+    //     // 過去２回の産子数を抽出
+    //     foreach ($indivi_nums as $indivi_num) {
+    //         $pig_id = get_pig_id($indivi_num);
+    //         $born_num_l = get_born_num($pig_id);
+    //         if ($born_num_l[0] <= $born_num_condition && $born_num_l[1] < $born_num_condition) {
+    //             $extract_pigs[] = $indivi_num;
+    //             $change2[] = $indivi_num;
+    //         }
+    //     }
+    //     // 予測回転数を抽出
+    //     foreach ($indivi_nums as $indivi_num) {
+    //         $pig_id = get_pig_id($indivi_num);
+    //         $predict_rotate = get_predict_rotate($pig_id);
+    //         if ($predict_rotate <= $pre_rptate_condition) {
+    //             $extract_pigs[] = $indivi_num;
+    //             $change3[] = $indivi_num;
+    //         }
+    //     }
+    //     // 配列内の重複削除
+    //     $extract_pigs = array_unique($extract_pigs);
+
+    // }
 }
 
 $title = '確認menu';
@@ -99,7 +109,7 @@ $title = '確認menu';
                 <input type="submit" value="確 認" class="check_button"><br>
             </div>
         </form>
-
+<!-- 
         <?php if (empty($errors) && $_SERVER['REQUEST_METHOD'] === 'POST'): ?>
         <div>
         <h2 class="condition">▼抽出結果</h2>
@@ -157,12 +167,12 @@ $title = '確認menu';
             <?php endforeach; ?>
             </table>
         </div>
-        <?php endif; ?>
-        <form>
+        <?php endif; ?> -->
+        <!-- <form>
             <div class="button_area">
                 <a href="view_born_info.php" class="view_page_button"><?= MSG_VIEW_BORN_MENU ?>はこちら</a>
             </div>
-        </form>
+        </form> -->
 
     </section>
 
