@@ -76,7 +76,7 @@ $title = '確認menu';
 <body>
     <?php include_once __DIR__ . '/_header.php'; ?>
 
-    <section class="view_content wrapper">
+    <section class="check_content wrapper">
         <h1 class="view_title"><?= MSG_CHECK_MENU ?></h1>
 
         <?php if ($errors): ?>
@@ -97,7 +97,7 @@ $title = '確認menu';
                 <p class="condition_text">回以下 (目安:1.8)</p>
             </div>
             <div class="one_condition">
-                <label class="condition_label" for="born_num_condition">産子数 :</label>
+                <label class="condition_label2" for="born_num_condition">産子数 :</label>
                 <input class="condition_input" type="text" name="born_num_condition" id="born_num_condition" placeholder="8" >
                 <p class="condition_text">頭以下 (目安:8)</p>
             </div>
@@ -107,7 +107,7 @@ $title = '確認menu';
                 <p class="condition_text">回以下 (目安:2.0)</p>
             </div>
             <div class="button_area">
-                <input type="submit" value="確 認" class="check_button"><br>
+                <input type="submit" value="確 認" class="check-button"><br>
             </div>
         </form>
 <!-- 

@@ -76,14 +76,17 @@ $title = '確認menu';
             <h2 class="condition">▼ 確認する期間</h2>
             <div class="one_condition">
                 <label class="span_label" for="bp">始期 :</label>
-                <input class="span_input" type="text" name="bp" id="bp" placeholder="2020/4/1">
+                <input class="span_input" type="date" name="bp" id="bp" placeholder="2020/4/1">
             </div>
             <div class="one_condition">
                 <label class="span_label" for="ep">終期 :</label>
-                <input class="span_input" type="text" name="ep" id="ep" placeholder="2021/3/31" >
+                <input class="span_input" type="date" name="ep" id="ep" placeholder="2021/3/31" >
+            </div>
+            <div>
+                <p>確認期間は1年間を推奨します</p>
             </div>
             <div class="button_area">
-                <input type="submit" value="確 認" class="check_button"><br>
+                <input type="submit" value="確 認" class="product-button"><br>
             </div>
         </form>
 

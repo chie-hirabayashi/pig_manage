@@ -131,6 +131,7 @@ p {
     text-align: center;
 }
 .productivity_content,
+.check_content,
 .born_info_content{
     background-color: var(--main-img-color2);
     border-radius: 10px;
@@ -253,10 +254,20 @@ p {
     border-radius: 30px;
     text-decoration: none;
 }
-.check_button {
+.check-button {
     background: var(--main-img-color0);
     padding: 13px 0;
-    width: 15%;
+    width: 25%;
+    color: var(--back-color);
+    letter-spacing: 0.6rem;
+    text-indent: 0.5rem;
+    border-radius: 30px;
+    margin-bottom: 10%;
+}
+.product-button {
+    background: var(--main-img-color0);
+    padding: 13px 0;
+    width: 30%;
     color: var(--back-color);
     letter-spacing: 0.5rem;
     text-indent: 0.5rem;
@@ -269,8 +280,6 @@ p {
     font-size: 1.2rem;
     padding: 0 4%;
     background-color: var(--menu-color2);
-    /* border-radius: 5px; */
-    /* margin-right: 2%; */
 }
 .flag-btn {
     color: var(--back-color);
@@ -395,25 +404,39 @@ td{
 .one_condition {
     display: flex;
 }
+
 /* ok */
-.span_label,
-.condition_label {
+.span_label{
     display: block;
     width: 15%;
     padding: 10px;
     font-size: large;
 }
+.condition_label {
+    display: block;
+    width: 30%;
+    padding: 10px;
+    font-size: large;
+}
+.condition_label2 {
+    display: block;
+    width: 30%;
+    padding: 10px;
+    font-size: large;
+    letter-spacing: 0.55rem;
+    /* text-indent: 0.5rem; */
+}
 /* ok */
 .condition_text {
     display: block;
-    width: 30%;
+    width: 50%;
     padding: 10px;
     font-size: large;
 }
 /* あとで設定 */
 .condition_input {
     display: block;
-    width: 20%;
+    width: 25%;
     background-color: var(--back-color);
     border-radius: 6px;
     margin-bottom: 10px;
