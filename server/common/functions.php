@@ -534,7 +534,7 @@ function find_flag_info($id)
     return $flag_info['flag'];
 }
 
-// ▼抽出に必要な関数
+// ▼抽出、詳細情報確認に必要な関数
 // indivi_numから年齢を取得する関数
 function get_age($indivi_num)
 {
@@ -589,7 +589,7 @@ function get_pig_id($indivi_num)
     return $pig_id;
 }
 
-// 実績回転数を算出する関数
+// 実績回転数を算出する関数(抽出用)
 function get_rotate($pig_id)
 {
     $born_info = find_born_info($pig_id);
@@ -599,6 +599,25 @@ function get_rotate($pig_id)
         $rotate = 99.9;
     } elseif ($count_info_num == 1) {
         $rotate = 99.9;
+    } else {
+        $born_day1 = new DateTime($born_info[0]['born_day']);
+        $born_day2 = new DateTime($born_info[1]['born_day']);
+        $span = $born_day1->diff($born_day2);
+        $rotate = round(365 / $span->days, 2);
+    }
+    return $rotate;
+}
+
+// 実績回転数を算出する関数(抽出用)
+function view_rotate($pig_id)
+{
+    $born_info = find_born_info($pig_id);
+    // 回転数算出(直近の回転数を算出)
+    $count_info_num = count($born_info);
+    if ($count_info_num == 0) {
+        $rotate = 0;
+    } elseif ($count_info_num == 1) {
+        $rotate = 1;
     } else {
         $born_day1 = new DateTime($born_info[0]['born_day']);
         $born_day2 = new DateTime($born_info[1]['born_day']);
@@ -669,6 +688,43 @@ function find_indivi_info($id)
     $indivi_info = $stmt->fetch(PDO::FETCH_ASSOC);
 
     return $indivi_info;
+}
+
+// すべての回転数算出
+function get_rotate_l($pig_id)
+{
+    $born_info = find_born_info($pig_id);
+    $count_info_num = count($born_info);
+
+    $born_days = [];
+    foreach ($born_info as $one_info) {
+        $born_days[] = $one_info['born_day'];
+    }
+
+    $rotate_list = [];
+    for ($i=0; $i < $count_info_num-1 ; $i++) { 
+    $born_day1 = new DateTime($born_info[$i]['born_day']);
+    $born_day2 = new DateTime($born_info[$i+1]['born_day']);
+    $span = $born_day1->diff($born_day2);
+    $one_rotate = round(365 / $span->days, 2);
+
+    $rotate_list[] = $one_rotate;
+    }
+    return $rotate_list;
+}
+
+// 年齢取得
+function pig_age($pig_id)
+{
+    $the_indivi_info = find_indivi_info($pig_id);
+    $pig_add_day = $the_indivi_info['add_day'];
+
+    $d_pig_add = new DATETIME($pig_add_day);
+    $considered_time = new DATETIME('+6 month');
+
+    $pig_age = $considered_time->diff($d_pig_add);
+    $pig_age = $pig_age->y;
+    return $pig_age;
 }
 
 // ▼エクセルデータのインポート

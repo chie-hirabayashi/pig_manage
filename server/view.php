@@ -14,7 +14,7 @@ $status = 0;
 // 稼動中のデータ取得
 $working_pigs = find_working_pigs('WORKING');
 $working_pigs_count = count($working_pigs);
-// var_dump($working_pigs);
+
 foreach ($working_pigs as $working_pig) {
     $w_pig_num_l[] = $working_pig['indivi_num'];
     $w_pig_add_l[] = $working_pig['add_day'];
@@ -25,18 +25,6 @@ foreach ($working_pigs as $working_pig) {
 // $w_pig_num_l_chunk = array_chunk($w_pig_num_l,10);
 // $w_pig_add_l_chunk = array_chunk($w_pig_add_l,10);
 $w_pig_l_chunk = array_chunk($w_pig_l,5);
-// var_dump($w_pig_l_chunk);
-
-
-// var_dump($working_pigs[0]['add_day']);
-// 年齢算出(生後6ヶ月で導入)
-$pig_add_day = $working_pigs[0]['add_day'];
-$d_pig_add = new DATETIME($pig_add_day);
-$considered_time = new DATETIME('+6 month');
-// var_dump($pig_add_day);
-// var_dump($considered_time);
-$pig_age = $considered_time->diff($d_pig_add);
-// var_dump($pig_age->y);
 
 foreach ($w_pig_flag_l as $w_pig_flag ) {
     if ($status == 1){
@@ -70,7 +58,6 @@ $title = '確認menu';
         
         <div>
             <table>
-            <!-- <php foreach ($w_pig_num_l_chunk as $w_pig_num): ?> -->
                 <tr>
                     <th>個体番号<br>(導入日)</th>
                     <th>個体番号<br>(導入日)</th>
@@ -88,7 +75,7 @@ $title = '確認menu';
                     <?php $flag = 'flag_off' ?>
                     <?php endif; ?>
 
-                    <td><a href="check_indivi_info.php?indivi_num=<?= h($one_w_pig_l['indivi_num']) ?>"><?= $one_w_pig_l['indivi_num'] ?></a>
+                    <td><a href="view_indivi_info.php?indivi_num=<?= h($one_w_pig_l['indivi_num']) ?>"><?= $one_w_pig_l['indivi_num'] ?></a>
                         <span class="<?= $flag ?>"><i class="fa-solid fa-flag"></i></span>
                         <br>(<?= $one_w_pig_l['add_day'] ?>)</td>
                 <?php endforeach; ?>

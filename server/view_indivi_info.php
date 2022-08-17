@@ -30,7 +30,7 @@ $pig_age = pig_age($pig_id);
 $rotate = view_rotate($pig_id);
 
 // 1個体すべての回転数を算出
-$rotate_list = get_rotate_l($pig_id);
+$rotate_list = get_rotate_l($born_info);
 
 // フラグ識別
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $title = '確認nemu';
+
 ?>
 
 <!DOCTYPE html>
@@ -49,9 +50,7 @@ $title = '確認nemu';
 
     <section class="born_info_content wrapper">
         <?php include_once __DIR__ . '/_indivi_info.php'; ?>
-            <!-- <a href="#" onclick="history.back(-1);return false;" class="manual_button2">戻&emsp;る</a> -->
-            <!-- <a href="javascript:history.back()" class="manual_button2">戻&emsp;る</a> -->
-            <a href="check_result.php" class="manual_button2">戻&emsp;る</a>
+            <a href="view.php" class="manual_button2">戻&emsp;る</a>
     </section>
 
     <?php include_once __DIR__ . '/_footer.php'; ?>

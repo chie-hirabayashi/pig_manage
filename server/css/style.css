@@ -230,9 +230,9 @@ p {
 .insert_button {
     background: var(--main-img-color0);
     padding: 13px 0;
-    width: 52%;
+    width: 55%;
     color: var(--back-color);
-    letter-spacing: 0.5rem;
+    letter-spacing: 0.6rem;
     text-indent: 0.5rem;
     border-radius: 30px;
     margin-bottom: 10%;

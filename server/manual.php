@@ -60,7 +60,7 @@ $title = '';
                 <li class="manual_list2"><?= MSG_VIEW_MENU ?></li>
                     <p class="manual_text">稼動中の個体番号が一覧表示されています。</p>
                     <ul class="manual_list3">
-                        <li>稼動中の個体番号と個体数が現状とあっているか定期的に確認して下さい。</li>
+                        <li>稼動中の個体番号と個体数が現状と一致しているか定期的に確認して下さい。</li>
                         <li>現状と一致しない場合は、<?= MSG_INSERT_MENU ?>、<?= MSG_GONE_MENU ?>をして下さい。</li>
                     </ul>
                     <form class="insert_form" action="" method="post">
@@ -68,7 +68,7 @@ $title = '';
                             <a href="view.php" class="manual_button2"><?= MSG_VIEW_MENU ?></a>
                         </div>
                     </form>
-                <li class="manual_list2"><?= MSG_VIEW_BORN_MENU ?></li>
+                <!-- <li class="manual_list2"><?= MSG_VIEW_BORN_MENU ?></li>
                     <p class="manual_text">特定の母豚の詳細情報を確認できます。個体ごとに過去の出産情報の詳細を確認できます。</p>
                     <ul class="manual_list3">
                         <li>個体番号は、稼動中の個体番号を入力して下さい。</li>
@@ -77,7 +77,7 @@ $title = '';
                         <div class="manual_button_area">
                             <a href="view_born_info.php" class="manual_button2"><?= MSG_VIEW_BORN_MENU ?></a>
                         </div>
-                    </form>
+                    </form> -->
                 <li class="manual_list2"><?= MSG_CHECK_MENU ?></li>
                     <p class="manual_text">不調な母豚を抽出できます。</p>
                     <ul class="manual_list3">

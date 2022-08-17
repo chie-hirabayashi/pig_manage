@@ -95,6 +95,7 @@ $title = '確認menu';
                 <?php $rotate = get_rotate($pig_id) ?>
                 <?php $born_num_l = get_born_num($pig_id) ?>
                 <?php $predict_rotate = get_predict_rotate($pig_id) ?>
+                <?php $flag_info = find_flag_info($pig_id) ?>
 
                 <?php if (!empty($change1) && in_array($extract_pig,$change1)): ?>
                 <?php $color1 = 'red' ?>
@@ -114,8 +115,14 @@ $title = '確認menu';
                 <?php $color3 = '#4D4D4D' ?>
                 <?php endif; ?>
 
+                <?php if ($flag_info == 1): ?>
+                <?php $flag =  'flag_on' ?>
+                <?php else: ?>
+                <?php $flag = 'flag_off' ?>
+                <?php endif; ?>
+
                 <tr>
-                    <td><?= h($extract_pig) ?></td>
+                    <td><?= h($extract_pig) ?><span class="<?= $flag ?>"><i class="fa-solid fa-flag"></i></span></td>
                     <td><?= h($age) ?>歳</td>
                     <td style="color: <?php echo $color1; ?>"><?= h($rotate) ?>回</td>
                     <td style="color: <?php echo $color2; ?>"><?= h($born_num_l[0]) ?>頭</td>

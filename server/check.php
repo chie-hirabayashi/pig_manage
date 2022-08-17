@@ -9,9 +9,8 @@ $born_num_condition = '';
 $pre_rptate_condition = '';
 $errors = [];
 
-// セッション設定
-session_start();
 
+// エラーが出ない状態
 // バリデーション
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rotate_condition = filter_input(INPUT_POST, 'rotate_condition');
@@ -20,13 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = check_validate($rotate_condition, $born_num_condition, $pre_rptate_condition);
 
 
+    // セッション設定
+    session_start();
     $_SESSION['rotate_condition'] = $rotate_condition;
     $_SESSION['born_num_condition'] = $born_num_condition;
     $_SESSION['pre_rptate_condition'] = $pre_rptate_condition;
 
-    header('Location: check_result.php');
-
-    // if (empty($errors)) {
+    if (empty($errors)) {
+        header('Location: check_result.php');
+    }
     //     // 稼動中の個体番号を取得
     //     $gone = 'WORKING';
     //     $working_pigs = find_working_pigs($gone);
