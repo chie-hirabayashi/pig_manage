@@ -1,15 +1,16 @@
 <header class="page_header wrapper">
     <!-- ホーム設定 -->
     <h1>
-        <a class="hippo_icon" href=""><i class="fa-solid fa-hippo"></i></a>
+        <a class="hippo_icon" href=""><span class="material-symbols-outlined">savings</span></a>
         <a class="logo" href="index.php">
             母豚管理システム
         </a>
-        <a class="hippo_icon" href=""><i class="fa-solid fa-hippo"></i></a>
+        <a class="hippo_icon" href=""><span class="material-symbols-outlined">landscape</span></a>
         <a class="logo" href="index.php">
             <?= $title?>
         </a>
-        <a class="hippo_icon" href=""><i class="fa-solid fa-hippo"></i></a>
+        <a class="hippo_icon" href=""><span class="material-symbols-outlined">landscape</span></a>
+        <!-- <a class="hippo_icon" href=""><i class="fa-solid fa-hippo"></i></a> -->
         
     </h1>
     <!-- フォントオーサムから読み込んだアイコン設定 -->

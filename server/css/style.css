@@ -20,6 +20,8 @@
 /*コンテンツ全体に対する指定*/
 body {
     font-family: 'M PLUS 1p', sans-serif;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    /* font-family: "Nico Moji"; */
     color: var(--body-img-color);
 }
 .wrapper {
@@ -37,6 +39,13 @@ body {
 .logo {
     text-decoration: none; /* アンダーバー取る */
     color: var(--back-color)
+}
+.material-symbols-outlined1 {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48
 }
 .hippo_icon {
     color: var(--main-icon-color);
@@ -503,3 +512,5 @@ td{
         padding: 10px;
     }
 }
+
+

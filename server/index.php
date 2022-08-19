@@ -14,6 +14,7 @@ $title = 'HOME';
 
     <section class="menu_content wrapper">
         <h1 class="insert_title">MENU</h1>
+        <span class="material-symbols-outlined">savings</span>
         
         <form class="insert_form" action="" method="post">
             <div class="menu_button_area">
