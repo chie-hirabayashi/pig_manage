@@ -26,7 +26,7 @@ $title = 'HOME';
                 <a href="check.php" class="menu_page_button2"><?= MSG_CHECK_MENU ?></a>
                 <a href="productivity.php" class="menu_page_button2"><?= MSG_PRODUCTIVITY_MENU ?></a>
                 <a href="manual.php" class="menu_page_button3"><?= MSG_MANUAL_MENU ?></a>
-                <a href="import.php" class="menu_page_button3"><?= MSG_INPORT_MENU ?></a>
+                <a href="import.php" class="menu_page_button3"><?= MSG_IMPORT_MENU ?></a>
             </div>
         </form>
 

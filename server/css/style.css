@@ -195,6 +195,14 @@ p {
     border-radius: 30px;
     text-decoration: none;
 }
+.manual_button3 {
+    text-align: center;
+    padding: 8px 25px;
+    background: var(--menu-color3);
+    color: var(--back-color);
+    border-radius: 30px;
+    text-decoration: none;
+}
 .menu_page_button1 {
     text-align: center;
     padding: 15px 100px;
@@ -323,11 +331,10 @@ table{
 th,
 td{
     padding: 10px 0;
-    width: 5px;
+    /* width: 5px; */
     text-align: center;
     border: 1px solid var(--body-img-color);
 }
-
 
 
 /* hタグclass */

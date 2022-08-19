@@ -30,7 +30,7 @@ $pig_age = pig_age($pig_id);
 $rotate = view_rotate($pig_id);
 
 // 1個体すべての回転数を算出
-$rotate_list = get_rotate_l($born_info);
+$rotate_list = get_rotate_l($pig_id);
 
 // フラグ識別
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

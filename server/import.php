@@ -49,7 +49,7 @@ $title = '確認menu';
     <?php include_once __DIR__ . '/_header.php'; ?>
 
     <section class="insert_content wrapper">
-        <h1 class="insert_title">インポート</h1>
+        <h1 class="insert_title"><?= MSG_IMPORT_MENU ?></h1>
 
         <?php if ($errors): ?>
             <ul class="errors">

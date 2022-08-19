@@ -87,8 +87,8 @@ function gone_validate($indivi_num, $left_day)
 
     return $errors;
 }
-
 // get_pig_id関数とセットで使う(get_pig_idのエラー回避)
+// gone_validate,view_validateで使用
 function check_pig_id($indivi_num)
 {
     $err = false;
@@ -117,7 +117,6 @@ function check_pig_id($indivi_num)
 
     return $err;
 }
-
 // check.phpのエラーバリデーション
 function check_validate($rotate_condition, $born_num_condition, $pre_rptate_condition)
 {
@@ -131,21 +130,8 @@ function check_validate($rotate_condition, $born_num_condition, $pre_rptate_cond
         $errors[] = MSG_CONDITION_REQUIRED;
     }
 
-    // if (empty($rotate_condition || $born_num_condition || $pre_rptate_condition)) {
-    //     $errors[] = MSG_CONDITION_REQUIRED;
-    // }
-
-    // if (empty($born_num_condition)) {
-    //     $errors[] = MSG_CONDITION_REQUIRED;
-    // }
-
-    // if (empty($pre_rptate_condition)) {
-    //     $errors[] = MSG_CONDITION_REQUIRED;
-    // }
-
     return $errors;
 }
-
 // productivity.phpのエラーバリデーション
 function period_validate($bp, $ep)
 {
@@ -165,8 +151,8 @@ function period_validate($bp, $ep)
 
     return $errors;
 }
-
-// 日付制限
+// 日付制限(現在<始期<終期)
+// period_validateで使用
 function check_period($bp,$ep)
 {
     $err = false;
@@ -180,8 +166,8 @@ function check_period($bp,$ep)
 
     return $err;
 }
-
-// 入力日が過去の日付か確認する関数
+// 日付制限(過去の日付か確認する関数)
+// insert_validate,gone_bvalidete,insert_born_valodateで使用
 function check_day($day)
 {
     $err = false;
@@ -195,9 +181,8 @@ function check_day($day)
     }
     return $err;
 }
-
-// 出産日がadd_dayの後の日付か確認する関数
-// 登録されていない個体番号が入ってくるとエラー:解消
+// 日付制限(出産日がadd_dayの後の日付か確認する関数)
+// gone_validate,insert_born_validateで使用
 function check_add_day($indivi_num,$born_day)
 {
     $err = false;
@@ -230,23 +215,6 @@ function check_add_day($indivi_num,$born_day)
 
     return $err;
 }
-
-// この関数を使い回す
-// 入力日が過去の日付か確認する関数
-function check_left_day($left_day)
-{
-    $err = false;
-    
-    $time = strtotime('now') - strtotime($left_day);
-
-    if ($time < 0) {
-        $err = true;
-    } else {
-        $err = false;
-    }
-    return $err;
-}
-
 // view_born_info.phpのエラーバリデーション
 function view_validate($indivi_num)
 {
@@ -263,8 +231,6 @@ function view_validate($indivi_num)
 
     return $errors;
 }
-
-
 // insert_born_info.phpのエラーバリデーション
 function insert_born_validate($indivi_num, $born_day, $born_num)
 {
@@ -294,9 +260,8 @@ function insert_born_validate($indivi_num, $born_day, $born_num)
 
     return $errors;
 }
-
-
 // indivi_numの重複確認(gone='WORKING'状態の同一番号はNG)
+// insert_validateで使用
 function check_duplication($indivi_num)
 {
     $err = false;
@@ -337,7 +302,7 @@ function check_duplication($indivi_num)
 }
 
 // ▼インサート関数
-// 新規母豚登録
+// 新規母豚登録 insert.phpで使用
 function insert_pig($indivi_num, $add_day)
 {
     $dbh = connect_db();
@@ -356,8 +321,7 @@ function insert_pig($indivi_num, $add_day)
 
     $stmt->execute();
 }
-
-// 出産情報登録
+// 出産情報登録 insert_born_infoで使用
 function insert_born_info($pig_id, $born_day, $born_num)
 {
     $dbh = connect_db();
@@ -379,7 +343,7 @@ function insert_born_info($pig_id, $born_day, $born_num)
 }
 
 // ▼更新関数
-// 廃用フラグ(gone==1にする関数)
+// 廃用フラグ(goneを変更する関数) gone.phpで使用
 function update_gone($id, $status)
 {
     $dbh = connect_db();
@@ -400,7 +364,7 @@ function update_gone($id, $status)
 
     $stmt->execute();
 }
-// 廃用日の登録
+// 廃用日の登録 gone.phpで使用
 function update_left_day($indivi_num, $left_day)
 {
     $dbh = connect_db();
@@ -421,7 +385,7 @@ function update_left_day($indivi_num, $left_day)
 
     $stmt->execute();
 }
-// 要観察フラグ
+// 要観察フラグ check_indivi_info.php,view_indivi_info.phpで使用
 function flag($id, $status)
 {
     $dbh = connect_db();
@@ -443,76 +407,8 @@ function flag($id, $status)
     $stmt->execute();
 }
 
-
 // ▼取得関数
-// 稼動中のすべての個体データを取得する
-function find_working_pigs($gone)
-{
-    $dbh = connect_db();
-
-    $sql = <<<EOM
-    SELECT 
-        * 
-    FROM 
-        individual_info
-    WHERE 
-        gone = :gone;
-    EOM;
-    
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':gone', $gone, PDO::PARAM_STR);
-    $stmt->execute();
-
-    // return $stmt->fetch(PDO::FETCH_ASSOC);
-    $working_pigs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $working_pigs;
-}
-// フラグの立った個体データを取得する
-function find_flag_pigs($status)
-{
-    $dbh = connect_db();
-
-    $sql = <<<EOM
-    SELECT 
-        * 
-    FROM 
-        individual_info
-    WHERE 
-        flag = :status;
-    EOM;
-    
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':status', $status, PDO::PARAM_STR);
-    $stmt->execute();
-
-    $flag_pigs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $flag_pigs;
-}
-
-// 出産情報を取得
-function find_born_info($pig_id)
-{
-    $dbh = Connect_db();
-
-    $sql = <<<EOM
-    SELECT 
-        * 
-    FROM 
-        born_info
-    WHERE 
-        pig_id = :pig_id
-    ORDER BY
-        born_day DESC;
-    EOM;
-
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':pig_id', $pig_id, PDO::PARAM_INT);
-    $stmt->execute();
-
-    $the_born_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $the_born_info;
-}
-// flagを取得
+// flag情報を取得 check_result.php,check_indivi_info.php,view_indivi_info.phpで使用
 function find_flag_info($id)
 {
     $dbh = Connect_db();
@@ -535,7 +431,7 @@ function find_flag_info($id)
 }
 
 // ▼抽出、詳細情報確認に必要な関数
-// indivi_numから年齢を取得する関数
+// indivi_numから年齢を取得する関数 check.php,chesk_result.phpで使用
 function get_age($indivi_num)
 {
     $dbh = Connect_db();
@@ -961,4 +857,70 @@ function check_gone($indivi_num)
         }
     }
     return $err;
+}
+// 稼動中のすべての個体データを取得する
+function find_working_pigs($gone)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        individual_info
+    WHERE 
+        gone = :gone;
+    EOM;
+    
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':gone', $gone, PDO::PARAM_STR);
+    $stmt->execute();
+
+    // return $stmt->fetch(PDO::FETCH_ASSOC);
+    $working_pigs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $working_pigs;
+}
+// フラグの立った個体データを取得する
+function find_flag_pigs($status)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        individual_info
+    WHERE 
+        flag = :status;
+    EOM;
+    
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':status', $status, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $flag_pigs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $flag_pigs;
+}
+// 出産情報を取得
+function find_born_info($pig_id)
+{
+    $dbh = Connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        born_info
+    WHERE 
+        pig_id = :pig_id
+    ORDER BY
+        born_day DESC;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':pig_id', $pig_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $the_born_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $the_born_info;
 }

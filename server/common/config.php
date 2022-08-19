@@ -46,4 +46,4 @@ define('MSG_VIEW_BORN_MENU','母豚の詳細情報の確認');
 define('MSG_CHECK_MENU','不調な母豚を抽出');
 define('MSG_PRODUCTIVITY_MENU','全体の生産性の確認');
 define('MSG_MANUAL_MENU','取扱説明');
-define('MSG_INPORT_MENU','データの取込み');
+define('MSG_IMPORT_MENU','データの取込み');

@@ -73,7 +73,7 @@ $title = '確認menu';
         <?php endif; ?>
 
         <form class="check_form" action="" method="post">
-            <h2 class="condition">▼ 確認する期間</h2>
+            <h2 class="condition">▼ 確認期間</h2>
             <div class="one_condition">
                 <label class="span_label" for="bp">始期 :</label>
                 <input class="span_input" type="date" name="bp" id="bp" placeholder="2020/4/1">
@@ -83,7 +83,7 @@ $title = '確認menu';
                 <input class="span_input" type="date" name="ep" id="ep" placeholder="2021/3/31" >
             </div>
             <div>
-                <p>確認期間は1年間を推奨します</p>
+                <p class="manual_text">※確認期間は1年間を推奨します</p>
             </div>
             <div class="button_area">
                 <input type="submit" value="確 認" class="product-button"><br>
@@ -92,7 +92,7 @@ $title = '確認menu';
 
         <?php if (empty($errors) && $_SERVER['REQUEST_METHOD'] === 'POST'): ?>
         <div>
-            <h2 class="condition">▼ <?= h($bp) ?> ~ <?= h($ep) ?>の生産性</h2>
+            <h2 class="condition">▼ <?= h($bp) ?> ~ <?= h($ep) ?>の成績</h2>
             <table class="worikin_pig">
                 <tr>
                     <th>合計産子数</th>

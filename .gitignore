@@ -8,3 +8,5 @@ test*.php
 test.css
 test.html
 sample.php
+*.js
+*.csv
