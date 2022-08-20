@@ -13,10 +13,10 @@ $title = 'HOME';
     <?php include_once __DIR__ . '/_header.php'; ?>
 
     <section class="menu_content wrapper">
-        <h1 class="insert_title">MENU</h1>
+        <h1 class="index_title">MENU</h1>
         <span class="material-symbols-outlined">savings</span>
         
-        <form class="insert_form" action="" method="post">
+        <form class="" action="" method="post">
             <div class="menu_button_area">
                 <a href="insert.php" class="menu_page_button1"><?= MSG_INSERT_MENU ?></a>
                 <a href="insert_born_info.php" class="menu_page_button1"><?= MSG_INSERT_BORN_MENU ?></a>

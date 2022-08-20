@@ -748,6 +748,7 @@ function check_file_ext($import_file)
     return $err;
 }
 
+// ▼未使用の関数
 // born_info全データ削除
 function delete_all_born_info()
 {
@@ -777,8 +778,6 @@ function delete_all_individual_info()
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
 }
-
-// ▼未使用の関数
 // すべての個体データを取得する
 function find_all_indivi_infos()
 {

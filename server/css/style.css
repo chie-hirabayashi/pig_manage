@@ -203,6 +203,16 @@ p {
     border-radius: 30px;
     text-decoration: none;
 }
+.edit_and_delete_page_button {
+    text-align: center;
+    padding: 10px 20px;
+    background: var(--btn-color);
+    color: var(--back-color);
+    border-radius: 30px;
+    text-decoration: none;
+    margin-bottom: 2%;
+    font-size: larger;
+}
 .menu_page_button1 {
     text-align: center;
     padding: 15px 100px;
@@ -235,10 +245,14 @@ p {
     display: grid;
     /* justify-content: space-between; */
 }
+.edit_and_delete_button_area {
+    margin-top: 20px;
+    display: grid;
+}
 .manual_button_area {
     margin-top: 20px;
     margin-bottom: 40px;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 .button_area {
     margin-top: 30px;
@@ -346,6 +360,7 @@ td{
 }
 /* ok */
 .insert_title,
+.index_title
 .view_title {
     padding-top: 25px;
     text-align: center;

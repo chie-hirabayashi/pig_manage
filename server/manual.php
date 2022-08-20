@@ -127,7 +127,7 @@ $title = '';
                     <p class="manual_text">各種登録において間違って登録した場合は、以下のページから登録内容の修正または削除ができます。</p>
                     <form class="insert_form" action="" method="post">
                         <div class="manual_button_area">
-                            <a href="index.php" class="manual_button3">登録ミスの対処法</a>
+                            <a href="edit_and_delete.php" class="manual_button3">登録ミスの対処法</a>
                         </div>
                     </form>
                 
