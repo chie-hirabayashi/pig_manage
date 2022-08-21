@@ -150,7 +150,27 @@ p {
     padding: 20px 50px;
     padding-bottom: 30px;
     box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
+    /* text-align: center; */
 }
+
+/* hタグclass */
+.manual_text{
+    font-size: medium;
+    margin-top: 1%;
+    color: #ba4141;
+}
+.insert_title,
+.index_title,
+.view_title {
+    padding-top: 25px;
+    text-align: center;
+}
+.manual_title {
+    padding-top: 25px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
 
 /* listタグclass*/
 .manual_list1{
@@ -165,17 +185,6 @@ p {
 .manual_list3{
     font-size: medium;
     margin: 1% 4%;
-}
-
-
-/* ok */
-.normal_input {
-    display: block;
-    width: 100%;
-    background-color: var(--back-color);
-    border-radius: 6px;
-    margin-bottom: 20px;
-    padding: 10px;
 }
 
 /* buttonタグclass */
@@ -321,11 +330,6 @@ p {
     margin: 2%;
 }
 
-/* ok */
-input::placeholder {
-    color: #999999;
-}
-
 
 /* tableタグclass */
 /* ok未使用 */
@@ -350,27 +354,6 @@ td{
     border: 1px solid var(--body-img-color);
 }
 
-
-/* hタグclass */
-/* ok */
-.manual_text{
-    font-size: medium;
-    margin-top: 1%;
-    color: #ba4141;
-}
-/* ok */
-.insert_title,
-.index_title
-.view_title {
-    padding-top: 25px;
-    text-align: center;
-}
-/* ok */
-.manual_title {
-    padding-top: 25px;
-    padding-bottom: 20px;
-    text-align: center;
-}
 
 /* view_born_info.php */
 .in_title {
@@ -464,7 +447,20 @@ td{
     padding: 10px;
     font-size: large;
 }
-/* あとで設定 */
+
+
+/* inputタグ */
+.normal_input {
+    display: block;
+    width: 100%;
+    background-color: var(--back-color);
+    border-radius: 6px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+input::placeholder {
+    color: #999999;
+}
 .condition_input {
     display: block;
     width: 25%;
@@ -473,7 +469,6 @@ td{
     margin-bottom: 10px;
     padding: 10px;
 }
-/* ok */
 .span_input {
     display: block;
     width: 30%;
@@ -481,6 +476,18 @@ td{
     border-radius: 6px;
     margin-bottom: 10px;
     padding: 10px;
+}
+.edit_and_delete_input {
+    /* display: block; */
+    width: 30%;
+    background-color: var(--back-color);
+    border-radius: 6px;
+    /* margin-bottom: 10px; */
+    margin: 10px;
+    padding: 10px;
+}
+.radio{
+    margin-right: 5%;
 }
 
 
