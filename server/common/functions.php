@@ -434,7 +434,7 @@ function find_flag_info($id)
 // indivi_numから年齢を取得する関数 check.php,chesk_result.phpで使用
 function get_age($indivi_num)
 {
-    $dbh = Connect_db();
+    $dbh = connect_db();
 
     $sql = <<<EOM
     SELECT 
@@ -622,6 +622,30 @@ function pig_age($pig_id)
     $pig_age = $pig_age->y;
     return $pig_age;
 }
+
+// ▼修正関数
+// edit_indivi_num.phpで使用
+function edit_indivi_num($id, $after_indivi_num)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    UPDATE
+        individual_info
+    SET
+        indivi_num = :after_indivi_num
+    WHERE
+        id = :id
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+
+    $stmt->bindValue(':id',$id, PDO::PARAM_INT);
+    $stmt->bindValue(':after_indivi_num',$after_indivi_num, PDO::PARAM_STR);
+
+    $stmt->execute();
+}
+
 
 // ▼エクセルデータのインポート
 function import_db_individual_info($import_file)

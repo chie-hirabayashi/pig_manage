@@ -36,6 +36,7 @@ define('MSG_NOT_ABLE_EXT', '選択したファイルの拡張子が有効では�
 
 // サクセスメッセージを定義
 define('MSG_INSERT_SUCCESS','の登録が完了しました');
+define('MSG_EDIT_SUCCESS','に修正が完了しました');
 
 // メニューを定義
 define('MSG_INSERT_MENU','母豚の新規登録');
