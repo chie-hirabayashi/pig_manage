@@ -57,6 +57,22 @@ function insert_validate($indivi_num, $add_day)
 
     return $errors;
 }
+// edit_and_delete.phpのエラーバリデーション
+function edit_and_delete_validate($indivi_num)
+{
+    $errors = [];
+
+    if (empty($indivi_num)) {
+        $errors[] = MSG_INDIVI_REQUIRED;
+    }
+
+    if (empty($errors) &&
+        check_pig_id($indivi_num)) {
+        $errors[] = MSG_ID_JUDGEMENT;
+    }
+
+    return $errors;
+}
 // gone.phpのエラーバリデーション
 function gone_validate($indivi_num, $left_day)
 {
@@ -87,7 +103,7 @@ function gone_validate($indivi_num, $left_day)
 
     return $errors;
 }
-// get_pig_id関数とセットで使う(get_pig_idのエラー回避)
+// get_pig_id関数とセットで使う(get_pig_idのエラー回避:$indivi_numが稼動中か確認)
 // gone_validate,view_validateで使用
 function check_pig_id($indivi_num)
 {

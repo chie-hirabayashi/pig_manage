@@ -161,11 +161,11 @@ p {
 }
 .insert_title,
 .index_title,
+.edit_title,
 .view_title {
     padding-top: 25px;
     text-align: center;
 }
-.edit_title,
 .manual_title {
     padding-top: 25px;
     padding-bottom: 20px;
@@ -404,6 +404,12 @@ td{
     margin: 20px 0;
 }
 
+/* edit.php */
+.item{
+    font-size: larger;
+    margin: 10px;
+    margin-top: 50px;
+}
 /* check.php */
 /* ok */
 .condition{
