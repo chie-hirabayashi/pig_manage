@@ -11,6 +11,7 @@ $indivi_num = '';
 // $indivi_num = $_GET['indivi_num']; 
 $indivi_num = filter_input(INPUT_GET, 'indivi_num');
 
+var_dump($indivi_num);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $before_indivi_num = filter_input(INPUT_POST, 'before_indivi_num');
     $after_indivi_num = filter_input(INPUT_POST, 'after_indivi_num');

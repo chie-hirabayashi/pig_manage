@@ -213,6 +213,14 @@ p {
     border-radius: 30px;
     text-decoration: none;
 }
+.manual_button4 {
+    text-align: center;
+    padding: 8px 25px;
+    background: var(--btn-color);
+    color: var(--back-color);
+    border-radius: 30px;
+    text-decoration: none;
+}
 .edit_and_delete_page_button {
     text-align: center;
     padding: 10px 20px;

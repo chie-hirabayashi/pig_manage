@@ -103,8 +103,8 @@ $title = '';
                             <a href="productivity.php" class="manual_button2"><?= MSG_PRODUCTIVITY_MENU ?></a>
                         </div>
                     </form>
-                <li class="manual_list2"><?= MSG_IMPORT_MENU ?></li>
-                    <p class="manual_text">初期データとしてエクセルデータを取り込むことができます。</p>
+                <li class="manual_list2">初期データの取込み</li>
+                    <p class="manual_text">初期データをエクセル形式で取り込むことができます。</p>
                     <ul class="manual_list3">
                         <li>説明</li>
                     </ul>
@@ -113,21 +113,21 @@ $title = '';
                             <a href="import.php" class="manual_button3"><?= MSG_IMPORT_MENU ?></a>
                         </div>
                     </form>
-                <li class="manual_list2">エクスポート</li>
-                    <p class="manual_text">登録情報をエクセルデータで出力できます。</p>
+                <li class="manual_list2">帳簿の出力</li>
+                    <p class="manual_text">帳簿をエクセル形式で出力できます。</p>
                     <ul class="manual_list3">
                         <li>説明</li>
                     </ul>
                     <form class="insert_form" action="" method="post">
                         <div class="manual_button_area">
-                            <a href="index.php" class="manual_button3">エクスポート</a>
+                            <a href="index.php" class="manual_button3"><?= MSG_EXPORT_MENU ?></a>
                         </div>
                     </form>
                 <li class="manual_list2">登録ミスをしたときは</li>
-                    <p class="manual_text">各種登録において間違って登録した場合は、以下のページから登録内容の修正または削除ができます。</p>
+                    <p class="manual_text">各種登録において間違って登録した場合は、以下のページから修正または削除ができます。</p>
                     <form class="insert_form" action="" method="post">
                         <div class="manual_button_area">
-                            <a href="edit_and_delete.php" class="manual_button3">登録ミスの対処法</a>
+                            <a href="edit_and_delete.php" class="manual_button4"><?= MSG_MISS_MENU ?></a>
                         </div>
                     </form>
                 

@@ -1,5 +1,5 @@
 <?php
-// 接続に必要な情報を定数として定義
+// 接続に必要な情報を定義
 define('DSN', 'mysql:host=db;dbname=pig_db;charset=utf8');
 define('USER', 'pig_admin');
 define('PASSWORD', '0000');
@@ -31,6 +31,7 @@ define('MSG_LEFT_REQUIRED','廃用日を正しく入力して下さい(出産日
 define('MSG_ADD_DAY_REQUIRED','導入日を正しく入力して下さい(導入日<=現在)');
 define('MSG_BORN_D_REQUIRED','出産日を正しく入力して下さい(導入日<出産日<=現在)');
 define('MSG_ID_JUDGEMENT','稼動中の個体番号を入力して下さい');
+define('MSG_GONE_COLLATION','入力した個体番号または廃用日が一致する個体が見つかりませんでした');
 define('MSG_NO_FILE','エクセルデータを選択して下さい');
 define('MSG_NOT_ABLE_EXT', '選択したファイルの拡張子が有効ではありません');
 
@@ -47,4 +48,6 @@ define('MSG_VIEW_BORN_MENU','母豚の詳細情報の確認');
 define('MSG_CHECK_MENU','不調な母豚を抽出');
 define('MSG_PRODUCTIVITY_MENU','全体の生産性の確認');
 define('MSG_MANUAL_MENU','取扱説明');
-define('MSG_IMPORT_MENU','データの取込み');
+define('MSG_IMPORT_MENU','インポート');
+define('MSG_EXPORT_MENU','エクスポート');
+define('MSG_MISS_MENU','登録ミスの対処');

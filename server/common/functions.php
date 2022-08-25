@@ -42,7 +42,7 @@ function insert_validate($indivi_num, $add_day)
     }
 
     if (empty($add_day)) {
-        $errors[] = MSG_ADD_REQUIRED;
+        $errors[] = MSG_GONE_REQUIRED;
     }
 
     if (empty($errors) &&
@@ -69,6 +69,26 @@ function edit_and_delete_validate($indivi_num)
     if (empty($errors) &&
         check_pig_id($indivi_num)) {
         $errors[] = MSG_ID_JUDGEMENT;
+    }
+
+    return $errors;
+}
+// edit_and_delete.phpのエラーバリデーション
+function cancel_validate($indivi_num,$left_day)
+{
+    $errors = [];
+
+    if (empty($indivi_num)) {
+        $errors[] = MSG_INDIVI_REQUIRED;
+    }
+
+    if (empty($left_day)) {
+        $errors[] = MSG_GONE_REQUIRED;
+    }
+
+    if (empty($errors) &&
+        gone_collation($indivi_num,$left_day)) {//廃用済みの個体と照合
+        $errors[] = MSG_GONE_COLLATION;
     }
 
     return $errors;
@@ -104,12 +124,12 @@ function gone_validate($indivi_num, $left_day)
     return $errors;
 }
 // get_pig_id関数とセットで使う(get_pig_idのエラー回避:$indivi_numが稼動中か確認)
-// gone_validate,view_validateで使用
+// gone_validate,view_validate,edit_and_deleteで使用
 function check_pig_id($indivi_num)
 {
     $err = false;
     
-    $dbh = Connect_db();
+    $dbh = connect_db();
 
     $sql = <<<EOM
     SELECT 
@@ -203,7 +223,7 @@ function check_add_day($indivi_num,$born_day)
 {
     $err = false;
 
-    $dbh = Connect_db();
+    $dbh = connect_db();
 
     $sql = <<<EOM
     SELECT 
@@ -315,6 +335,48 @@ function check_duplication($indivi_num)
         }
     return $err;
     }
+}
+// 廃用個体の照合
+function gone_collation($indivi_num,$left_day)
+{
+    $err = false;
+    
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    SELECT
+        *
+    FROM
+        individual_info
+    WHERE
+        indivi_num = :indivi_num
+    AND
+        gone = 1;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue('indivi_num', $indivi_num, PDO::PARAM_STR);
+
+    $stmt->execute();
+
+    $collation_pigs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!empty($collation_pigs)) {
+        $collation_list = [];
+        foreach ($collation_pigs as $collation_pig) {
+            if ($collation_pig['left_day'] == $left_day) {
+                $collation_list[] = 1;
+            }
+        }
+        if (in_array(1,$collation_list)) {
+            $err = false; //入力した個体がいる
+        } else {
+            $err = true; //入力した個体番号はあるが廃用日が一致しない
+        }
+    } else {
+        $err = true; //入力した個体がいない
+    }
+    return $err;
 }
 
 // ▼インサート関数
