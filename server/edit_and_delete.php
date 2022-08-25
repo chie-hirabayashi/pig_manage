@@ -7,7 +7,7 @@ $check_num = '';
 $choose = '';
 $cancel_num = '';
 $cancel_day = '';
-$errors = [];
+$errors1 = [];
 $errors2 = [];
 $errors3 = [];
 
@@ -18,16 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cancel_num = filter_input(INPUT_POST, 'cancel_num');
     $cancel_day = filter_input(INPUT_POST, 'cancel_day');
 
-    var_dump($indivi_num);
+    if (isset($_POST['indivi_num_eandd'])) {
 
-    if (isset($_POST['indivi_num'])) {
+        $errors1 = edit_and_delete_validate($indivi_num);
 
-        // $errors = edit_and_delete_validate($indivi_num);
-
-        if (empty($errors)) {
+        if (empty($errors1)) {
             if ($choose === 'edit') {
-                // header('Location: edit_indivi_num.php?indivi_num='.$indivi_num);
-                echo $indivi_num;
+                header('Location: edit_indivi_num.php?indivi_num='.$indivi_num);
                 exit;
             }
             if ($choose === 'delete') {
@@ -37,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if (isset($_POST['born_info'])) {
+    if (isset($_POST['born_info_eandd'])) {
         $errors2 = edit_and_delete_validate($check_num);
     }
 
@@ -119,15 +116,15 @@ $title = '';
                         <label for="">削除
                             <input class="radio" type="radio" name="edit_or_delete" value="delete">
                         </label>
-                        <input type="submit" name="indivi_num" value="選択" class="flag-btn">
+                        <input type="submit" name="indivi_num_eandd" value="選択" class="flag-btn">
                     </div>
                 </form>
 
-                <?php if ($errors): ?>
+                <?php if ($errors1): ?>
                     <ul class="errors">
-                        <?php foreach ($errors as $error): ?>
+                        <?php foreach ($errors1 as $error1): ?>
                             <li>
-                                <?= h($error) ?>
+                                <?= h($error1) ?>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -138,7 +135,7 @@ $title = '';
                 <form class="" action="" method="POST">
                     <div class="">
                         <input class="edit_and_delete_input" type="text" name="check_num" value="" placeholder="99-99">
-                        <input type="submit" name="born_info" value="選択" class="flag-btn">
+                        <input type="submit" name="born_info_eandd" value="選択" class="flag-btn">
                     </div>
                 </form>
 

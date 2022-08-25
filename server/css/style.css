@@ -103,11 +103,6 @@ body {
     text-align: center;
 }
 
-/* これは必要か？？
-p {
-    font-size: large;
-} */
-
 /* sectionタグclass */
 .manual_content,
 .view_content {
@@ -339,6 +334,26 @@ p {
     margin: 2%;
 }
 
+.before_area {
+    margin-top: 30px;
+    display: flex;
+    /* justify-content: space-between; */
+}
+.before_label {
+    margin: 10px 0;
+    padding: 10px 0;
+    margin-right: 3px;
+    border-radius: 6px;
+}
+.before_indivi_num {
+    margin: 10px;
+    padding: 10px;
+    background-color: var(--back-color);
+    border-radius: 6px;
+    width: 150px;
+    /* display: flex; */
+    /* justify-content: space-between; */
+}
 
 /* tableタグclass */
 /* ok未使用 */

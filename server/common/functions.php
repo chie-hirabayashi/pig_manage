@@ -57,6 +57,27 @@ function insert_validate($indivi_num, $add_day)
 
     return $errors;
 }
+// edit_indivi_num.phpのエラーバリデーション
+function edit_validate($after_indivi_num,$before_indivi_num)
+{
+    $errors = [];
+
+    if (empty($after_indivi_num) || empty($before_indivi_num)) {
+        $errors[] = MSG_INDIVI_REQUIRED;
+    }
+
+    if (empty($errors) &&
+        check_pig_id($before_indivi_num)) {
+        $errors[] = MSG_ID_JUDGEMENT . '(修正前の個体番号)';
+    }
+
+    if (empty($errors) &&
+        check_duplication($after_indivi_num)) {
+        $errors[] = MSG_INDIVI_DUPLICATE . '(修正後の個体番号)';
+    }
+
+    return $errors;
+}
 // edit_and_delete.phpのエラーバリデーション
 function edit_and_delete_validate($indivi_num)
 {
