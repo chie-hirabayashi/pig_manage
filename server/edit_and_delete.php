@@ -28,8 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
             if ($choose === 'delete') {
-                $pig_id = get_pig_id($indivi_num);
-                // delete_indivi_num($pig_id);
+            // バリデーション(出産情報がある場合、削除できない通知)
+                $warning = MSG_DELETE_WARNING;
             }
         }
     }
@@ -48,22 +48,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // エラーバリデーション
 // 稼動中の個体を入力してください
 // 削除する個体の出産情報をすべて削除してから
-function delete_indivi_num($id)
-{
-    $dbh = connect_db();
+// function delete_indivi_num($id)
+// {
+//     $dbh = connect_db();
 
-    $sql = <<<EOM
-    DELETE
-        FROM
-            individual_info
-        WHERE
-            id = :id;
-    EOM;
+//     $sql = <<<EOM
+//     DELETE
+//         FROM
+//             individual_info
+//         WHERE
+//             id = :id;
+//     EOM;
 
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-    $stmt->execute();
-}
+//     $stmt = $dbh->prepare($sql);
+//     $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+//     $stmt->execute();
+// }
 // すべての出産情報を削除する関数
 function delete_born_info($pig_id)
 {
@@ -130,8 +130,18 @@ $title = '';
                     </ul>
                 <?php endif; ?>
 
+                <?php if (isset($_POST['indivi_num_eandd']) && !empty($warning)): ?>
+                    <form action="" class="warning-form">
+                        <text class=""><?= $indivi_num . MSG_DELETE_WARNING ?></text>
+                        <div class="YandN_area">
+                            <a href="delete_indivi_num.php?indivi_num=<?= $indivi_num ?>" class="yes-btn">はい</a>
+                            <a href="" class="yes-btn">いいえ</a>
+                        </div>
+                    </form>
+                <?php endif; ?>
+
             <h2 class="item">▼出産情報の修正または削除</h2>
-                <p>個体番号を入力し、出産情報から修正または削除する出産情報を選択して下さい</p>
+                <p>個体番号を入力し、修正または削除する出産情報を選択して下さい</p>
                 <form class="" action="" method="POST">
                     <div class="">
                         <input class="edit_and_delete_input" type="text" name="check_num" value="" placeholder="99-99">

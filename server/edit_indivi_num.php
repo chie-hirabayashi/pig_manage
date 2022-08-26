@@ -1,12 +1,12 @@
 <?php  
 include_once __DIR__ . '/common/functions.php';
 
+// 初期化
 $id = 0;
 $before_indivi_num = '';
 $after_indivi_num = '';
 $indivi_num = '';
 $errors = [];
-
 
 //この書き方もあるけどnoticeがでないようにfilter_input
 // $indivi_num = $_GET['indivi_num']; 
@@ -16,22 +16,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $before_indivi_num = filter_input(INPUT_POST, 'before_indivi_num');
     $after_indivi_num = filter_input(INPUT_POST, 'after_indivi_num');
     $errors = edit_validate($after_indivi_num,$before_indivi_num);
-    // $errors = edit_and_delete_validate($before_indivi_num);
-
 
     if (empty($errors)) {
         $pig_id = get_pig_id($before_indivi_num);
         edit_indivi_num($pig_id, $after_indivi_num);
     }
 
-
-    // header('Location: index.php');
     $msg = MSG_EDIT_SUCCESS;
     $indivi_num = '';
 }
 
 
-$title = '個体番号の修正'
+$title = ''
 ?>
 
 <!DOCTYPE html>
@@ -56,20 +52,17 @@ $title = '個体番号の修正'
             <?php endif; ?>
 
             <form class="" action="" method="POST">
-                <!-- <div class="before_area">
-                <label class="before_label">修正前の個体番号</label>
-                <text class="before_indivi_num"><= h($indivi_num) ?></text>
-                </div> -->
                 <label for="">修正前の個体番号</label>
                 <input class="edit_and_delete_input" type="text" name="before_indivi_num" value=<?= h($indivi_num) ?>><br>
                 <label for="">修正後の個体番号</label>
                 <input class="edit_and_delete_input" type="text" name="after_indivi_num" value=""><br>
-                <input type="submit" value="修正" class="flag-btn">
+                <input type="submit" value="修　正" class="eandd_button">
+                <a href="edit_and_delete.php" class="manual_button4">戻&emsp;る</a>
             </form>
             
             <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($errors)): ?>
                 <ul class="success">
-                    <li><?= h($before_indivi_num) . 'から' . h($after_indivi_num) . $msg ?></li>
+                    <li><?= '個体番号' . $msg . ' (' . h($before_indivi_num) . ' → ' . h($after_indivi_num) . ')'?></li>
                 </ul>
             <?php endif; ?>
     </section>

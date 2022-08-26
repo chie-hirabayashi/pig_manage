@@ -51,7 +51,7 @@ $title = '確認nemu';
         <?php include_once __DIR__ . '/_indivi_info.php'; ?>
             <!-- <a href="#" onclick="history.back(-1);return false;" class="manual_button2">戻&emsp;る</a> -->
             <!-- <a href="javascript:history.back()" class="manual_button2">戻&emsp;る</a> -->
-            <a href="check_result.php" class="manual_button2">戻&emsp;る</a>
+            <a href="check_result.php" class="manual_button4">戻&emsp;る</a>
     </section>
 
     <?php include_once __DIR__ . '/_footer.php'; ?>

@@ -745,6 +745,25 @@ function edit_indivi_num($id, $after_indivi_num)
     $stmt->execute();
 }
 
+// ▼削除関数
+// 個体番号を削除する関数
+function delete_indivi_num($id)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    DELETE
+        FROM
+            individual_info
+        WHERE
+            id = :id;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
 
 // ▼エクセルデータのインポート
 function import_db_individual_info($import_file)
