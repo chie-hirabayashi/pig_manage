@@ -15,6 +15,8 @@
     --back-color: #FFFFFF;
     --warning-color: #ba4141;
     --success-color: #4fa218;
+    --edit-color:  #4161ba;
+    --emphasis-color: #8a2020;
 }
 
 /*コンテンツ全体に対する指定*/
@@ -55,15 +57,13 @@ body {
     color: var(--main-icon-color);
     font-size: 30px;
 }
-.flag_on {
-    color: var(--warning-color);
-    font-size: 20px;
-    padding: 0 5%;
+.pencil-icon {
+    color: var(--edit-color);
+    font-size: large;
 }
-.flag_off {
-    color: var(--main-img-color3);
-    font-size: 20px;
-    padding: 0 5%;
+.trash-icon {
+    color: var(--warning-color);
+    font-size: large;
 }
 .flag{
     display: flex;
@@ -108,7 +108,26 @@ body {
     color: var(--warning-color);
 }
 
-/* sectionタグclass */
+
+/* spanタグ */
+.flag_on {
+    color: var(--warning-color);
+    font-size: 20px;
+    padding: 0 5%;
+}
+.flag_off {
+    color: var(--main-img-color3);
+    font-size: 20px;
+    padding: 0 5%;
+}
+.empha {
+    color:#8a2020;
+    font-size: 20px;
+    /* border-bottom: solid 1px #8a2020; */
+    /* text-decoration: underline; */
+}
+
+/* sectionタグ */
 .manual_content,
 .view_content {
     background-color: var(--main-img-color2);
@@ -186,6 +205,11 @@ body {
 .manual_list3{
     font-size: medium;
     margin: 1% 4%;
+}
+.list_label{
+    font-size: large;
+    margin-top: 5%;
+    text-align: center;
 }
 
 /* buttonタグclass */
@@ -361,9 +385,7 @@ body {
 
 .YandN_area {
     margin-top: 10px;
-    /* display: flex; */
     text-align: center;
-    /* justify-content: space-between; */
 }
 .before_label {
     margin: 10px 0;

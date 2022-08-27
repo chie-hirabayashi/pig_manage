@@ -38,7 +38,7 @@ define('MSG_NOT_ABLE_EXT', '選択したファイルの拡張子が有効では�
 // 成功メッセージを定義
 define('MSG_INSERT_SUCCESS','の登録が完了しました');
 define('MSG_EDIT_SUCCESS','を修正しました');
-define('MSG_DELETE_SUCCESS','の登録を取消しました');
+define('MSG_DELETE_SUCCESS','を削除しました');
 
 // 警告メッセージを定義
 define('MSG_DELETE_WARNING','を削除します。よろしいですか？');

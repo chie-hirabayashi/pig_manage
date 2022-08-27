@@ -399,6 +399,26 @@ function gone_collation($indivi_num,$left_day)
     }
     return $err;
 }
+// 出産情報が登録されているか確認する関数
+function collation_born_info($indivi_num)
+{
+    $err = false;
+
+    $pig_id = get_pig_id($indivi_num);
+    $all_born_infos = find_all_born_infos();
+    $all_born_ids = [];
+
+    foreach ($all_born_infos as $all_born_info) {
+        $all_born_ids[] = $all_born_info['pig_id'];
+    }
+    $born_ids_unq = array_unique($all_born_ids);
+    $collation_born_info = in_array($pig_id,$born_ids_unq);
+
+    if ($collation_born_info === true) {
+        $err = true;
+    }
+    return $err;
+}
 
 // ▼インサート関数
 // 新規母豚登録 insert.phpで使用
@@ -721,6 +741,69 @@ function pig_age($pig_id)
     $pig_age = $pig_age->y;
     return $pig_age;
 }
+// すべての出産データを取得する
+function find_all_born_infos()
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        born_info
+    ORDER BY
+        born_day DESC;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+// pig_idから出産情報を取得
+function find_born_info($pig_id)
+{
+    $dbh = Connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        born_info
+    WHERE 
+        pig_id = :pig_id
+    ORDER BY
+        born_day DESC;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':pig_id', $pig_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $the_born_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $the_born_info;
+}
+// born_infoのidから出産情報を取得
+function get_born_info($id)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    SELECT
+        *
+    FROM
+        born_info
+    WHERE
+        id = :id;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $born_info = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $born_info;
+}
 
 // ▼修正関数
 // edit_indivi_num.phpで使用
@@ -747,6 +830,7 @@ function edit_indivi_num($id, $after_indivi_num)
 
 // ▼削除関数
 // 個体番号を削除する関数
+// delete_indivi_numで使用
 function delete_indivi_num($id)
 {
     $dbh = connect_db();
@@ -763,7 +847,24 @@ function delete_indivi_num($id)
     $stmt->bindValue(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
 }
+// 出産情報を削除する関数
+// delete_born_infoで使用
+function delete_born_info($id)
+{
+    $dbh = connect_db();
 
+    $sql = <<<EOM
+    DELETE
+        FROM
+    born_info
+        WHERE
+    id = :id;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+}
 
 // ▼エクセルデータのインポート
 function import_db_individual_info($import_file)
@@ -932,26 +1033,6 @@ function find_all_indivi_infos()
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// すべての出産データを取得する
-function find_all_born_infos()
-{
-    $dbh = connect_db();
-
-    $sql = <<<EOM
-    SELECT 
-        * 
-    FROM 
-        born_info
-    ORDER BY
-        born_day DESC;
-    EOM;
-
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute();
-
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
 // 年齢取得
 function age($add_day)
 {
@@ -1041,27 +1122,4 @@ function find_flag_pigs($status)
 
     $flag_pigs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $flag_pigs;
-}
-// 出産情報を取得
-function find_born_info($pig_id)
-{
-    $dbh = Connect_db();
-
-    $sql = <<<EOM
-    SELECT 
-        * 
-    FROM 
-        born_info
-    WHERE 
-        pig_id = :pig_id
-    ORDER BY
-        born_day DESC;
-    EOM;
-
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':pig_id', $pig_id, PDO::PARAM_INT);
-    $stmt->execute();
-
-    $the_born_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $the_born_info;
 }
