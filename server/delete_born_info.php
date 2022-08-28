@@ -60,7 +60,7 @@ $title = ''
 
         <?php if (isset($_GET['execution'])): ?>
             <ul class="success">
-                <li><?= $delete_num ?>の出産情報を<?= MSG_DELETE_SUCCESS ?></li>
+                <li><?= $delete_num ?>の出産情報を<?= $msg ?></li>
             </ul>
             <a href="edit_and_delete.php" class="manual_button4">戻&emsp;る</a>
         <?php endif; ?>

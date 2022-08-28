@@ -806,6 +806,7 @@ function get_born_info($id)
 }
 
 // ▼修正関数
+// 個体番号を修正する関数
 // edit_indivi_num.phpで使用
 function edit_indivi_num($id, $after_indivi_num)
 {
@@ -824,6 +825,30 @@ function edit_indivi_num($id, $after_indivi_num)
 
     $stmt->bindValue(':id',$id, PDO::PARAM_INT);
     $stmt->bindValue(':after_indivi_num',$after_indivi_num, PDO::PARAM_STR);
+
+    $stmt->execute();
+}
+// 出産情報を修正する関数
+// edit_born_info.phpで使用
+function edit_born_info($id, $born_day, $born_num)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    UPDATE
+        born_info
+    SET
+        born_day = :born_day,
+        born_num = :born_num
+    WHERE
+        id = :id
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+
+    $stmt->bindValue(':id',$id, PDO::PARAM_INT);
+    $stmt->bindValue(':born_day',$born_day, PDO::PARAM_STR);
+    $stmt->bindValue(':born_num',$born_num, PDO::PARAM_INT);
 
     $stmt->execute();
 }

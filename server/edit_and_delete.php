@@ -189,7 +189,7 @@ $title = '';
                             <tr>
                                 <td><?= $born_info['born_day'] ?></td>
                                 <td><?= $born_info['born_num'] ?></td>
-                                <td><a href="" class="pencil-icon"><i class="fa-solid fa-pencil"></i></a></td>
+                                <td><a href="edit_born_info.php?id=<?= $born_info['id'] ?>&check_num=<?= $check_num ?>" class="pencil-icon"><i class="fa-solid fa-pencil"></i></a></td>
                                 <td><a href="delete_born_info.php?id=<?= $born_info['id'] ?>&check_num=<?= $check_num ?>" class="trash-icon"><i class="fa-solid fa-trash-can"></i></a></td>
                             </tr>
                                 <?php endforeach; ?>
