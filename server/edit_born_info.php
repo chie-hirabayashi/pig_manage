@@ -58,17 +58,17 @@ $title = ''
                     <td><?= $born_info['born_day'] ?></td>
                     <td><?= $born_info['born_num'] ?></td>
                 </tr>
+            <form action="" method="">
                 <tr>
                     <td>修正後</td>
                     <td style="width: 25%;"><?= $check_num ?></td>
-                <form action="" method="">
-                    <td style="width: 25%;"><input type="text" class="table_input" name="new_born_day"></td>
-                    <td style="width: 25%;"><input type="text" class="table_input" name="new_born_num"></td>
+                    <td style="width: 25%;"><input type="date" class="table_input" name="new_born_day"></td>
+                    <td style="width: 25%;"><input type="number" min="1" max="20" class="table_input" name="new_born_num"></td>
                 </tr>
             </table>
-                    <input type="hidden" name="id" value="<?= $id ?>">
-                    <input type="submit" value="修&emsp;正" class="eandd_button">
-                </form>
+                <input type="hidden" name="id" value="<?= $id ?>">
+                <input type="submit" value="修&emsp;正" class="eandd_button">
+            </form>
         <?php endif; ?>
 
         <!-- <php if (isset($_GET['new_born_day']) && isset($_GET['new_born_num'])): ?> -->

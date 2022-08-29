@@ -19,12 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $status = GONE;
         $id = get_pig_id($indivi_num);
         update_gone($id, $status);
-        update_left_day($indivi_num, $left_day);
+        update_left_day($id, $left_day);
     }
     $msg = MSG_INSERT_SUCCESS;
 }
-
-
 
 $title = '登録menu';
 ?>

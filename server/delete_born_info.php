@@ -58,7 +58,8 @@ $title = ''
             </table>
         <?php endif; ?>
 
-        <?php if (isset($_GET['execution'])): ?>
+        <!-- <php if (isset($_GET['execution'])): ?> -->
+        <?php if (!empty($msg)): ?>
             <ul class="success">
                 <li><?= $delete_num ?>の出産情報を<?= $msg ?></li>
             </ul>

@@ -18,23 +18,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = insert_born_validate($indivi_num, $born_day, $born_num);
 
     if (empty($errors)) {
-        // 稼動中の個体データ取得
-        $working_pigs = find_working_pigs('WORKING');
-        // 稼動中の個体データからpig_id取得
-        foreach ($working_pigs as $working_pig) {
-            if ($working_pig['indivi_num'] == $indivi_num) {
-                $pig_id = $working_pig['id'];
-            } 
-        }
-        if (!empty($pig_id)) {
-            // 出産情報登録
-            insert_born_info($pig_id, $born_day, $born_num);
-        } else {
-            $errors[] = MSG_DONT_WORKING;
-            $errors[] = MSG_INFO;
-        }
+        $pig_id = get_pig_id($indivi_num);
+        insert_born_info($pig_id, $born_day, $born_num);
+        $msg = MSG_INSERT_SUCCESS;
     }
-    $msg = MSG_INSERT_SUCCESS;
+    // if (empty($errors)) {
+    //     // 稼動中の個体データ取得
+    //     $working_pigs = find_working_pigs('WORKING');
+    //     // 稼動中の個体データからpig_id取得
+    //     foreach ($working_pigs as $working_pig) {
+    //         if ($working_pig['indivi_num'] == $indivi_num) {
+    //             $pig_id = $working_pig['id'];
+    //         } 
+    //     }
+    //     if (!empty($pig_id)) {
+    //         // 出産情報登録
+    //         insert_born_info($pig_id, $born_day, $born_num);
+    //     } else {
+    //         $errors[] = MSG_DONT_WORKING;
+    //         $errors[] = MSG_INFO;
+    //     }
+    // }
+    // $msg = MSG_INSERT_SUCCESS;
 }
 
 $title = '登録menu';
@@ -65,7 +70,7 @@ $title = '登録menu';
             <label class="born_day_label" for="born_day">出産日</label>
             <input class="normal_input" type="date" name="born_day" id="born_day" placeholder="1999/9/9" >
             <label class="born_num_label" for="born_num">出産頭数</label>
-            <input class="normal_input" type="text" name="born_num" id="born_num" placeholder="9" >
+            <input class="normal_input" type="number" min="1" max="20" name="born_num" id="born_num" placeholder="9" >
             <div class="button_area">
                 <input type="submit" value="出産情報登録" class="insert_button"><br>
                 <a href="view.php" class="view_page_button"><?= MSG_VIEW_MENU ?>はこちら</a>
