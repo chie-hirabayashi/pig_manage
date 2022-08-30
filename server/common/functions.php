@@ -649,7 +649,7 @@ function get_rotate($pig_id)
 // 実績回転数を算出する関数(抽出用)
 function view_rotate($pig_id)
 {
-    $born_info = find_born_info($pig_id);
+    $born_info = get_born_infos_DESC($pig_id);
     // 回転数算出(直近の回転数を算出)
     $count_info_num = count($born_info);
     if ($count_info_num == 0) {
@@ -785,6 +785,51 @@ function find_all_born_infos()
 }
 // pig_idから出産情報を取得
 function find_born_info($pig_id)
+{
+    $dbh = Connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        born_info
+    WHERE 
+        pig_id = :pig_id
+    ORDER BY
+        born_day ASC;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':pig_id', $pig_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $the_born_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $the_born_info;
+}
+// pig_idから出産情報を取得
+function get_born_infos_ASC($pig_id)
+{
+    $dbh = Connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        born_info
+    WHERE 
+        pig_id = :pig_id
+    ORDER BY
+        born_day ASC;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':pig_id', $pig_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $the_born_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $the_born_info;
+}
+function get_born_infos_DESC($pig_id)
 {
     $dbh = Connect_db();
 

@@ -14,14 +14,16 @@ $rotate = 0;
 $the_indivi_info = [];
 $working_pigs = '';
 $status = 0;
+$born_days = [];
+$born_nums = [];
 
 // バリデーション
 $indivi_num = filter_input(INPUT_GET, 'indivi_num');
 
 $pig_id = get_pig_id($indivi_num);
-$born_info = find_born_info($pig_id);
+$born_infos_ASC = get_born_infos_ASC($pig_id);
+$born_infos_DESC = get_born_infos_DESC($pig_id);
 $status = find_flag_info($pig_id);
-
 
 // 年齢を取得
 $pig_age = pig_age($pig_id);
@@ -38,8 +40,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     flag($pig_id, $status);
 }
 
-$title = '確認nemu';
+// グラフの準備
+foreach ($born_infos_ASC as $one_born_info) {
+    $born_days[] = $one_born_info['born_day'];
+    $born_nums[] = $one_born_info['born_num'];
+}
 
+$rotate_null = [null];
+$rotates = array_merge($rotate_null,$rotate_list);
+
+// グラフの値を準備
+$x = $born_days;
+$y_num = $born_nums;
+$y_rotate = $rotates;
+//javascriptに渡す
+$jx = json_encode($x);
+$jy_n = json_encode($y_num);
+$jy_r = json_encode($y_rotate);
+
+$title = '確認nemu';
 ?>
 
 <!DOCTYPE html>

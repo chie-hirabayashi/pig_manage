@@ -22,8 +22,11 @@
 
             <div class="born_infos">
                 <ol class="born_info1">
-                <?php foreach ($born_info as $one_info): ?>
-                    <li>&ensp;<?= h($one_info['born_day']) ?> : <?= h($one_info['born_num']) ?>頭</li>
+                <!-- <php foreach ($born_info as $one_info): ?> -->
+                    <!-- <li>&ensp;<= h($one_info['born_day']) ?> : <= h($one_info['born_num']) ?>頭</li> -->
+                <!-- <php endforeach; ?> -->
+                <?php foreach ($born_infos_ASC as $born_info): ?>
+                    <li>&ensp;<?= h($born_info['born_day']) ?> : <?= h($born_info['born_num']) ?>頭</li>
                 <?php endforeach; ?>
                 </ol>
 
@@ -33,6 +36,50 @@
                 <?php endforeach; ?>
                 </ul>
             </div>
+
+            <!-- <div style="width:500px"> -->
+            <div class="chart">
+                <!-- 描写 -->
+                <canvas id="mychart"></canvas>
+            </div>
+            <script>
+            // phpから値を受け取る
+            let x = JSON.parse('<?php echo $jx; ?>');
+            let yN = JSON.parse('<?php echo $jy_n; ?>');
+            let yR = JSON.parse('<?php echo $jy_r; ?>');
+
+            var ctx = document.getElementById('mychart');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: x,
+                    datasets: [{
+                        label: '出産頭数',
+                        data: yN,
+                        yAxisID: 'y',
+                        borderColor: '#f88',
+                    }, {
+                        label: '回転数',
+                        data: yR,
+                        yAxisID: 'y2',
+                        borderColor: '#48f',
+                    },],
+                },
+                options: {
+                    y: {
+                        min: 0,
+                        max: 20,
+                        position: 'left',
+                    },
+                    y2: {
+                        min: 0,
+                        max: 5,
+                        position: 'right',
+                    },
+                },
+            });
+            </script>
+
             <div>
                 <form action="" method="POST">
                     <label for="">フラグ切替 : </label>
