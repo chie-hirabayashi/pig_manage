@@ -21,8 +21,6 @@ if (isset($_GET['id']) && isset($_GET['check_num'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_born_day = filter_input(INPUT_POST, 'new_born_day');
     $new_born_num = filter_input(INPUT_POST, 'new_born_num');
-    // $id = filter_input(INPUT_POST, 'id');
-    // $check_num = filter_input(INPUT_POST, 'check_num');
     $errors = insert_born_validate($check_num, $new_born_day, $new_born_num);
 
     if (empty($errors)) {
@@ -84,7 +82,7 @@ $title = ''
             <input type="submit" value="修&emsp;正" class="eandd_button">
         </form>
 
-            <a href="edit_and_delete.php" class="manual_button4">戻&emsp;る</a>
+            <a href="edit_and_delete.php" class="manual_button4">戻&emsp;る</a><br>
             <a href="view.php" class="view_page_button"><?= MSG_VIEW_MENU ?>はこちら</a>
     </section>
 </body>

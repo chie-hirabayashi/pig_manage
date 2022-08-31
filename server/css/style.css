@@ -57,6 +57,7 @@ body {
     color: var(--main-icon-color);
     font-size: 30px;
 }
+.rotate,
 .pencil-icon {
     color: var(--edit-color);
     font-size: large;
@@ -178,7 +179,7 @@ body {
     margin: 50px auto;
     margin-bottom: 120px;
     padding: 20px 50px;
-    padding-bottom: 30px;
+    padding-bottom: 50px;
     box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.25);
 }
 
@@ -258,7 +259,8 @@ body {
 .eandd_button {
     text-align: center;
     padding: 8px 25px;
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 40px;
     margin-right: 20px;
     background: var(--warning-color);
     color: var(--back-color);

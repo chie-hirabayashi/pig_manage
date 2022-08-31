@@ -26,7 +26,7 @@ $title = ''
     
     <section class="edit_content wrapper">
         <ul class="success">
-            <li><?= $indivi_num . MSG_DELETE_SUCCESS ?></li>
+            <li><?= h($indivi_num) . MSG_DELETE_SUCCESS ?></li>
         </ul>
         <a href="edit_and_delete.php" class="manual_button4">戻る</a>
     </section>

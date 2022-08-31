@@ -55,50 +55,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (isset($_POST['gone_cancel'])) {
-        $errors3 = cancel_validate($cancel_num,$cancel_day);
+        $errors3 = cancel_validate($cancel_num);
+
+        if (empty($errors3)) {
+            $gone_pigs = get_gone_info($cancel_num);
+        }
     }
 }
 
+if (isset($_GET['id']) && isset($_GET['cancel_num'])) {
+    $id = filter_input(INPUT_GET, 'id');
+    $cancel_num = filter_input(INPUT_GET, 'cancel_num');
+    // バリデーション(稼動中の個体がいる場合は廃用を取り消せない)
+    if (!check_duplication_working($cancel_num)) {
+        return_gone($id);
+        
+    }  else {
+        $msg = MSG_INDIVI_DUPLICATE;
+    }
+}
+var_dump($id);
+var_dump($meg);
 
-// 登録した個体を削除する関数
-// エラーバリデーション
-// 稼動中の個体を入力してください
-// 削除する個体の出産情報をすべて削除してから
-// function delete_indivi_num($id)
-// {
-//     $dbh = connect_db();
-
-//     $sql = <<<EOM
-//     DELETE
-//         FROM
-//             individual_info
-//         WHERE
-//             id = :id;
-//     EOM;
-
-//     $stmt = $dbh->prepare($sql);
-//     $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-//     $stmt->execute();
-// }
-// すべての出産情報を削除する関数
-function delete_born_infos($pig_id)
+// 廃用の取消
+function return_gone($id)
 {
     $dbh = connect_db();
 
     $sql = <<<EOM
-    DELETE
-        FROM
-            born_info
-        WHERE
-            pig_id = :pig_id;
+    UPDATE
+        individual_info
+    SET
+        gone = 0,
+        left_day = null
+    WHERE
+        id = :id;
     EOM;
 
     $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':pig_id', $pig_id, PDO::PARAM_INT);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
 }
-
-
 
 $title = '';
 ?>
@@ -140,7 +137,7 @@ $title = '';
 
                     <?php if (isset($_POST['indivi_num_eandd']) && !empty($msg)): ?>
                         <ul class="errors">
-                            <li><?= $msg ?></li>
+                            <li><?= h($msg) ?></li>
                         </ul>
                     <?php endif; ?>
 
@@ -187,29 +184,28 @@ $title = '';
                             </tr>
                                 <?php foreach($born_infos as $born_info): ?>
                             <tr>
-                                <td><?= $born_info['born_day'] ?></td>
-                                <td><?= $born_info['born_num'] ?></td>
-                                <td><a href="edit_born_info.php?id=<?= $born_info['id'] ?>&check_num=<?= $check_num ?>" class="pencil-icon"><i class="fa-solid fa-pencil"></i></a></td>
-                                <td><a href="delete_born_info.php?id=<?= $born_info['id'] ?>&check_num=<?= $check_num ?>" class="trash-icon"><i class="fa-solid fa-trash-can"></i></a></td>
+                                <td><?= h($born_info['born_day']) ?></td>
+                                <td><?= h($born_info['born_num']) ?></td>
+                                <td><a href="edit_born_info.php?id=<?= h($born_info['id']) ?>&check_num=<?= h($check_num) ?>" class="pencil-icon"><i class="fa-solid fa-pencil"></i></a></td>
+                                <td><a href="delete_born_info.php?id=<?= h($born_info['id']) ?>&check_num=<?= h($check_num) ?>" class="trash-icon"><i class="fa-solid fa-trash-can"></i></a></td>
                             </tr>
                                 <?php endforeach; ?>
                         </table>
                     <?php endif; ?>
 
-                    <?php if ($msg): ?>
+                    <?php if (isset($_POST['born_info_eandd']) && $msg): ?>
                         <ul class="errors">
-                            <li><?= $msg ?></li>
+                            <li><?= h($msg) ?></li>
                         </ul>
                     <?php endif; ?>
                 </div>
 
             <h2 class="item">▼廃用の取り消し</h2>
-                <p>個体番号と廃用日を入力して下さい</p>
-                <p>廃用日が不明な場合は取り消しできません(問い合わせ)</p>
+                <p>個体番号を入力し、廃用を取り消して下さい</p>
                 <form class="" action="" method="POST">
                     <div class="">
                         <input class="edit_and_delete_input" type="text" name="cancel_num" value="" placeholder="99-99">
-                        <input class="edit_and_delete_input" type="date" name="cancel_date" value="">
+                        <!-- <input class="edit_and_delete_input" type="date" name="cancel_date" value=""> -->
                         
                         <input type="submit" name="gone_cancel" value="選択" class="flag-btn">
                     </div>
@@ -225,7 +221,31 @@ $title = '';
                     </ul>
                 <?php endif; ?>
 
-                <p><?= h($cancel_num) ?>の廃用を取り消しますか？</p>
+                <?php if ($gone_pigs): ?>
+                    <p class="list_label"><?= $cancel_num ?>の廃用情報</p>
+                    <table>
+                        <tr>
+                            <th>導入日</th>
+                            <th>廃用日</th>
+                            <th>取消</th>
+                        </tr>
+                            <?php foreach($gone_pigs as $gone_pig): ?>
+                        <tr>
+                            <td><?= h($gone_pig['add_day']) ?></td>
+                            <td><?= h($gone_pig['left_day']) ?></td>
+                            <!-- <td><a href="?id=<?= h($gone_pig['id']) ?>&check_num=<?= h($cancel_num) ?>" class="pencil-icon"><i class="fa-solid fa-pencil"></i></a></td> -->
+                            <td><a href="?id=<?= h($gone_pig['id']) ?>&cancel_num=<?= h($cancel_num) ?>" class="rotate-icon"><i class="fa-solid fa-arrow-rotate-left"></i></a></td>
+                        </tr>
+                            <?php endforeach; ?>
+                    </table>
+                <?php endif; ?>
+
+                <?php if (isset($_GET['id']) && isset($_GET['cancel_num']) && $msg): ?>
+                    <ul class="errors">
+                        <li><?= h($msg) ?></li>
+                    </ul>
+                <?php endif; ?>
+
                 <p>バリデーション:同一番号が稼動中であれば取り消し不可能</p>
     
     </section>

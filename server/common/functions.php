@@ -95,7 +95,8 @@ function edit_and_delete_validate($indivi_num)
     return $errors;
 }
 // edit_and_delete.phpのエラーバリデーション
-function cancel_validate($indivi_num,$left_day)
+// function cancel_validate($indivi_num,$left_day)
+function cancel_validate($indivi_num)
 {
     $errors = [];
 
@@ -103,14 +104,18 @@ function cancel_validate($indivi_num,$left_day)
         $errors[] = MSG_INDIVI_REQUIRED;
     }
 
-    if (empty($left_day)) {
-        $errors[] = MSG_GONE_REQUIRED;
-    }
+    // if (empty($left_day)) {
+    //     $errors[] = MSG_GONE_REQUIRED;
+    // }
 
     if (empty($errors) &&
-        gone_collation($indivi_num,$left_day)) {//廃用済みの個体と照合
+        check_gone($indivi_num)) {//廃用済みの個体と照合
         $errors[] = MSG_GONE_COLLATION;
     }
+    // if (empty($errors) &&
+    //     gone_collation($indivi_num,$left_day)) {//廃用済みの個体と照合
+    //     $errors[] = MSG_GONE_COLLATION;
+    // }
 
     return $errors;
 }
@@ -358,7 +363,7 @@ function check_duplication_gone($indivi_num)
     return $err;
 }
 // 廃用個体の照合
-function gone_collation($indivi_num,$left_day)
+function check_gone($indivi_num)
 {
     $err = false;
     
@@ -376,28 +381,41 @@ function gone_collation($indivi_num,$left_day)
     EOM;
 
     $stmt = $dbh->prepare($sql);
-    $stmt->bindValue('indivi_num', $indivi_num, PDO::PARAM_STR);
+    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
 
     $stmt->execute();
 
     $collation_pigs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if (!empty($collation_pigs)) {
-        $collation_list = [];
-        foreach ($collation_pigs as $collation_pig) {
-            if ($collation_pig['left_day'] == $left_day) {
-                $collation_list[] = 1;
-            }
-        }
-        if (in_array(1,$collation_list)) {
-            $err = false; //入力した個体がいる
-        } else {
-            $err = true; //入力した個体番号はあるが廃用日が一致しない
-        }
-    } else {
+    if (empty($collation_pigs)) {
         $err = true; //入力した個体がいない
     }
     return $err;
+}
+// 廃用済みの個体を取得
+function get_gone_info($indivi_num)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    SELECT
+        *
+    FROM
+        individual_info
+    WHERE
+        indivi_num = :indivi_num
+    AND
+        gone = 1;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':indivi_num', $indivi_num, PDO::PARAM_STR);
+
+    $stmt->execute();
+
+    $gone_pigs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $gone_pigs;
 }
 // 出産情報が登録されているか確認する関数
 function collation_born_info($indivi_num)
@@ -630,7 +648,7 @@ function get_pig_id($indivi_num)
 // 実績回転数を算出する関数(抽出用)
 function get_rotate($pig_id)
 {
-    $born_info = find_born_info($pig_id);
+    $born_info = get_born_infos_DESC($pig_id);
     // 回転数算出(直近の回転数を算出)
     $count_info_num = count($born_info);
     if ($count_info_num == 0) {
@@ -649,7 +667,7 @@ function get_rotate($pig_id)
 // 実績回転数を算出する関数(抽出用)
 function view_rotate($pig_id)
 {
-    $born_info = get_born_infos_DESC($pig_id);
+    $born_info = get_born_infos_ASC($pig_id);
     // 回転数算出(直近の回転数を算出)
     $count_info_num = count($born_info);
     if ($count_info_num == 0) {
@@ -763,48 +781,6 @@ function pig_age($pig_id)
     $pig_age = $considered_time->diff($d_pig_add);
     $pig_age = $pig_age->y;
     return $pig_age;
-}
-// すべての出産データを取得する
-function find_all_born_infos()
-{
-    $dbh = connect_db();
-
-    $sql = <<<EOM
-    SELECT 
-        * 
-    FROM 
-        born_info
-    ORDER BY
-        born_day DESC;
-    EOM;
-
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute();
-
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-// pig_idから出産情報を取得
-function find_born_info($pig_id)
-{
-    $dbh = Connect_db();
-
-    $sql = <<<EOM
-    SELECT 
-        * 
-    FROM 
-        born_info
-    WHERE 
-        pig_id = :pig_id
-    ORDER BY
-        born_day ASC;
-    EOM;
-
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':pig_id', $pig_id, PDO::PARAM_INT);
-    $stmt->execute();
-
-    $the_born_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $the_born_info;
 }
 // pig_idから出産情報を取得
 function get_born_infos_ASC($pig_id)
