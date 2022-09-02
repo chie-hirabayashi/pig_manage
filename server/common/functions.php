@@ -104,18 +104,14 @@ function cancel_validate($indivi_num)
         $errors[] = MSG_INDIVI_REQUIRED;
     }
 
-    // if (empty($left_day)) {
-    //     $errors[] = MSG_GONE_REQUIRED;
-    // }
-
     if (empty($errors) &&
         check_gone($indivi_num)) {//廃用済みの個体と照合
         $errors[] = MSG_GONE_COLLATION;
     }
-    // if (empty($errors) &&
-    //     gone_collation($indivi_num,$left_day)) {//廃用済みの個体と照合
-    //     $errors[] = MSG_GONE_COLLATION;
-    // }
+    if (empty($errors) &&
+        check_duplication_working($indivi_num)){
+        $errors[] = MSG_INDIVI_DUPLICATE;
+    }
 
     return $errors;
 }
@@ -393,7 +389,7 @@ function check_gone($indivi_num)
     return $err;
 }
 // 廃用済みの個体を取得
-function get_gone_info($indivi_num)
+function get_gone_pigs($indivi_num)
 {
     $dbh = connect_db();
 
@@ -546,6 +542,25 @@ function flag($id, $status)
 }
 
 // ▼取得関数
+// すべての出産データを取得する
+function find_all_born_infos()
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    SELECT 
+        * 
+    FROM 
+        born_info
+    ORDER BY
+        born_day DESC;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 // flag情報を取得 check_result.php,check_indivi_info.php,view_indivi_info.phpで使用
 function find_flag_info($id)
 {
@@ -928,6 +943,25 @@ function delete_born_info($id)
     born_info
         WHERE
     id = :id;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+}
+//  廃用の取消
+function return_gone($id)
+{
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    UPDATE
+        individual_info
+    SET
+        gone = 0,
+        left_day = null
+    WHERE
+        id = :id;
     EOM;
 
     $stmt = $dbh->prepare($sql);
