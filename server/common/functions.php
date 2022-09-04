@@ -764,7 +764,7 @@ function find_indivi_info($id)
 // すべての回転数算出
 function get_rotate_l($pig_id)
 {
-    $born_info = find_born_info($pig_id);
+    $born_info = get_born_infos_DESC($pig_id);
     $count_info_num = count($born_info);
 
     $born_days = [];

@@ -83,8 +83,12 @@
             <div>
                 <form action="" method="POST">
                     <label for="">フラグ切替 : </label>
-                    <input type="hidden" name="watch" value=<?= NOT_WATCH ?> />
-                    <input type="checkbox" name="watch" value=<?= WATCH ?> />
+                        <label for="">ON
+                            <input type="radio" name="watch" value="<?= WATCH ?>">
+                        </label>
+                        <label for="">OFF
+                            <input type="radio" name="watch" value="<?= NOT_WATCH ?>">
+                        </label>
                     <input type="submit" name="" value='切替' class="flag-btn" />
                 </form>
             </div>
