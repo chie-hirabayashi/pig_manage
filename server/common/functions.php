@@ -701,7 +701,7 @@ function view_rotate($pig_id)
 // 過去2回の産子数を算出する関数
 function get_born_num($pig_id)
 {
-    $born_info = find_born_info($pig_id);
+    $born_info = get_born_infos_DESC($pig_id);
     // 産子数算出
     $count_info_num = count($born_info);
     if ($count_info_num == 0) {
@@ -723,7 +723,7 @@ function get_born_num($pig_id)
 // 予測回転数を算出する関数
 function get_predict_rotate($pig_id)
 {
-    $born_info = find_born_info($pig_id);
+    $born_info = get_born_infos_DESC($pig_id);
     // 回転数算出(直近の回転数を算出)
     $count_info_num = count($born_info);
     if ($count_info_num == 0) {
