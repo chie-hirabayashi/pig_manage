@@ -9,3 +9,5 @@ sample.php
 *.js
 *.csv
 unused_fun.php
+vendor
+composer.*
