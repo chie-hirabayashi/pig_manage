@@ -42,7 +42,7 @@ function insert_validate($indivi_num, $add_day)
     }
 
     if (empty($add_day)) {
-        $errors[] = MSG_GONE_REQUIRED;
+        $errors[] = MSG_ADD_REQUIRED;
     }
 
     if (empty($errors) &&
